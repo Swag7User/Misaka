@@ -1,21 +1,27 @@
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            url "http://tomp2p.net/dev/mvn/"
+        }
+        jcenter {
+            url "https://jcenter.bintray.com/"
+        }
+
     }
- 
+
     dependencies {
+        classpath files('gradle/gradle-trust-all.jar')
         classpath 'org.javafxports:jfxmobile-plugin:1.3.4'
+        classpath 'net.tomp2p:tomp2p-all:5.0-Beta8'
     }
 }
 
+apply plugin: 'trust-all'
 apply plugin: 'org.javafxports.jfxmobile'
 
 mainClassName = 'ch.uzh.misaka.Main'
 version = '8u40'
 
-repositories {
-    jcenter()
-}
 
 jfxmobile {
     javafxportsVersion = '8.60.8'
@@ -26,4 +32,8 @@ jfxmobile {
     android {
         applicationPackage = 'org.javafxports.misaka'
     }
+}
+
+task showMeCache << {
+    configurations.compile.each { println it }
 }
