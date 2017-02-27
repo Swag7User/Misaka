@@ -6,7 +6,6 @@ buildscript {
         jcenter {
             url "https://jcenter.bintray.com/"
         }
-
     }
 
     dependencies {
@@ -20,7 +19,14 @@ apply plugin: 'org.javafxports.jfxmobile'
 
 mainClassName = 'ch.uzh.misaka.Main'
 version = '8u40'
-
+repositories {
+    maven {
+        url "http://tomp2p.net/dev/mvn/"
+    }
+    jcenter {
+        url "https://jcenter.bintray.com/"
+    }
+}
 
 jfxmobile {
     javafxportsVersion = '8.60.8'
