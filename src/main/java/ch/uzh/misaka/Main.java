@@ -1,28 +1,10 @@
 package ch.uzh.misaka;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-public class Main extends Application {
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
-        System.err.println("FXML resource: " + getClass().getResource("ch/uzh/misaka/sample.fxml"));
-        System.err.println("FXML resource: " + getClass().getResource("sample.fxml"));
-        System.err.println("FXML resource: " + getClass().getResource("/sample.fxml"));
-        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
-        Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-    }
-
+public class Main  {
 
     public static void main(String[] args) {
-        launch(args);
+        LoginWindow loginWindow = new LoginWindow();
+        loginWindow.launch(LoginWindow.class, args);
+        System.err.println("test, does this write, nyaron~");
     }
 }

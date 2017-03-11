@@ -1,0 +1,61 @@
+.background {
+    -fx-background-repeat: repeat;
+    -fx-background-color: #C4EDFF;
+}
+
+.top {
+    -fx-background-color: rgba(255, 255, 255, 0);
+}
+
+.label {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14;
+    -fx-text-fill: rgba(10, 10, 10, 0.7);
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.6), 0, 0.0 , 0 , 1 );
+}
+
+.button {
+    -fx-background-color: #95d2ff;
+    -fx-border-color: #4FA4FF;
+    -fx-border-width: 2.5;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 26;
+}
+
+.button:focused, .button:hover {
+    -fx-background-color: #64aaff;
+    -fx-border-color: #0050b3;
+    -fx-border-width: 2.5;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-text-fill: #f0f0f0;
+    -fx-font-size: 26;
+}
+
+.text-field, .text-area {
+    -fx-font-size: 18;
+    -fx-background-color:
+            rgba(255, 255, 255, 0.3),
+            linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8) 50%),
+            rgb(218, 226, 224);
+    -fx-background-insets: 0 0 -1 0, 0, 1.5;
+    -fx-background-radius: 6, 5, 4;
+    -fx-padding: 6 10 4 10;
+    -fx-effect: innershadow( gaussian, rgba(0, 0, 0, 0.8), 5, 0, 0, 2 );
+    -fx-font-family: "Arial";
+}
+
+.text-area {
+    -fx-padding: 6 5 6 5;
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-prompt-text-fill:
+            rgb(128,128,128);
+    -fx-background-color:
+            rgba(235, 235, 235, 0.5),
+            rgba(0, 0, 0, 0.4),
+            rgb(255, 255, 255);
+}
