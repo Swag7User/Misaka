@@ -18,7 +18,7 @@
 
 <AnchorPane styleClass="top" stylesheets="@../css/MsgWindow.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
@@ -29,7 +29,7 @@
           <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox id="btnWrapperChat" fx:id="btnWrapperChat" alignment="TOP_RIGHT" maxHeight="30.0" spacing="10.0" styleClass="btnWrapper">
+            <HBox id="btnWrapperChat" fx:id="btnWrapperChat" alignment="TOP_RIGHT" maxHeight="30.0" spacing="10.0" styleClass="top">
                <children>
                   <Button fx:id="leaveChatBtn" mnemonicParsing="false" styleClass="invisible" text="Leave Chat">
                      <graphic>
@@ -66,7 +66,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </HBox>
-            <VBox GridPane.rowIndex="1">
+            <VBox styleClass="background" GridPane.rowIndex="1">
                <children>
                   <ScrollPane fx:id="messagesScrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="background" vbarPolicy="ALWAYS" vvalue="1.0" VBox.vgrow="ALWAYS">
                      <content>
