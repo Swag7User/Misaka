@@ -17,7 +17,7 @@ buildscript {
 //apply plugin: 'trust-all'
 apply plugin: 'org.javafxports.jfxmobile'
 
-mainClassName = 'ch.uzh.misaka.Main'
+mainClassName = 'ch.uzh.model.Main'
 version = '8u40'
 repositories {
     maven {
