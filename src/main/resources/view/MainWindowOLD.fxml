@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" styleClass="background" stylesheets="@../css/LoginWindow.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" styleClass="background" stylesheets="@../css/LoginWindow.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.uzh.controller.MainWindowController">
    <children>
       <Button layoutX="169.0" layoutY="14.0" mnemonicParsing="false" prefHeight="125.0" prefWidth="175.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: transparent;" text="Button">
          <graphic>
@@ -37,7 +37,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <Button id="loginButton" layoutX="176.0" layoutY="378.0" mnemonicParsing="false" onAction="#test" prefHeight="70.0" prefWidth="148.0" text="Login" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="176.0" />
+      <Button id="loginButton" layoutX="176.0" layoutY="378.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="148.0" text="MAIN" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="176.0" />
       <HBox prefHeight="25.0" prefWidth="418.0" AnchorPane.bottomAnchor="156.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="41.0">
          <children>
             <Label prefWidth="0.0" />

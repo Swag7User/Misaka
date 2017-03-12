@@ -24,20 +24,33 @@ public class LoginWindowController {
     private void initialize() {
         System.err.println("LoginWindowController is initializing");
 
-        loginButton.setOnAction(( event) -> {
+        loginButton.setOnAction((event) -> {
                     System.err.println("CLICK CLICK CLICK");
                     MainWindow mainWindow = new MainWindow();
-                    //mainWindow.draw(LoginWindow.getStage());
+                    try {
+                        System.err.println("1");
+                        System.err.println(loginWindow.getStage());
+                        System.err.println("2");
+                        mainWindow.draw(loginWindow.getStage());
+                    } catch (Exception e) {
+                        System.err.println("Caught Exception: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+
                 }
 
         );
     }
 
-   public void alive(){
-       System.err.println("LoginWindowController is here");
+    public void setLoginWindow(LoginWindow loginWindow) {
+        this.loginWindow = loginWindow;
+    }
+
+    public void alive() {
+        System.err.println("LoginWindowController is here");
 
 
-   }
+    }
 }
 
 
