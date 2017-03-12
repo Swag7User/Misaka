@@ -2,6 +2,7 @@ package ch.uzh.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public class MsgWindowController {
     private MainWindowController mainWindowController;
 
+    @FXML
+    GridPane gridMSG;
 
     public MsgWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
@@ -22,6 +25,8 @@ public class MsgWindowController {
     @FXML
     private void initialize() {
         System.err.println("MsgWindowController is initializing");
+
+        gridMSG.setVgap(0);
 
     }
 

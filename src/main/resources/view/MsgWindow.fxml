@@ -18,7 +18,7 @@
 
 <AnchorPane styleClass="top" stylesheets="@../css/MsgWindow.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="gridMSG" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
@@ -29,11 +29,15 @@
           <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox id="btnWrapperChat" fx:id="btnWrapperChat" alignment="TOP_RIGHT" maxHeight="30.0" spacing="10.0" styleClass="top">
+            <HBox id="btnWrapperChat" fx:id="btnWrapperChat" alignment="TOP_RIGHT" spacing="10.0" styleClass="top">
                <children>
                   <Button fx:id="leaveChatBtn" mnemonicParsing="false" styleClass="invisible" text="Leave Chat">
                      <graphic>
-                        <Label fx:id="chatPartnerLbl" text="friendName" />
+                        <Label fx:id="chatPartnerLbl" text="friendName">
+                           <padding>
+                              <Insets top="7.0" />
+                           </padding>
+                        </Label>
                      </graphic></Button>
                   <Region HBox.hgrow="ALWAYS" />
                   <Button fx:id="addUserBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
@@ -63,7 +67,7 @@
                      </graphic></Button>
                </children>
                <GridPane.margin>
-                  <Insets bottom="10.0" />
+                  <Insets />
                </GridPane.margin>
             </HBox>
             <VBox styleClass="background" GridPane.rowIndex="1">
@@ -86,7 +90,7 @@
                   </Button>
                </children>
                <GridPane.margin>
-                  <Insets top="10.0" />
+                  <Insets />
                </GridPane.margin>
             </HBox>
          </children>

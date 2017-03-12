@@ -1,0 +1,11 @@
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0,0;
+    -fx-padding: 0 0 0 0;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: #D9EDFF;
+    -fx-box-border: transparent;
+}

@@ -26,6 +26,10 @@
     -fx-background-insets: 0;
 }
 
+.grid-pane {
+
+}
+
 .button {
     -fx-background-color: #95d2ff;
     -fx-border-color: #4FA4FF;

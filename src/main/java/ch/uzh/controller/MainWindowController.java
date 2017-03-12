@@ -2,22 +2,28 @@ package ch.uzh.controller;
 
 import ch.uzh.model.MainWindow;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
  * Created by jesus on 11.03.2017.
  */
-public class MainWindowController {
+public class MainWindowController implements Controller{
 
     private MainWindow mainWindow;
     private Stage stage;
 
     public MsgWindowController msgWindowController;
     public FriendListController friendListController;
+    public MenuOverlayController menuOverlayController;
 
     private AnchorPane friendListPane;
     private AnchorPane msgWindowPane;
+    private AnchorPane menuOverlay;
+
+    @FXML
+    private Button menuBtn;
 
     @FXML
     private AnchorPane leftPane;
@@ -29,8 +35,12 @@ public class MainWindowController {
     private AnchorPane rightTopPane;
 
     @FXML
+    private AnchorPane modalOverlayPane;
+
+    @FXML
     private void initialize() {
         System.err.println("MainWindowController is initializing");
+
     }
 
     public MainWindowController(Stage stage) {
@@ -49,12 +59,20 @@ public class MainWindowController {
         this.friendListController = friendListController;
     }
 
+    public void setMenuOverlayController(MenuOverlayController menuOverlayController) {
+        this.menuOverlayController = menuOverlayController;
+    }
+
     public void setFriendlistPane(AnchorPane friendListPane) {
         this.friendListPane = friendListPane;
     }
 
     public void setMsgWindowPane(AnchorPane msgWindowPane) {
         this.msgWindowPane = msgWindowPane;
+    }
+
+    public void setMenuOverlayPane(AnchorPane menuOverlay) {
+        this.menuOverlay = menuOverlay;
     }
 
     public void setLeftPane(AnchorPane anchorPane) {
@@ -66,6 +84,7 @@ public class MainWindowController {
         if (anchorPane != null) {
             leftPane.getChildren().add(anchorPane);
         }
+
     }
 
     public void setRightBottomPane(AnchorPane anchorPane) {
@@ -96,6 +115,16 @@ public class MainWindowController {
         System.err.println("MainWindowController is here");
 
 
+    }
+
+    public void drawMenuOverlay() {
+        modalOverlayPane.setVisible(true);
+        modalOverlayPane.getChildren().clear();
+        modalOverlayPane.getChildren().add(menuOverlay);
+    }
+
+    public void hideMenuOverlay() {
+        modalOverlayPane.setVisible(false);
     }
 
 
