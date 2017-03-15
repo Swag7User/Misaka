@@ -1,0 +1,63 @@
+.top {
+    -fx-background-repeat: repeat;
+    -fx-background-color: #F7FFFF;
+    -fx-border-color: #D9EDFF;
+    -fx-border-width: 1;
+}
+
+.background .viewport{
+    -fx-background-repeat: repeat;
+    -fx-background-color: #E6F8FF;
+}
+
+.button {
+    -fx-background-color: #95d2ff;
+    -fx-border-color: #4FA4FF;
+    -fx-border-width: 2.5;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 26;
+}
+
+/*.button:focused, .button:hover {*/
+    /*-fx-background-color: #64aaff;*/
+    /*-fx-border-color: #0050b3;*/
+    /*-fx-border-width: 2.5;*/
+    /*-fx-font-family: "Arial";*/
+    /*-fx-font-weight: bold;*/
+    /*-fx-text-fill: #f0f0f0;*/
+    /*-fx-font-size: 26;*/
+/*}*/
+
+.text-field, .text-area {
+    -fx-font-size: 18;
+    -fx-background-color: #F7FFFF;
+    -fx-border-width: 1;
+    -fx-border-color: #D9EDFF;
+    -fx-border-radius: 20,0,0;
+    -fx-background-radius: 20, 0, 0;
+    -fx-font-family: "Arial";
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-font-size: 18;
+    -fx-background-color: white;
+    -fx-border-width: 1;
+    -fx-border-color: #4FA4FF;
+    -fx-border-radius: 20,0,0;
+    -fx-background-radius: 20, 0, 0;
+    -fx-font-family: "Arial";
+}
+
+.label {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14;
+    -fx-text-fill: #404040;
+}
+
+.invisible {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: transparent;
+}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane styleClass="top" stylesheets="@../css/MsgWindow.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane fx:id="gridMSG" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER" />
+          <RowConstraints vgrow="ALWAYS" />
+            <RowConstraints vgrow="NEVER" />
+          <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox id="btnWrapperChat" fx:id="btnWrapperChat" alignment="TOP_RIGHT" spacing="10.0" styleClass="top">
+               <children>
+                  <Button fx:id="leaveChatBtn" mnemonicParsing="false" styleClass="invisible" text="Leave Chat">
+                     <graphic>
+                        <Label fx:id="chatPartnerLbl" text="friendName">
+                           <padding>
+                              <Insets top="7.0" />
+                           </padding>
+                        </Label>
+                     </graphic></Button>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="addUserBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/friendADD.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="startAudioBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/tel.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="startVideoBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/cam.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </HBox>
+            <VBox styleClass="background" GridPane.rowIndex="1">
+               <children>
+                  <ScrollPane fx:id="messagesScrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="background" vbarPolicy="ALWAYS" vvalue="1.0" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox fx:id="messagesVBox" alignment="TOP_RIGHT" styleClass="messageScrollPane" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" spacing="5.0" styleClass="top" GridPane.rowIndex="2">
+               <children>
+                  <TextField id="messageText" fx:id="messageText" styleClass="text-field" HBox.hgrow="ALWAYS" />
+                  <Button id="sendMessage" fx:id="sendMessage" mnemonicParsing="false" text="Send">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="messageSendBtn" />
+                     </styleClass>
+                  </Button>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

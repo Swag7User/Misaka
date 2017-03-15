@@ -1,10 +1,12 @@
 package ch.uzh.model;
 
+import ch.uzh.controller.LoginWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class LoginWindow extends Application {
@@ -13,7 +15,7 @@ public class LoginWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.stage = primaryStage;
+        stage = primaryStage;
         System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.err.println("FXML resource: " + getClass().getResource("ch/uzh/model/LoginWindow.fxml"));
         System.err.println("FXML resource: " + getClass().getResource("LoginWindow.fxml"));
@@ -21,11 +23,14 @@ public class LoginWindow extends Application {
         System.err.println("FXML resource: " + getClass().getResource("/view/LoginWindow.fxml"));
         System.err.println("FXML resource: " + getClass().getResource("/img/favicon.png"));
         System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginWindow.fxml"));
-        //LoginWindowController
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
+        AnchorPane pane = loader.load();
+        LoginWindowController loginWindowController = loader.getController();
+        loginWindowController.setLoginWindow(this);
+        Scene scene = new Scene(pane);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/favicon.png")));
         stage.setTitle("Misaka - Login");
-        stage.setScene(new Scene(root));
+        stage.setScene(scene);
         stage.show();
     }
 
