@@ -34,35 +34,14 @@ public class LoginWindowController {
         System.err.println("LoginWindowController is initializing");
 
         loginButton.setOnAction((event) -> {
-                    if (Password.checkPassword(passwordField.getText()) == false) {
-                        errorLabel.setText("Password too short, please chose at least 10 characters");
+                    System.err.println("CLICK CLICK CLICK");
+                    if (loginCheck() == false){
                         return;
                     }
-                    try {
-                        if (Password.passwordContainsTop(passwordField.getText()) == false) {
-                            errorLabel.setText("Password too common, please chose another one");
-                            return;
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.err.println("Aw shit, password check borkered");
+                    else{
+                        login();
                     }
-
-                    System.err.println("CLICK CLICK CLICK");
-                    MainWindow mainWindow = new MainWindow();
-                    try {
-                        username = usernameField.getText();
-                        password = Password.hashPassword(passwordField.getText());
-                        System.err.println("username:" + username);
-                        System.err.println("hashed password:" + password);
-                        mainWindow.draw(loginWindow.getStage());
-                    } catch (Exception e) {
-                        System.err.println("Caught Exception: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-
                 }
-
         );
     }
 
@@ -74,8 +53,48 @@ public class LoginWindowController {
         System.err.println("LoginWindowController is here");
     }
 
-    public void login(){
+    /**
+     * Login function, loads next window
+     */
+    public void login() {
+        MainWindow mainWindow = new MainWindow();
+        try {
+            username = usernameField.getText();
+            password = Password.hashPassword(passwordField.getText());
+            System.err.println("username:" + username);
+            System.err.println("hashed password:" + password);
+            mainWindow.draw(loginWindow.getStage());
+        } catch (Exception e) {
+            System.err.println("Caught Exception: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * checks for valid login password
+     * returns false if password is invalid
+     * returns true if password is OK
+     * @return bool if login is ok or not
+     */
+    public boolean loginCheck() {
+        if (usernameField.getText().length() < 3){
+            errorLabel.setText("Username too short, at least 3 characters");
+            return false;
+        }
+        if (Password.checkPassword(passwordField.getText()) == false) {
+            errorLabel.setText("Password too short, please chose at least 10 characters");
+            return false;
+        }
+        try {
+            if (Password.passwordContainsTop(passwordField.getText()) == false) {
+                errorLabel.setText("Password too common, please chose another one");
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Aw shit, password check borkered");
+        }
+        return true;
     }
 }
 

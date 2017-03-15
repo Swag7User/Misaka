@@ -88,7 +88,7 @@ public class MainWindow {
 
         stage.setMinWidth(800);
         stage.setMinHeight(480);
-        stage.centerOnScreen();
+       // stage.centerOnScreen();
 
         stage.show();
 
