@@ -52,3 +52,9 @@
     -fx-font-size: 14;
     -fx-text-fill: #404040;
 }
+
+.errorlabel {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14;
+    -fx-text-fill: red;
+}

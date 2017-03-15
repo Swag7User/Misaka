@@ -42,6 +42,7 @@ public class MainWindow {
         System.err.println("2222222~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.err.println("FXML resource: " + getClass().getResource("ch/uzh/csg/p2p/screens/MainWindow.fxml"));
         System.err.println("FXML resource: " + getClass().getResource("/MainWindow.fxml"));
+        System.err.println("FXML resource: " + getClass().getResource("MainWindow.fxml"));
         System.err.println("FXML resource: " + getClass().getResource("/view/MainWindow.fxml"));
         System.err.println("2222222~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainWindow.fxml"));

@@ -28,9 +28,9 @@
                   <AnchorPane prefWidth="442.0">
                      <children>
                         <Label layoutX="37.0" layoutY="70.0" text="Username" />
-                        <TextField layoutX="22.0" layoutY="86.0" prefHeight="31.0" prefWidth="393.0" />
+                        <TextField fx:id="usernameField" layoutX="22.0" layoutY="86.0" prefHeight="31.0" prefWidth="393.0" />
                         <Label layoutX="39.0" layoutY="141.0" text="Password" />
-                        <PasswordField layoutX="22.0" layoutY="157.0" prefHeight="31.0" prefWidth="393.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="157.0" />
+                        <PasswordField fx:id="passwordField" layoutX="22.0" layoutY="157.0" prefHeight="31.0" prefWidth="393.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="157.0" />
                      </children>
                   </AnchorPane>
                </children>
@@ -38,9 +38,9 @@
          </children>
       </AnchorPane>
       <Button fx:id="loginButton" layoutX="176.0" layoutY="378.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="148.0" text="Login" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="176.0" />
-      <HBox prefHeight="25.0" prefWidth="418.0" AnchorPane.bottomAnchor="156.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="41.0">
+      <HBox layoutX="66.0" prefHeight="25.0" prefWidth="393.0" AnchorPane.bottomAnchor="156.0" AnchorPane.leftAnchor="66.0" AnchorPane.rightAnchor="41.0">
          <children>
-            <Label prefWidth="0.0" />
+            <Label fx:id="errorLabel" prefHeight="25.0" prefWidth="453.0" styleClass="errorlabel" />
          </children>
       </HBox>
    </children>
