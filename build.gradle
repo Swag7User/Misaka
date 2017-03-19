@@ -17,6 +17,11 @@ buildscript {
     }
 }
 
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
+}
+
 //apply plugin: 'trust-all'
 apply plugin: 'org.javafxports.jfxmobile'
 
@@ -33,10 +38,11 @@ repositories {
         url "// https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt"
     }
     dependencies {
-        compile 'de.svenkubiak:jBCrypt:0.4.1'
-        compile 'net.tomp2p:tomp2p-all:5.0-Beta8'
-        compile 'net.tomp2p:opus-h264-webcam-wrapper:1.0.2'
-        compile 'com.github.sarxos:webcam-capture:0.3.10'
+        extraLibs 'de.svenkubiak:jBCrypt:0.4.1'
+        extraLibs 'net.tomp2p:tomp2p-all:5.0-Beta8'
+        extraLibs 'net.tomp2p:opus-h264-webcam-wrapper:1.0.2'
+        extraLibs 'com.github.sarxos:webcam-capture:0.3.10'
+        configurations.compile.extendsFrom(configurations.extraLibs)
 
     }
 }
@@ -49,6 +55,12 @@ jfxmobile {
     }
     android {
         applicationPackage = 'org.javafxports.misaka'
+    }
+}
+
+jar {
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 

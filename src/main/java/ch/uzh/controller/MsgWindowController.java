@@ -49,7 +49,7 @@ public class MsgWindowController {
                     System.err.println("CLICK CLICK CLICK 22");
                     mainWindowController.drawCallPane();
                     try {
-                        mainWindowController.callWindowController.startVideoHandler();
+                    //    mainWindowController.callWindowController.startVideoHandler();
                         mainWindowController.callWindowController.startVideoCall();
                     } catch(Exception e){
                         e.printStackTrace();

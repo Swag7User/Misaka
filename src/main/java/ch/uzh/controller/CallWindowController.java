@@ -52,6 +52,7 @@ public class CallWindowController {
 
 	public CallWindowController(MainWindowController mainWindowController) {
 		this.mainWindowController = mainWindowController;
+		this.videoUtils = new VideoStuff();
 	}
 
 	@FXML
@@ -113,7 +114,7 @@ public class CallWindowController {
 	}
 
 	public void startVideoCall() throws LineUnavailableException, IOException {
-		videoUtils.setPartnerImageView(videoUser1);
+		//videoUtils.setPartnerImageView(videoUser1);
 		if (!videoUtils.videoIsRunning()) {
 			videoUtils.startVideo(meImageView);
 		}
