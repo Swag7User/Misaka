@@ -1,6 +1,8 @@
 package ch.uzh.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -16,10 +18,15 @@ public class MsgWindowController {
     @FXML
     GridPane gridMSG;
 
+    @FXML
+    Button sendMessage;
+
+    @FXML
+    Label friendNameTitle;
+
     public MsgWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
     }
-
 
 
     @FXML
@@ -27,6 +34,11 @@ public class MsgWindowController {
         System.err.println("MsgWindowController is initializing");
 
         gridMSG.setVgap(0);
+
+        sendMessage.setOnAction((event) -> {
+                    System.err.println("CLICK CLICK CLICK");
+                }
+        );
 
     }
 

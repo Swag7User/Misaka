@@ -19,6 +19,11 @@ import java.io.IOException;
  */
 public class MainWindow {
     private Stage stage;
+    private int id;
+    private String ip;
+    private String username;
+    private String password;
+    private boolean bootstrapNode;
 
     private MainWindowController mainWindowController;
     private MsgWindowController msgWindowController;
@@ -33,8 +38,14 @@ public class MainWindow {
 
 
 
-    public void draw(Stage stage) throws Exception {
+    public void draw(Stage stage, int id, String ip, String username, String password,
+                     boolean bootstrapNode) throws Exception {
         this.stage = stage;
+        this.id = id;
+        this.ip = ip;
+        this.username = username;
+        this.password = password;
+        this.bootstrapNode = bootstrapNode;
         drawMainWindow();
     }
 
