@@ -49,8 +49,13 @@ public class MsgWindowController {
                     System.err.println("CLICK CLICK CLICK 22");
                     mainWindowController.drawCallPane();
                     try {
+                        wait(1000);
+                    } catch(Exception e){
+
+                    }
+                    try {
                     //    mainWindowController.callWindowController.startVideoHandler();
-                        mainWindowController.callWindowController.startVideoCall();
+                      //  mainWindowController.callWindowController.startVideoCall();
                     } catch(Exception e){
                         e.printStackTrace();
                         System.err.println("Shit, video borkered");

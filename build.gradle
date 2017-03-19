@@ -42,6 +42,7 @@ repositories {
         extraLibs 'net.tomp2p:tomp2p-all:5.0-Beta8'
         extraLibs 'net.tomp2p:opus-h264-webcam-wrapper:1.0.2'
         extraLibs 'com.github.sarxos:webcam-capture:0.3.10'
+        extraLibs 'org.jcodec:jcodec-javase:0.1.9'
         configurations.compile.extendsFrom(configurations.extraLibs)
 
     }

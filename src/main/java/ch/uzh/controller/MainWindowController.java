@@ -118,6 +118,9 @@ public class MainWindowController implements Controller{
       //  stage.setWidth(1333);
       //  stage.setHeight(768);
         stage.centerOnScreen();
+
+
+
     }
 
     public void drawMsgPane() {

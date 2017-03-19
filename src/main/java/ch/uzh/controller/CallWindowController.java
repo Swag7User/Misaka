@@ -64,6 +64,17 @@ public class CallWindowController {
 					mainWindowController.drawMsgPane();
 				}
 		);
+
+		muteMicrophoneBtn.setOnAction((event) -> {
+					System.err.println("CLICK PANIC! btn");
+					try{
+						mainWindowController.callWindowController.startVideoCall();
+
+					} catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+		);
 	}
 
 	public void startVideoHandler()

@@ -60,15 +60,24 @@ public class VideoStuff {
 		webcam = Webcam.getDefault();
 		Dimension[] d = webcam.getViewSizes();
 		webcam.setViewSize(d[d.length - 1]);
+		System.err.println("1");
 		frameVideo = H264Wrapper.decodeAndPlay(IMG);
-		try {
-			H264Wrapper.recordAndEncode(webcam, frameVideo);
-			List<byte[]> byteBufferList = new ArrayList<byte[]>();
+		System.err.println("2");
 
+		try {
+			System.err.println("3");
+
+			H264Wrapper.recordAndEncode(webcam, frameVideo);
+			System.err.println("4");
+
+			List<byte[]> byteBufferList = new ArrayList<byte[]>();
+			System.err.println("5");
 			while (running) {
+				System.err.println("6");
 				log.debug(IMG + "");
 				log.debug(IMG != null ? IMG.getImage() + "" : "");
 				if (IMG != null && IMG.getImage() != null) {
+					System.err.println("7");
 					javafx.scene.image.Image image = IMG.getImage();
 					BufferedImage bImage = new BufferedImage((int) image.getWidth(),
 							(int) image.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -78,10 +87,10 @@ public class VideoStuff {
 					byte[] res = s.toByteArray();
 					s.close();
 					byteBufferList.add(res);
-//					if (byteBufferList.size() >= 10) {
-//						sendVideoData(byteBufferList);
-//						byteBufferList = new ArrayList<byte[]>();
-//					}
+					if (byteBufferList.size() >= 10) {
+	//					sendVideoData(byteBufferList);
+						byteBufferList = new ArrayList<byte[]>();
+					}
 				}
 			}
 		} catch (WebcamLockException e) {
