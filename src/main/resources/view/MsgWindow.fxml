@@ -40,7 +40,7 @@
                         </Label>
                      </graphic></Button>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="addUserBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
+                  <Button fx:id="inviteFriend" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
                      <graphic>
                         <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -49,7 +49,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="startAudioBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
+                  <Button fx:id="startAudioChat" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -57,7 +57,7 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Button fx:id="startVideoBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
+                  <Button fx:id="startVideoChat" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>

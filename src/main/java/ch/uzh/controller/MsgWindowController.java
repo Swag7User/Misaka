@@ -22,6 +22,12 @@ public class MsgWindowController {
     Button sendMessage;
 
     @FXML
+    Button startVideoChat;
+
+    @FXML
+    Button startAudioChat;
+
+    @FXML
     Label friendNameTitle;
 
     public MsgWindowController(MainWindowController mainWindowController) {
@@ -30,13 +36,32 @@ public class MsgWindowController {
 
 
     @FXML
-    private void initialize() {
+    private void initialize() throws Exception {
         System.err.println("MsgWindowController is initializing");
 
         gridMSG.setVgap(0);
 
         sendMessage.setOnAction((event) -> {
                     System.err.println("CLICK CLICK CLICK");
+                }
+        );
+        startVideoChat.setOnAction((event) -> {
+                    System.err.println("CLICK CLICK CLICK 22");
+                    mainWindowController.drawCallPane();
+                    try {
+                        mainWindowController.callWindowController.startVideoHandler();
+                        mainWindowController.callWindowController.startVideoCall();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                        System.err.println("Shit, video borkered");
+
+                    }
+
+                }
+        );
+        startAudioChat.setOnAction((event) -> {
+                    System.err.println("CLICK CLICK CLICK 33");
+                    mainWindowController.drawCallPane();
                 }
         );
 

@@ -15,11 +15,13 @@ public class MainWindowController implements Controller{
     private Stage stage;
 
     public MsgWindowController msgWindowController;
+    public CallWindowController callWindowController;
     public FriendListController friendListController;
     public MenuOverlayController menuOverlayController;
 
     private AnchorPane friendListPane;
     private AnchorPane msgWindowPane;
+    private AnchorPane callWindowPane;
     private AnchorPane menuOverlay;
 
     @FXML
@@ -55,6 +57,10 @@ public class MainWindowController implements Controller{
         this.msgWindowController = msgWindowController;
     }
 
+    public void setCallWindowController(CallWindowController callWindowController) {
+        this.callWindowController = callWindowController;
+    }
+
     public void setFriendListController(FriendListController friendListController) {
         this.friendListController = friendListController;
     }
@@ -69,6 +75,10 @@ public class MainWindowController implements Controller{
 
     public void setMsgWindowPane(AnchorPane msgWindowPane) {
         this.msgWindowPane = msgWindowPane;
+    }
+
+    public void setCallWindowPane(AnchorPane callWindowPane) {
+        this.callWindowPane = callWindowPane;
     }
 
     public void setMenuOverlayPane(AnchorPane menuOverlay) {
@@ -101,7 +111,14 @@ public class MainWindowController implements Controller{
         }
     }
 
-
+    public void drawCallPane() {
+        setRightTopPane(callWindowPane);
+        setRightBottomPane(msgWindowPane);
+     //   showChatBtns("video");
+      //  stage.setWidth(1333);
+      //  stage.setHeight(768);
+        stage.centerOnScreen();
+    }
 
     public void drawMsgPane() {
         setRightTopPane(null);

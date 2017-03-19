@@ -1,9 +1,6 @@
 package ch.uzh.model;
 
-import ch.uzh.controller.FriendListController;
-import ch.uzh.controller.MainWindowController;
-import ch.uzh.controller.MenuOverlayController;
-import ch.uzh.controller.MsgWindowController;
+import ch.uzh.controller.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,12 +26,14 @@ public class MainWindow {
     private MsgWindowController msgWindowController;
     private FriendListController friendListController;
     private MenuOverlayController menuOverlayController;
+    private CallWindowController callWindowController;
 
 
     private AnchorPane mainPane;
     private AnchorPane msgWindowPane;
     private AnchorPane friendListPane;
     private AnchorPane menuOverlay;
+    private AnchorPane callWindow;
 
 
 
@@ -68,6 +67,10 @@ public class MainWindow {
         menuOverlayController = new MenuOverlayController(mainWindowController);   // <--- THIS
         mainWindowController.setMenuOverlayController(menuOverlayController);
 
+        callWindowController = new CallWindowController(mainWindowController);
+        mainWindowController.setCallWindowController(callWindowController);
+
+
         loader.setController(mainWindowController);
 
 
@@ -78,9 +81,11 @@ public class MainWindow {
         drawFriendList();
         drawMsgWindow();
         drawmenuOverlay();
+        drawCallWindow();
 
         mainWindowController.setFriendlistPane(friendListPane);
         mainWindowController.setMsgWindowPane(msgWindowPane);
+        mainWindowController.setCallWindowPane(callWindow);
         mainWindowController.setMenuOverlayPane(menuOverlay);
 
 
@@ -124,6 +129,12 @@ public class MainWindow {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MsgWindow.fxml"));
         loader.setController(msgWindowController);
         msgWindowPane = loader.load();
+    }
+
+    private void drawCallWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CallWindow.fxml"));
+        loader.setController(callWindowController);
+        callWindow = loader.load();
     }
 
     private void drawmenuOverlay() throws IOException {
