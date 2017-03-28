@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
@@ -22,6 +23,7 @@
             <HBox fx:id="videoUserWrapper" alignment="CENTER">
                <children>
                   <ImageView fx:id="videoUser1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="videoUserClass" />
+                  <BorderPane fx:id="meBorderPane" prefHeight="200.0" prefWidth="200.0" />
                   <ImageView id="meImageView" fx:id="meImageView" fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="meImageView" />
                </children>
                <VBox.margin>
@@ -32,7 +34,7 @@
                   <Button fx:id="endVideoBtn" mnemonicParsing="false" styleClass="invisible" text="End video chat" />
                   <Region HBox.hgrow="ALWAYS" />
                   <Button fx:id="hideMyselfBtn" mnemonicParsing="false" styleClass="invisible" text="Hide myself" />
-                  <Button fx:id="muteMicrophoneBtn" mnemonicParsing="false" text="Panic!" />
+                  <Button fx:id="muteMicrophoneBtn" mnemonicParsing="false" onAction="#startCamera" text="Panic!" />
                   <Label id="microphoneLbl" fx:id="microphoneLbl" styleClass="imageLabel" />
                   <Button fx:id="endCallBtn" mnemonicParsing="false" text="End Call" />
                   <Label id="cameraLbl" fx:id="cameraLbl" styleClass="imageLabel" />

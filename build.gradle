@@ -43,8 +43,12 @@ repositories {
         extraLibs 'net.tomp2p:opus-h264-webcam-wrapper:1.0.2'
         extraLibs 'com.github.sarxos:webcam-capture:0.3.10'
         extraLibs 'org.jcodec:jcodec-javase:0.1.9'
+        extraLibs group: 'org.bytedeco', name: 'javacv-platform', version: '1.3.2'
+        extraLibs group: 'nu.pattern', name: 'opencv', version: '2.4.9-7'
+        //extraLibs group: 'org.bytedeco', name: 'javacv', version: '1.3.2'
+       // extraLibs group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: '3.2.1-1.3'
+      //  extraLibs group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.0.0-1.1'
         configurations.compile.extendsFrom(configurations.extraLibs)
-
     }
 }
 
