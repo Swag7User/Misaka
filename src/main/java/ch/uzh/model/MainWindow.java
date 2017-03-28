@@ -67,7 +67,7 @@ public class MainWindow {
         menuOverlayController = new MenuOverlayController(mainWindowController);   // <--- THIS
         mainWindowController.setMenuOverlayController(menuOverlayController);
 
-        callWindowController = new CallWindowController(mainWindowController);
+        callWindowController = new CallWindowController(mainWindowController,stage);
         mainWindowController.setCallWindowController(callWindowController);
 
 

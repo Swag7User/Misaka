@@ -1,5 +1,6 @@
 package ch.uzh.model;
 
+import ch.uzh.controller.CallWindowController;
 import ch.uzh.controller.LoginWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

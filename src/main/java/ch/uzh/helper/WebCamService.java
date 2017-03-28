@@ -6,13 +6,19 @@ import java.awt.image.BufferedImage;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamResolution;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.css.SimpleStyleableObjectProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import net.tomp2p.audiovideowrapper.H264Wrapper;
+import net.tomp2p.audiovideowrapper.VideoData;
 
 public class WebCamService extends Service<Image> {
 
+    private VideoData framevideo;
     private final Webcam cam ;
 
     private final WebcamResolution resolution ;
@@ -50,6 +56,7 @@ public class WebCamService extends Service<Image> {
                 } finally {
                     cam.close();
                 }
+
             }
 
         };

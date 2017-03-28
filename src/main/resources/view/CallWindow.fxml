@@ -23,7 +23,7 @@
             <HBox fx:id="videoUserWrapper" alignment="CENTER">
                <children>
                   <ImageView fx:id="videoUser1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="videoUserClass" />
-                  <BorderPane fx:id="meBorderPane" prefHeight="200.0" prefWidth="200.0" />
+                  <BorderPane fx:id="meBorderPane" prefHeight="200.0" prefWidth="200.0" styleClass="pls" />
                   <ImageView id="meImageView" fx:id="meImageView" fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="meImageView" />
                </children>
                <VBox.margin>

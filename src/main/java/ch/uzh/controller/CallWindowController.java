@@ -7,7 +7,10 @@ import ch.uzh.helper.WebCamService;
 import ch.uzh.helper.WebCamView;
 import com.github.sarxos.webcam.Webcam;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -44,7 +47,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/*
 import java.awt.*;
+*/
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.concurrent.ExecutorService;
@@ -84,6 +89,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 public class CallWindowController {
 
+	private Stage stage;
 
 	private MainWindowController mainWindowController;
 	private Boolean cameraOff;
@@ -124,14 +130,15 @@ public class CallWindowController {
 	private WebCamService service ;
 
 
-	public CallWindowController(MainWindowController mainWindowController) {
+	public CallWindowController(MainWindowController mainWindowController, Stage stage) {
 		this.mainWindowController = mainWindowController;
 		this.videoUtils = new VideoStuff();
-		Webcam cam = Webcam.getWebcams().get(0);
-		service = new WebCamService(cam);
+		this.stage = stage;
+/*		Webcam cam = Webcam.getWebcams().get(0);
+		service = new WebCamService(cam);*/
 	}
 
-	@FXML
+
 	public void init() {
 
 		// note this is in init as it **must not** be called on the FX Application Thread:
@@ -142,7 +149,34 @@ public class CallWindowController {
 
 	@FXML
 	private void initialize() {
+		Webcam cam = Webcam.getWebcams().get(0);
+		mainWindowController.callWindowController.service = new WebCamService(cam);
 		System.err.println("CallWindowController is initializing");
+
+		Button startStop = new Button();
+		startStop.textProperty().bind(Bindings.
+				when(service.runningProperty()).
+				then("Stop").
+				otherwise("Start"));
+
+		startStop.setOnAction(e -> {
+			if (service.isRunning()) {
+				service.cancel();
+			} else {
+				service.restart();
+			}
+		});
+
+		WebCamView view = new WebCamView(service);
+
+		meBorderPane = new BorderPane(view.getView());
+		BorderPane.setAlignment(startStop, Pos.CENTER);
+		BorderPane.setMargin(startStop, new Insets(5));
+		meBorderPane.setBottom(startStop);
+
+		Scene scene = new Scene(meBorderPane);
+		stage.setScene(scene);
+		stage.show();
 
 		endCallBtn.setOnAction((event) -> {
 					System.err.println("CLICK END call btn");
@@ -155,14 +189,10 @@ public class CallWindowController {
 
 
 			if (service.isRunning()) {
-				service.cancel();
+				mainWindowController.callWindowController.service.cancel();
 			} else {
-				service.restart();
+				mainWindowController.callWindowController.service.restart();
 			}
-
-			WebCamView view = new WebCamView(service);
-
-			meBorderPane = new BorderPane(view.getView());
 
 			//startCamera();
 				/*	try{
@@ -276,6 +306,7 @@ public class CallWindowController {
 		);
 
 
+		//Scene scene = new Scene(meBorderPane);
 
 
 

@@ -41,6 +41,7 @@ public class WebCamView {
                             imageView.imageProperty().unbind();
                             imageView.imageProperty().bind(service.valueProperty());
                             getChildren().setAll(imageView);
+
                             break ;
                         case CANCELLED:
                             System.out.println("Cancelled");
