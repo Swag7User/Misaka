@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginWindow extends Application {
     private Stage stage;
@@ -39,16 +40,20 @@ public class LoginWindow extends Application {
 
 
         System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.err.println("FXML resource: " + getClass().getResource("ch/uzh/model/LoginWindow.fxml"));
-        System.err.println("FXML resource: " + getClass().getResource("LoginWindow.fxml"));
-        System.err.println("FXML resource: " + getClass().getResource("/LoginWindow.fxml"));
-        System.err.println("FXML resource: " + getClass().getResource("/view/LoginWindow.fxml"));
-        System.err.println("FXML resource: " + getClass().getResource("/img/favicon.png"));
+        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
+        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
+        String test = BCrypt.hashpw("myPassword", BCrypt.gensalt());
+        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
+        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
+        String test2 = BCrypt.hashpw("myPassword", BCrypt.gensalt());
+        System.err.println(BCrypt.checkpw("myPassword", test));
+        System.err.println(BCrypt.checkpw("myPassword", test2));
         System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
         AnchorPane pane = loader.load();
         LoginWindowController loginWindowController = loader.getController();
         loginWindowController.setLoginWindow(this);
+        loginWindowController.getP2P();
         Scene scene = new Scene(pane);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/favicon.png")));
         stage.setTitle("Misaka - Login");
@@ -68,10 +73,15 @@ public class LoginWindow extends Application {
 
         // Shutdown Tom P2P stuff
         p2p.shutdown();
+        System.out.print("byebee~~");
     }
 
     public Stage getStage() {
         return stage;
+    }
+
+    public P2POverlay getP2p(){
+        return p2p;
     }
 
 }

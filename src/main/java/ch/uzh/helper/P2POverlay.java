@@ -55,8 +55,8 @@ public class P2POverlay {
 
         if (futureGet.isSuccess()) {
             try {
-                return futureGet.data().object();
-            } catch (ClassNotFoundException | IOException ex) {
+                return futureGet.data();
+            } catch (Exception ex) {
                 return null;
             }
         } else {

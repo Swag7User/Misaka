@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.util.Observable;
 import java.util.Observer;
 
+import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.LoginWindow;
 import ch.uzh.model.MainWindow;
 import ch.uzh.model.UserInfo;
@@ -13,6 +14,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import ch.uzh.helper.Password;
+import javafx.util.Pair;
 import net.tomp2p.dht.FutureGet;
 import net.tomp2p.futures.BaseFutureListener;
 import org.mindrot.jbcrypt.BCrypt;
@@ -29,6 +31,8 @@ public class LoginWindowController {
     private String username;
     private String password;
     private String insecurePassword;
+    private P2POverlay p2p;
+
 
     private int clientId;
     private String clientIP;
@@ -75,6 +79,10 @@ public class LoginWindowController {
         );
     }
 
+    public void getP2P(){
+        this.p2p = loginWindow.getP2p();
+    }
+
     public void setLoginWindow(LoginWindow loginWindow) {
         this.loginWindow = loginWindow;
     }
@@ -84,6 +92,7 @@ public class LoginWindowController {
     }
 
     public void login(final int id, final String ip) {
+        MainWindow mainWindow = new MainWindow(p2p);
         try {
             username = usernameField.getText();
             password = Password.hashPassword(passwordField.getText());
@@ -91,6 +100,16 @@ public class LoginWindowController {
             System.err.println("hashed password:" + password);
             this.clientIP = ip;
             this.clientId = id;
+
+            Pair<Boolean, String> result = mainWindow.login(username, password, insecurePassword);
+
+            if (result.getKey() == false) {
+                System.err.println("NOT Loged in successfully, SOMETHING BROKE");
+            } else {
+                System.err.println("Logged in A-Okay");
+            }
+            mainWindow.draw(loginWindow.getStage(),1,null,"debug","123", false);
+
 
 
 
@@ -114,13 +133,23 @@ public class LoginWindowController {
      * Login function, loads next window
      */
     public void logindbg() {
-        MainWindow mainWindow = new MainWindow();
+        MainWindow mainWindow = new MainWindow(p2p);
         try {
+
             username = usernameField.getText();
             insecurePassword = passwordField.getText();
             password = Password.hashPassword(passwordField.getText());
             System.err.println("username:" + username);
             System.err.println("hashed password:" + password);
+
+            Pair<Boolean, String> result = mainWindow.createAccount(username, password);
+
+            if (result.getKey() == true) {
+                System.err.println("Account creation OK");
+            } else {
+                System.err.println("Account creation FUCKED UP, OH NOEZ");
+            }
+
             mainWindow.draw(loginWindow.getStage(),1,null,"debug","123", false);
         } catch (Exception e) {
             System.err.println("Caught Exception: " + e.getMessage());

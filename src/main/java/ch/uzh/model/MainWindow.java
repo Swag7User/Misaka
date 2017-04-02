@@ -1,15 +1,27 @@
 package ch.uzh.model;
 
 import ch.uzh.controller.*;
+import ch.uzh.helper.P2POverlay;
+import ch.uzh.helper.PrivateUserProfile;
+import ch.uzh.helper.PublicUserProfile;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Pair;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by jesus on 11.03.2017.
@@ -35,6 +47,10 @@ public class MainWindow {
     private AnchorPane menuOverlay;
     private AnchorPane callWindow;
 
+    private P2POverlay p2p;
+    private PrivateUserProfile userProfile;
+
+
 
 
     public void draw(Stage stage, int id, String ip, String username, String password,
@@ -46,6 +62,10 @@ public class MainWindow {
         this.password = password;
         this.bootstrapNode = bootstrapNode;
         drawMainWindow();
+    }
+
+    public MainWindow( P2POverlay p2p){
+        this.p2p = p2p;
     }
 
     private void drawMainWindow() throws Exception { //TODO: exception handling
@@ -141,6 +161,80 @@ public class MainWindow {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuOverlay.fxml"));
         loader.setController(menuOverlayController);
         menuOverlay = loader.load();
+    }
+
+    public Pair<Boolean, String> createAccount(String userID, String password) {
+        // Check if the user is already in the friendslist
+
+        // Check if account exists
+        if (p2p.getBlocking(userID) != null) {
+            System.err.println("NULL??? WHAT THE SHIT WHY???");
+            return new Pair<>(false, "Could not create user account. UserID already taken."); //TODO: LOGIN NOW
+
+        }
+
+        // Create private UserProfile
+        userProfile = new PrivateUserProfile(userID, password);
+
+        // TODO: Encrypt it with password
+        if (savePrivateUserProfile() == false) {
+            return new Pair<>(false, "Error. Could not save private UserProfile");
+        }
+
+        // Create public UserProfile
+        PublicUserProfile publicUserProfile;
+        publicUserProfile = new PublicUserProfile(userID, userProfile.getKeyPair().getPublic(),
+                null);
+
+        if (p2p.put(userID, publicUserProfile)) {
+            return new Pair<>(true, "User account for user \"" + userID + "\" successfully created");
+        } else {
+            return new Pair<>(false, "Network DHT error. Could not save public UserProfile");
+        }
+    }
+
+    public Pair<Boolean, String> login(String userID, String password, String insecurePassword) {
+
+
+/*        if (BCrypt.checkpw(insecurePassword, hashed))
+            System.out.println("It matches");
+        else
+            System.out.println("It does not match");
+
+*/
+
+        // Get userprofile if password and username are correct
+        Object getResult = p2p.getBlocking(userID + password);
+        if (getResult == null) {
+            return new Pair<>(false, "Login data not valid, Wrong UserID/password?");
+        }
+        userProfile = (PrivateUserProfile) getResult;
+
+        // Get public user profile
+        Object objectPublicUserProfile = p2p.getBlocking(userID);
+        if (objectPublicUserProfile == null) {
+            return new Pair<>(false, "Could not retrieve public userprofile");
+        }
+        PublicUserProfile publicUserProfile = (PublicUserProfile) objectPublicUserProfile;
+
+
+
+        // Set current IP address in public user profile
+        publicUserProfile.setPeerAddress(p2p.getPeerAddress());
+
+        // Save public user profile
+        if (p2p.put(userID, publicUserProfile) == false) {
+            return new Pair<>(false, "Could not update public user profile");
+        }
+
+
+        return new Pair<>(true, "Login successful");
+    }
+
+    private boolean savePrivateUserProfile() {
+        // TODO: encrypt before saving
+
+        return p2p.put(userProfile.getUserID() + userProfile.getPassword(), userProfile);
     }
 
 }
