@@ -20,7 +20,7 @@ public class LoginWindow extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 
-        // Get parameters
+        // Get parameters TODO: actually use paramaters
         String bootstrapIP = getParameters().getNamed().get("bootstrap");
         bootstrapIP = "127.0.0.1";
 
