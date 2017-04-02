@@ -26,7 +26,7 @@ public class LoginWindow extends Application {
 
         p2p = new P2POverlay();
 
-        // Try to bootstrap
+        // Try to bootstrap yay
         Pair<Boolean, String> result = p2p.bootstrap(bootstrapIP);
         if (result.getKey() == false) {
             System.err.println("Aw shit, didn't work\n");
