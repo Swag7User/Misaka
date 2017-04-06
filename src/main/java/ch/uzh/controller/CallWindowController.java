@@ -1,6 +1,7 @@
 package ch.uzh.controller;
 
 
+import ch.uzh.helper.P2POverlay;
 import ch.uzh.helper.VideoStuff;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ public class CallWindowController {
 	private Boolean cameraOff;
 	private Boolean microphoneMuted;
 	private VideoStuff videoUtils;
+	private P2POverlay p2p;
 
 
 
@@ -50,9 +52,10 @@ public class CallWindowController {
 	private Button endCallBtn;
 
 
-	public CallWindowController(MainWindowController mainWindowController) {
+	public CallWindowController(MainWindowController mainWindowController, P2POverlay p2p) {
 		this.mainWindowController = mainWindowController;
 		this.videoUtils = new VideoStuff();
+		this.p2p = p2p;
 	}
 
 	@FXML

@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.P2POverlay;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,9 +18,11 @@ public class MenuOverlayController {
     private Pane closePane2;
 
 	private Controller mainWindowController;
+	private P2POverlay p2p;
 
-	public MenuOverlayController(Controller mainWindowController) {
+	public MenuOverlayController(Controller mainWindowController, P2POverlay p2p) {
 		this.mainWindowController = mainWindowController;
+		this.p2p = p2p;
 	}
 
 	@FXML

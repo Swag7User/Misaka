@@ -81,16 +81,16 @@ public class MainWindow {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainWindow.fxml"));
         mainWindowController = new MainWindowController(stage, p2p);
 
-        msgWindowController = new MsgWindowController(mainWindowController, this);  // <--- THIS
+        msgWindowController = new MsgWindowController(mainWindowController, this, p2p);  // <--- THIS
         mainWindowController.setMsgWindowController(msgWindowController);
 
-        friendListController = new FriendListController(mainWindowController);   // <--- THIS
+        friendListController = new FriendListController(mainWindowController, p2p);   // <--- THIS
         mainWindowController.setFriendListController(friendListController);
 
-        menuOverlayController = new MenuOverlayController(mainWindowController);   // <--- THIS
+        menuOverlayController = new MenuOverlayController(mainWindowController, p2p);   // <--- THIS
         mainWindowController.setMenuOverlayController(menuOverlayController);
 
-        callWindowController = new CallWindowController(mainWindowController);
+        callWindowController = new CallWindowController(mainWindowController, p2p);
         mainWindowController.setCallWindowController(callWindowController);
 
 

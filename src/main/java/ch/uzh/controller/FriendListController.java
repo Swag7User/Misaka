@@ -1,6 +1,7 @@
 package ch.uzh.controller;
 
 import ch.uzh.helper.FriendStuff;
+import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.Friend;
 import ch.uzh.model.LoginWindow;
 import ch.uzh.model.MainWindow;
@@ -29,6 +30,7 @@ public class FriendListController {
     private VBox friendListContainer;
 
     private MainWindowController mainWindowController;
+    private P2POverlay p2p;
 
     private FriendStuff friendStuff;
     private ListChangeListener<Friend> listChangeListener;
@@ -36,8 +38,9 @@ public class FriendListController {
     public Map<String, FriendController> friendControllerList;
 
 
-    public FriendListController(MainWindowController mainWindowController) {
+    public FriendListController(MainWindowController mainWindowController, P2POverlay p2p) {
         this.mainWindowController = mainWindowController;
+        this.p2p = p2p;
         this.friendList = new ArrayList<Friend>();
         friendList.add(new Friend("R2D2"));
         friendList.add(new Friend("Lenin"));

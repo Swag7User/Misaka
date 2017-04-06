@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.Main;
 import ch.uzh.model.MainWindow;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MsgWindowController {
     private MainWindowController mainWindowController;
     private MainWindow mainWindow;
+    private P2POverlay p2p;
 
     @FXML
     GridPane gridMSG;
@@ -37,15 +39,18 @@ public class MsgWindowController {
     @FXML
     TextField messageText;
 
-    public MsgWindowController(MainWindowController mainWindowController, MainWindow mainWindow) {
+    public MsgWindowController(MainWindowController mainWindowController, MainWindow mainWindow, P2POverlay p2p) {
         this.mainWindowController = mainWindowController;
         this.mainWindow = mainWindow;
+        this.p2p = p2p;
     }
 
 
     @FXML
     private void initialize() throws Exception {
         System.err.println("MsgWindowController is initializing");
+        p2p.put("lol","hello");
+
 
         gridMSG.setVgap(0);
 
