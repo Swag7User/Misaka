@@ -1,6 +1,7 @@
 package ch.uzh.model;
 
 import ch.uzh.controller.*;
+import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.helper.PrivateUserProfile;
 import ch.uzh.helper.PublicUserProfile;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
+import net.tomp2p.peers.PeerAddress;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
@@ -48,6 +50,7 @@ public class MainWindow {
     private AnchorPane callWindow;
 
     private P2POverlay p2p;
+
     private PrivateUserProfile userProfile;
 
 
@@ -76,9 +79,9 @@ public class MainWindow {
         System.err.println("FXML resource: " + getClass().getResource("/view/MainWindow.fxml"));
         System.err.println("2222222~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainWindow.fxml"));
-        mainWindowController = new MainWindowController(stage);
+        mainWindowController = new MainWindowController(stage, p2p);
 
-        msgWindowController = new MsgWindowController(mainWindowController);  // <--- THIS
+        msgWindowController = new MsgWindowController(mainWindowController, this);  // <--- THIS
         mainWindowController.setMsgWindowController(msgWindowController);
 
         friendListController = new FriendListController(mainWindowController);   // <--- THIS
@@ -94,7 +97,7 @@ public class MainWindow {
         loader.setController(mainWindowController);
 
 
-        //mainWindowController.setMainWindow(this);
+        mainWindowController.setMainWindow(this);
 
         mainPane = loader.load();
 
@@ -138,6 +141,15 @@ public class MainWindow {
 
 
     }
+
+
+
+/*    public void sendChatMessage(String text, String addr) {
+        ChatMessage chatMessage = new ChatMessage(p2p.getPeerAddress(), userProfile.getUserID(), text);
+        p2p.sendNonBlocking((PeerAddress) addr, chatMessage, false);
+    }*/
+
+
 
     private void drawFriendList() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FriendList.fxml"));
@@ -236,5 +248,27 @@ public class MainWindow {
 
         return p2p.put(userProfile.getUserID() + userProfile.getPassword(), userProfile);
     }
+
+    /**
+     *
+     * @param userID
+     * @return
+     */
+    public boolean existsUser(String userID) {
+        return (p2p.getBlocking(userID) != null);
+    }
+
+/*    public boolean addFriend(String userID) {
+        // Add to list
+        friendsList.add(new FriendsListEntry(userID));
+        friendsList.sort(new FriendsListComparator());
+        mainController.sortFriendsListView();
+
+        // Send ping
+        pingUser(userID, true, true);
+
+        // Save profile
+        return savePrivateUserProfile();
+    }*/
 
 }

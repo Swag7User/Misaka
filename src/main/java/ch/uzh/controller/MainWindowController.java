@@ -1,10 +1,14 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.ChatMessage;
+import ch.uzh.helper.P2POverlay;
+import ch.uzh.helper.PrivateUserProfile;
 import ch.uzh.model.MainWindow;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import net.tomp2p.peers.PeerAddress;
 
 /**
  * Created by jesus on 11.03.2017.
@@ -23,6 +27,10 @@ public class MainWindowController implements Controller{
     private AnchorPane msgWindowPane;
     private AnchorPane callWindowPane;
     private AnchorPane menuOverlay;
+
+    private PrivateUserProfile userProfile;
+
+    private P2POverlay p2p;
 
     @FXML
     private Button menuBtn;
@@ -45,8 +53,9 @@ public class MainWindowController implements Controller{
 
     }
 
-    public MainWindowController(Stage stage) {
+    public MainWindowController(Stage stage, P2POverlay p2p) {
         this.stage = stage;
+        this.p2p = p2p;
     }
 
     public void setMainWindow(MainWindow mainWindow) {
@@ -146,6 +155,8 @@ public class MainWindowController implements Controller{
     public void hideMenuOverlay() {
         modalOverlayPane.setVisible(false);
     }
+
+
 
 
 }

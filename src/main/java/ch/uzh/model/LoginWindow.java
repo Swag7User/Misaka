@@ -38,17 +38,6 @@ public class LoginWindow extends Application {
         System.out.println("Bootstrapped to: " + bootstrapIP
                 + "My IP: " + p2p.getPeerAddress().inetAddress().getHostAddress());
 
-
-        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
-        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
-        String test = BCrypt.hashpw("myPassword", BCrypt.gensalt());
-        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
-        System.err.println(BCrypt.hashpw("myPassword", BCrypt.gensalt()));
-        String test2 = BCrypt.hashpw("myPassword", BCrypt.gensalt());
-        System.err.println(BCrypt.checkpw("myPassword", test));
-        System.err.println(BCrypt.checkpw("myPassword", test2));
-        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
         AnchorPane pane = loader.load();
         LoginWindowController loginWindowController = loader.getController();
@@ -59,6 +48,10 @@ public class LoginWindow extends Application {
         stage.setTitle("Misaka - Login");
         stage.setScene(scene);
         stage.show();
+        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.err.println(p2p.getPeerAddress());
+        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
     }
 
     /**

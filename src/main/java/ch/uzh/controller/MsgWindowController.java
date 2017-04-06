@@ -1,8 +1,11 @@
 package ch.uzh.controller;
 
+import ch.uzh.model.Main;
+import ch.uzh.model.MainWindow;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -14,6 +17,7 @@ import java.util.List;
  */
 public class MsgWindowController {
     private MainWindowController mainWindowController;
+    private MainWindow mainWindow;
 
     @FXML
     GridPane gridMSG;
@@ -30,8 +34,12 @@ public class MsgWindowController {
     @FXML
     Label friendNameTitle;
 
-    public MsgWindowController(MainWindowController mainWindowController) {
+    @FXML
+    TextField messageText;
+
+    public MsgWindowController(MainWindowController mainWindowController, MainWindow mainWindow) {
         this.mainWindowController = mainWindowController;
+        this.mainWindow = mainWindow;
     }
 
 
@@ -42,6 +50,10 @@ public class MsgWindowController {
         gridMSG.setVgap(0);
 
         sendMessage.setOnAction((event) -> {
+            String addr = messageText.getText();
+            System.err.println("existsUser " + addr + " ????????????????????????????????????? \n");
+            System.err.println(mainWindow.existsUser(addr));
+           // mainWindow.sendChatMessage("chello my friend");
                     System.err.println("CLICK CLICK CLICK");
                 }
         );

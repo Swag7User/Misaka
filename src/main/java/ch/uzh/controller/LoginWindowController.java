@@ -95,9 +95,9 @@ public class LoginWindowController {
         MainWindow mainWindow = new MainWindow(p2p);
         try {
             username = usernameField.getText();
-            password = Password.hashPassword(passwordField.getText());
+            password = passwordField.getText();
             System.err.println("username:" + username);
-            System.err.println("hashed password:" + password);
+            System.err.println("unhashed password:" + password);
             this.clientIP = ip;
             this.clientId = id;
 

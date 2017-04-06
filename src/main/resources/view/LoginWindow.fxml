@@ -43,6 +43,6 @@
             <Label fx:id="errorLabel" prefHeight="25.0" prefWidth="453.0" styleClass="errorlabel" />
          </children>
       </HBox>
-      <Button fx:id="dbg" layoutX="411.0" layoutY="448.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="89.0" text="dbg" />
+      <Button fx:id="dbg" layoutX="411.0" layoutY="448.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="89.0" text="reg" />
    </children>
 </AnchorPane>
