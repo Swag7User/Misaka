@@ -37,9 +37,9 @@ public class FriendListController {
     private MainWindow mainWindow;
 
     private FriendStuff friendStuff;
-    private ListChangeListener<Friend> listChangeListener;
+    private ListChangeListener<FriendsListEntry> listChangeListener;
     //private List<Friend> friendList;
-    public Map<String, FriendController> friendControllerList;
+    //public Map<String, FriendController> friendControllerList;
 
 
     public FriendListController(MainWindowController mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
@@ -55,8 +55,8 @@ public class FriendListController {
         initFriendlist();
     }
 
-    public void addFriend(Friend f) {
-        final Friend friend = f;
+    public void addFriend(FriendsListEntry f) {
+        final FriendsListEntry friend = f;
         Platform.runLater(new Runnable() {
             public void run() {
                 FXMLLoader loader;
@@ -71,12 +71,12 @@ public class FriendListController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                friendController.setFriendName(friend.getName());
+                friendController.setFriendName(friend.getUserID());
                 friendController.setFriendAvatar(null);
 
                 friendListContainer.getChildren().add(friendobj);
-                friend.addObserver(friendController);
-                System.err.println(friend.getName());
+                //friend.addObserver(friendController);
+                System.err.println(friend.getUserID());
                 System.err.println(friendController);
                 System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 //friendControllerList.put(friend.getName(), friendController);
@@ -97,6 +97,7 @@ public class FriendListController {
             public void run() {
                 for (FriendsListEntry f : mainWindow.getFriendsList()) {
                     mainWindow.addFriend(f.getUserID());
+                    addFriend(f);
                 }
             }
         });
