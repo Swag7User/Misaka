@@ -55,8 +55,8 @@ public class FriendListController {
         initFriendlist();
     }
 
-    public void addFriend(FriendsListEntry f) {
-        final FriendsListEntry friend = f;
+    public void addFriend(String f) {
+        final String friend = f;
         Platform.runLater(new Runnable() {
             public void run() {
                 FXMLLoader loader;
@@ -71,12 +71,12 @@ public class FriendListController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                friendController.setFriendName(friend.getUserID());
+                friendController.setFriendName(friend);
                 friendController.setFriendAvatar(null);
 
                 friendListContainer.getChildren().add(friendobj);
                 //friend.addObserver(friendController);
-                System.err.println(friend.getUserID());
+                System.err.println(friend);
                 System.err.println(friendController);
                 System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 //friendControllerList.put(friend.getName(), friendController);
@@ -96,8 +96,8 @@ public class FriendListController {
         Platform.runLater(new Runnable() {
             public void run() {
                 for (FriendsListEntry f : mainWindow.getFriendsList()) {
-                    mainWindow.addFriend(f.getUserID());
-                    addFriend(f);
+                    //mainWindow.addFriend(f.getUserID());
+                    addFriend(f.getUserID());
                 }
             }
         });
@@ -112,6 +112,7 @@ public class FriendListController {
                     System.err.println("CLICK CLICK CLICK MENU BTN LEL");
                     try {
                         System.err.println("1");
+                        //initFriendlist();
                         mainWindowController.drawMenuOverlay();
                     } catch (Exception e) {
                         System.err.println("Caught Exception: " + e.getMessage());
