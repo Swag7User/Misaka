@@ -505,6 +505,9 @@ public class MainWindow {
         }
         friendsList = FXCollections.synchronizedObservableList(FXCollections.observableList(userProfile.getFriendsList()));
 
+        friendRequestsList = FXCollections.observableList(userProfile.getFriendRequestsList());
+
+
 
 
         // Set current IP address in public user profile
