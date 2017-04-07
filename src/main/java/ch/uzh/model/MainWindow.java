@@ -162,7 +162,10 @@ public class MainWindow {
         // Save User Profile
         savePrivateUserProfile();
         System.err.println("userid: " + message.getSenderUserID() + "messagetxt: " +  message.getMessageText() + "peeraddress: " + message.getSenderPeerAddress());
-        friendListController.addFriend(message.getSenderUserID());
+        FriendsListEntry newFriend = new FriendsListEntry(message.getSenderUserID());
+        newFriend.setPeerAddress(message.getSenderPeerAddress());
+        friendListController.addFriend(newFriend);
+        sendFriendRequest(newFriend.getUserID(),"plz add too");
     }
 
     public void declineFriendRequest(FriendRequestMessage message) {

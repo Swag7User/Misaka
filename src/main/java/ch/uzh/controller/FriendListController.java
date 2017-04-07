@@ -55,8 +55,8 @@ public class FriendListController {
         initFriendlist();
     }
 
-    public void addFriend(String f) {
-        final String friend = f;
+    public void addFriend(FriendsListEntry f) {
+        final FriendsListEntry friend = f;
         Platform.runLater(new Runnable() {
             public void run() {
                 FXMLLoader loader;
@@ -71,12 +71,12 @@ public class FriendListController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                friendController.setFriendName(friend);
+                friendController.setFriendName(friend.getUserID());
                 friendController.setFriendAvatar(null);
 
                 friendListContainer.getChildren().add(friendobj);
                 //friend.addObserver(friendController);
-                System.err.println(friend);
+                System.err.println(friend.getUserID());
                 System.err.println(friendController);
                 System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 //friendControllerList.put(friend.getName(), friendController);
@@ -97,7 +97,7 @@ public class FriendListController {
             public void run() {
                 for (FriendsListEntry f : mainWindow.getFriendsList()) {
                     //mainWindow.addFriend(f.getUserID());
-                    addFriend(f.getUserID());
+                    addFriend(f);
                 }
             }
         });
