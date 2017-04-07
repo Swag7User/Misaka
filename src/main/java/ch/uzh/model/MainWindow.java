@@ -249,6 +249,7 @@ public class MainWindow {
 
     public boolean addFriend(String userID) {
         // Add to list
+        System.err.println("ADD THIS BFF: " + userID);
         friendsList.add(new FriendsListEntry(userID));
         friendsList.sort(new FriendsListComparator());
         //mainController.sortFriendsListView();
@@ -502,7 +503,7 @@ public class MainWindow {
             e.setPeerAddress(null);
             e.setWaitingForHeartbeat(false);
         }
-
+        friendsList = FXCollections.synchronizedObservableList(FXCollections.observableList(userProfile.getFriendsList()));
 
 
 
