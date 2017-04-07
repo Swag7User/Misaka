@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.Main;
 import ch.uzh.model.MainWindow;
@@ -9,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,16 +51,22 @@ public class MsgWindowController {
     @FXML
     private void initialize() throws Exception {
         System.err.println("MsgWindowController is initializing");
-        p2p.put("lol","hello");
-
 
         gridMSG.setVgap(0);
 
         sendMessage.setOnAction((event) -> {
-            String addr = messageText.getText();
-            System.err.println("existsUser " + addr + " ????????????????????????????????????? \n");
-            System.err.println(mainWindow.existsUser(addr));
-           // mainWindow.sendChatMessage("chello my friend");
+            String usr = messageText.getText();
+            System.err.println("existsUser " + usr + " ????????????????????????????????????? \n");
+            System.err.println(mainWindow.existsUser(usr));
+            Pair<Boolean, String> result = mainWindow.sendFriendRequest(usr, "hi, pls accept");
+
+            if (result.getKey() == true) {
+                System.err.println("friend request sent");
+            } else {
+                System.err.println("friend request ERROR");
+            }
+
+            // mainWindow.sendChatMessage("chello my friend");
                     System.err.println("CLICK CLICK CLICK");
                 }
         );

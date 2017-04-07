@@ -20,11 +20,14 @@ public class PublicUserProfile implements Serializable {
     private final String userID;
     private final PublicKey publicKey;
     private PeerAddress peerAddress;
+    private ArrayList<FriendRequestMessage> pendingFriendRequests;
+
 
     public PublicUserProfile(String _userID, PublicKey _publicKey, PeerAddress _peerAddress) {
         userID = _userID;
         publicKey = _publicKey;
         peerAddress = _peerAddress;
+        pendingFriendRequests = new ArrayList<>();
     }
     
     /**
@@ -53,6 +56,13 @@ public class PublicUserProfile implements Serializable {
      */
     public void setPeerAddress(PeerAddress peerAddress) {
         this.peerAddress = peerAddress;
+    }
+
+    /**
+     * @return the pendingFriendRequests
+     */
+    public ArrayList<FriendRequestMessage> getPendingFriendRequests() {
+        return pendingFriendRequests;
     }
 
 

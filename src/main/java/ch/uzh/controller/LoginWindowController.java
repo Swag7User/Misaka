@@ -61,7 +61,7 @@ public class LoginWindowController {
                         return;
                     }
                     else{
-                        logindbg();
+                        reg();
                     }
                 }
         );
@@ -101,7 +101,7 @@ public class LoginWindowController {
             this.clientIP = ip;
             this.clientId = id;
 
-            Pair<Boolean, String> result = mainWindow.login(username, password, insecurePassword);
+            Pair<Boolean, String> result = mainWindow.login(username, password);
 
             if (result.getKey() == false) {
                 System.err.println("NOT Loged in successfully, SOMETHING BROKE");
@@ -132,15 +132,15 @@ public class LoginWindowController {
     /**
      * Login function, loads next window
      */
-    public void logindbg() {
+    public void reg() {
         MainWindow mainWindow = new MainWindow(p2p);
         try {
 
             username = usernameField.getText();
             insecurePassword = passwordField.getText();
-            password = Password.hashPassword(passwordField.getText());
-            System.err.println("username:" + username);
-            System.err.println("hashed password:" + password);
+            password = passwordField.getText();
+            System.err.println("username: " + username);
+            System.err.println("hashed password: " + password);
 
             Pair<Boolean, String> result = mainWindow.createAccount(username, password);
 

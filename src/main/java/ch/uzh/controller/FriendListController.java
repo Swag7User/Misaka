@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.FriendRequestMessage;
 import ch.uzh.helper.FriendStuff;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.Friend;
@@ -76,6 +77,13 @@ public class FriendListController {
                 //friendControllerList.put(friend.getName(), friendController);
             }
         });
+    }
+
+    public static void showIncomingFriendRequest(FriendRequestMessage requestMessage) {
+        // Show notification
+        String message = "User " + requestMessage.getSenderUserID() + " wants "
+                + " to add you: \n" + requestMessage.getMessageText();
+        System.err.println(message);
     }
 
     public void initFriendlist() {

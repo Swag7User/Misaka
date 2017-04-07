@@ -65,6 +65,3 @@ jar {
     }
 }
 
-task showMeCache << {
-    configurations.compile.each { println it }
-}
