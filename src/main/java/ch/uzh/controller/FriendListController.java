@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import net.tomp2p.holep.DuplicatesHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +56,37 @@ public class FriendListController {
         initFriendlist();
     }
 
-    public void addFriend(FriendsListEntry f) {
+    public void updateFriends(){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                for(FriendsListEntry fr : mainWindow.getFriendsList()){
+                    FXMLLoader loader;
+                    loader = new FXMLLoader(MainWindow.class.getResource("/view/Friend.fxml"));
+
+                    FriendController friendController = new FriendController(mainWindowController);
+                    loader.setController(friendController);
+                    AnchorPane friendobj = new AnchorPane();
+                    try {
+                        friendobj = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    friendController.setFriendName(fr.getUserID());
+                    friendController.setFriendAvatar(null);
+
+                    friendListContainer.getChildren().add(friendobj);
+                    //friend.addObserver(friendController);
+                    System.err.println(fr.getUserID());
+                    System.err.println(friendController);
+                    System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    //friendControllerList.put(friend.getName(), friendController);
+                }
+
+            }
+        });
+    }
+
+/*    public void addFriend(FriendsListEntry f) {
         final FriendsListEntry friend = f;
         Platform.runLater(new Runnable() {
             public void run() {
@@ -82,7 +113,7 @@ public class FriendListController {
                 //friendControllerList.put(friend.getName(), friendController);
             }
         });
-    }
+    }*/
 
     public static void showIncomingFriendRequest(FriendRequestMessage requestMessage) {
         // Show notification
@@ -95,10 +126,7 @@ public class FriendListController {
     public void initFriendlist() {
         Platform.runLater(new Runnable() {
             public void run() {
-                for (FriendsListEntry f : mainWindow.getFriendsList()) {
-                    //mainWindow.addFriend(f.getUserID());
-                    addFriend(f);
-                }
+                updateFriends();
             }
         });
     }

@@ -164,7 +164,8 @@ public class MainWindow {
         System.err.println("userid: " + message.getSenderUserID() + "messagetxt: " +  message.getMessageText() + "peeraddress: " + message.getSenderPeerAddress());
         FriendsListEntry newFriend = new FriendsListEntry(message.getSenderUserID());
         newFriend.setPeerAddress(message.getSenderPeerAddress());
-        friendListController.addFriend(newFriend);
+        friendsList.add(newFriend);
+        friendListController.updateFriends();
         Pair<Boolean, String> result = sendFriendRequest(message.getSenderUserID(), "hi, pls accept 2");
 
         if (result.getKey() == true) {
@@ -221,11 +222,13 @@ public class MainWindow {
     public Pair<Boolean, String> sendFriendRequest(String userID, String messageText) {
         // Check if user already exists in friends list
         if (getFriendsListEntry(userID) != null) {
+            System.err.println("User already in friendslist");
             return new Pair<>(false, "User already in friendslist");
         }
 
         // Check if user exists in the network
         if (!existsUser(userID)) {
+            System.err.println("User was not found");
             return new Pair<>(false, "User was not found");
         }
 
