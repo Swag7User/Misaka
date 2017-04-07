@@ -165,7 +165,13 @@ public class MainWindow {
         FriendsListEntry newFriend = new FriendsListEntry(message.getSenderUserID());
         newFriend.setPeerAddress(message.getSenderPeerAddress());
         friendListController.addFriend(newFriend);
-        sendFriendRequest(newFriend.getUserID(),"plz add too");
+        Pair<Boolean, String> result = sendFriendRequest(message.getSenderUserID(), "hi, pls accept 2");
+
+        if (result.getKey() == true) {
+            System.err.println("response friend request sent");
+        } else {
+            System.err.println("response friend request ERROR");
+        }
     }
 
     public void declineFriendRequest(FriendRequestMessage message) {
