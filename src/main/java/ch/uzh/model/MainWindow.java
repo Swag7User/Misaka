@@ -192,6 +192,7 @@ public class MainWindow {
         // Show visual message
         int i = 0;
         int i2 = 0;
+        System.err.println("friendlistsize: " + friendsList.size());
         for(FriendsListEntry e : friendsList){
             System.err.println("i: " + i++);
             System.err.println(e.toString());
@@ -199,9 +200,10 @@ public class MainWindow {
         System.err.println(" BEFORE, AFTER");
         FriendListController.showIncomingFriendRequest(requestMessage);
         acceptFriendRequest(requestMessage);
+        System.err.println("friendlistsize: " + friendsList.size());
         for(FriendsListEntry e : friendsList){
             System.err.println("i2: " + i2++);
-            System.err.println(e.toString());
+            System.err.println("friendlistitem: " + e.getUserID());
         }
 
     }
