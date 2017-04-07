@@ -94,7 +94,7 @@ public class MainWindow {
         msgWindowController = new MsgWindowController(mainWindowController, this, p2p);  // <--- THIS
         mainWindowController.setMsgWindowController(msgWindowController);
 
-        friendListController = new FriendListController(mainWindowController, p2p);   // <--- THIS
+        friendListController = new FriendListController(mainWindowController, p2p, this);   // <--- THIS
         mainWindowController.setFriendListController(friendListController);
 
         menuOverlayController = new MenuOverlayController(mainWindowController, p2p);   // <--- THIS
@@ -258,6 +258,14 @@ public class MainWindow {
             }
         }
         return null;
+    }
+
+    public ObservableList<FriendsListEntry> getFriendsList() {
+        if(friendsList == null){
+            return null;
+        }else{
+            return friendsList;
+        }
     }
 
     public boolean addFriend(String userID) {

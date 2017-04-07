@@ -4,10 +4,12 @@ import ch.uzh.helper.FriendRequestMessage;
 import ch.uzh.helper.FriendStuff;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.Friend;
+import ch.uzh.model.FriendsListEntry;
 import ch.uzh.model.LoginWindow;
 import ch.uzh.model.MainWindow;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -32,21 +34,24 @@ public class FriendListController {
 
     private MainWindowController mainWindowController;
     private P2POverlay p2p;
+    private MainWindow mainWindow;
 
     private FriendStuff friendStuff;
     private ListChangeListener<Friend> listChangeListener;
-    private List<Friend> friendList;
+    //private List<Friend> friendList;
     public Map<String, FriendController> friendControllerList;
 
 
-    public FriendListController(MainWindowController mainWindowController, P2POverlay p2p) {
+    public FriendListController(MainWindowController mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
         this.mainWindowController = mainWindowController;
         this.p2p = p2p;
-        this.friendList = new ArrayList<Friend>();
-        friendList.add(new Friend("R2D2"));
+        this.mainWindow = mainWindow;
+        //this.friendList = new ArrayList<Friend>();
+
+/*        friendList.add(new Friend("R2D2"));
         friendList.add(new Friend("Lenin"));
         friendList.add(new Friend("hi 2 u"));
-        friendList.add(new Friend());
+        friendList.add(new Friend());*/
         initFriendlist();
     }
 
@@ -83,13 +88,15 @@ public class FriendListController {
         // Show notification
         String message = "User " + requestMessage.getSenderUserID() + " wants to add you: \n" + requestMessage.getMessageText();
         System.err.println(message);
+
+
     }
 
     public void initFriendlist() {
         Platform.runLater(new Runnable() {
             public void run() {
-                for (Friend f : friendList) {
-                    addFriend(f);
+                for (FriendsListEntry f : mainWindow.getFriendsList()) {
+                    mainWindow.addFriend(f.getUserID());
                 }
             }
         });
