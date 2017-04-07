@@ -190,14 +190,18 @@ public class MainWindow {
         savePrivateUserProfile();
 
         // Show visual message
+        int i = 0;
+        int i2 = 0;
         for(FriendsListEntry e : friendsList){
-            System.err.println(e);
+            System.err.println("i: " + i++);
+            System.err.println(e.toString());
         }
         System.err.println(" BEFORE, AFTER");
         FriendListController.showIncomingFriendRequest(requestMessage);
         acceptFriendRequest(requestMessage);
         for(FriendsListEntry e : friendsList){
-            System.err.println(e);
+            System.err.println("i2: " + i2++);
+            System.err.println(e.toString());
         }
 
     }

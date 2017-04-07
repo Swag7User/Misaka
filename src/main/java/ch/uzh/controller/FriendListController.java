@@ -81,8 +81,7 @@ public class FriendListController {
 
     public static void showIncomingFriendRequest(FriendRequestMessage requestMessage) {
         // Show notification
-        String message = "User " + requestMessage.getSenderUserID() + " wants "
-                + " to add you: \n" + requestMessage.getMessageText();
+        String message = "User " + requestMessage.getSenderUserID() + " wants to add you: \n" + requestMessage.getMessageText();
         System.err.println(message);
     }
 
