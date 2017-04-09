@@ -97,7 +97,7 @@ public class MainWindow {
         friendListController = new FriendListController(mainWindowController, p2p, this);   // <--- THIS
         mainWindowController.setFriendListController(friendListController);
 
-        menuOverlayController = new MenuOverlayController(mainWindowController, p2p);   // <--- THIS
+        menuOverlayController = new MenuOverlayController(mainWindowController, p2p, this);   // <--- THIS
         mainWindowController.setMenuOverlayController(menuOverlayController);
 
         callWindowController = new CallWindowController(mainWindowController, p2p);
@@ -165,13 +165,13 @@ public class MainWindow {
         FriendsListEntry newFriend = new FriendsListEntry(message.getSenderUserID());
         newFriend.setPeerAddress(message.getSenderPeerAddress());
         friendListController.updateFriends();
-        Pair<Boolean, String> result = sendFriendRequest(message.getSenderUserID(), "hi, pls accept 2");
+       /* Pair<Boolean, String> result = sendFriendRequest(message.getSenderUserID(), "hi, pls accept 2");
 
         if (result.getKey() == true) {
             System.err.println("response friend request sent");
         } else {
             System.err.println("response friend request ERROR");
-        }
+        }*/
     }
 
     public void declineFriendRequest(FriendRequestMessage message) {

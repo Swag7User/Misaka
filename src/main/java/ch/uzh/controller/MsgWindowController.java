@@ -55,7 +55,7 @@ public class MsgWindowController {
         gridMSG.setVgap(0);
 
         sendMessage.setOnAction((event) -> {
-            String usr = messageText.getText();
+/*            String usr = messageText.getText();
             System.err.println("existsUser " + usr + " ????????????????????????????????????? \n");
             System.err.println(mainWindow.existsUser(usr));
             Pair<Boolean, String> result = mainWindow.sendFriendRequest(usr, "hi, pls accept");
@@ -64,7 +64,7 @@ public class MsgWindowController {
                 System.err.println("friend request sent");
             } else {
                 System.err.println("friend request ERROR");
-            }
+            }*/
 
             // mainWindow.sendChatMessage("chello my friend");
                     System.err.println("CLICK CLICK CLICK");

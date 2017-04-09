@@ -140,7 +140,7 @@ public class FriendListController {
                     System.err.println("CLICK CLICK CLICK MENU BTN LEL");
                     try {
                         System.err.println("1");
-                        //initFriendlist();
+                        updateFriends();
                         mainWindowController.drawMenuOverlay();
                     } catch (Exception e) {
                         System.err.println("Caught Exception: " + e.getMessage());
