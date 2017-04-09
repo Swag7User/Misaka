@@ -59,11 +59,12 @@ public class FriendListController {
     public void updateFriends(){
         Platform.runLater(new Runnable() {
             public void run() {
+                friendListContainer.getChildren().clear();
                 for(FriendsListEntry fr : mainWindow.getFriendsList()){
                     FXMLLoader loader;
                     loader = new FXMLLoader(MainWindow.class.getResource("/view/Friend.fxml"));
 
-                    FriendController friendController = new FriendController(mainWindowController);
+                    FriendController friendController = new FriendController(mainWindowController, mainWindow);
                     loader.setController(friendController);
                     AnchorPane friendobj = new AnchorPane();
                     try {

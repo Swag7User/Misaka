@@ -1,6 +1,7 @@
 package ch.uzh.controller;
 
 import ch.uzh.model.Friend;
+import ch.uzh.model.MainWindow;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,6 +19,8 @@ import java.util.Observer;
  */
 public class FriendController implements Observer {
 
+    MainWindow mainWindow;
+
     @FXML
     private Label userName;
 
@@ -30,8 +33,9 @@ public class FriendController implements Observer {
     private MainWindowController mainWindowController;
 
 
-    public FriendController(MainWindowController mainWindowController) {
+    public FriendController(MainWindowController mainWindowController, MainWindow mainWindow) {
         this.mainWindowController = mainWindowController;
+        this.mainWindow = mainWindow;
     }
 
     public void setFriendName(String name){
@@ -60,6 +64,10 @@ public class FriendController implements Observer {
             public void handle(MouseEvent arg0) {
 
                 System.err.println("You clicked: " + userName);
+                mainWindow.setCurrentChatpartner(userName.getText());
+                String currentChatPartner = mainWindow.getCurrentChatpartner();
+                System.err.println("Current Chatpartner: " + currentChatPartner);
+                mainWindowController.msgWindowController.friendNameTitle.setText(currentChatPartner);
             }
 
         }));

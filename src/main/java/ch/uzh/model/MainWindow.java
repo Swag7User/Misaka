@@ -56,9 +56,19 @@ public class MainWindow {
     private ObservableList<FriendRequestMessage> friendRequestsList;
     private ScheduledExecutorService scheduler;
 
+    private String currentChatPartner;
+
 
 
     private PrivateUserProfile userProfile;
+
+    public String getCurrentChatpartner(){
+        return currentChatPartner;
+    }
+
+    public void setCurrentChatpartner(String userID){
+        currentChatPartner = userID;
+    }
 
 
 
@@ -289,6 +299,8 @@ public class MainWindow {
 
         // Send ping
         pingUser(userID, true, true);
+
+        friendListController.updateFriends();
 
         // Save profile
         return savePrivateUserProfile();
