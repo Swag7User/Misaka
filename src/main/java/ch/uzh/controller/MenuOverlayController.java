@@ -58,6 +58,7 @@ public class MenuOverlayController {
                     }
 
                     userID = null;
+                    addFriendField.clear();
                 }
             }
         });
