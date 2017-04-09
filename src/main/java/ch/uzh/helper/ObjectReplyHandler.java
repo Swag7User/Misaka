@@ -36,13 +36,13 @@ public class ObjectReplyHandler implements ObjectDataReply {
                 mainWindow.handleIncomingOnlineStatus((OnlineStatusMessage) o);
             };
             Platform.runLater(task);
-        } /*else if (o instanceof ChatMessage) {
+        } else if (o instanceof ChatMessage) {
             Runnable task = () -> {
                 ChatMessage msg = (ChatMessage) o;
                 mainWindow.handleIncomingChatMessage(msg);
             };
             Platform.runLater(task);
-        } else if (o instanceof CallRequestMessage) {
+        } /*else if (o instanceof CallRequestMessage) {
             Runnable task = () -> {
                 CallRequestMessage msg = (CallRequestMessage) o;
                 mainWindow.handleIncomingCallRequestMessage(msg);
