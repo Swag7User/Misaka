@@ -135,6 +135,7 @@ public class MsgWindowController {
                 if (fromMe ) {
                     messagesVBox.getChildren().add(chatBubble);
                 } else {
+                    messagesVBox.getChildren().add(chatBubble);
                     //mainWindowController.friendlistPaneController.friendlistItemControllerList.get(sender).newUnreadMessage();
                 }
             }
