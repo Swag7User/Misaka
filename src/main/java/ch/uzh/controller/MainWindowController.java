@@ -1,10 +1,14 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.ChatMessage;
+import ch.uzh.helper.P2POverlay;
+import ch.uzh.helper.PrivateUserProfile;
 import ch.uzh.model.MainWindow;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import net.tomp2p.peers.PeerAddress;
 
 /**
  * Created by jesus on 11.03.2017.
@@ -15,12 +19,18 @@ public class MainWindowController implements Controller{
     private Stage stage;
 
     public MsgWindowController msgWindowController;
+    public CallWindowController callWindowController;
     public FriendListController friendListController;
     public MenuOverlayController menuOverlayController;
 
     private AnchorPane friendListPane;
     private AnchorPane msgWindowPane;
+    private AnchorPane callWindowPane;
     private AnchorPane menuOverlay;
+
+    private PrivateUserProfile userProfile;
+
+    private P2POverlay p2p;
 
     @FXML
     private Button menuBtn;
@@ -43,8 +53,9 @@ public class MainWindowController implements Controller{
 
     }
 
-    public MainWindowController(Stage stage) {
+    public MainWindowController(Stage stage, P2POverlay p2p) {
         this.stage = stage;
+        this.p2p = p2p;
     }
 
     public void setMainWindow(MainWindow mainWindow) {
@@ -53,6 +64,10 @@ public class MainWindowController implements Controller{
 
     public void setMsgWindowController(MsgWindowController msgWindowController) {
         this.msgWindowController = msgWindowController;
+    }
+
+    public void setCallWindowController(CallWindowController callWindowController) {
+        this.callWindowController = callWindowController;
     }
 
     public void setFriendListController(FriendListController friendListController) {
@@ -69,6 +84,10 @@ public class MainWindowController implements Controller{
 
     public void setMsgWindowPane(AnchorPane msgWindowPane) {
         this.msgWindowPane = msgWindowPane;
+    }
+
+    public void setCallWindowPane(AnchorPane callWindowPane) {
+        this.callWindowPane = callWindowPane;
     }
 
     public void setMenuOverlayPane(AnchorPane menuOverlay) {
@@ -101,7 +120,17 @@ public class MainWindowController implements Controller{
         }
     }
 
+    public void drawCallPane() {
+        setRightTopPane(callWindowPane);
+        setRightBottomPane(msgWindowPane);
+     //   showChatBtns("video");
+      //  stage.setWidth(1333);
+      //  stage.setHeight(768);
+        stage.centerOnScreen();
 
+
+
+    }
 
     public void drawMsgPane() {
         setRightTopPane(null);
@@ -126,6 +155,8 @@ public class MainWindowController implements Controller{
     public void hideMenuOverlay() {
         modalOverlayPane.setVisible(false);
     }
+
+
 
 
 }
