@@ -4,14 +4,19 @@ import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.Main;
 import ch.uzh.model.MainWindow;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,22 +29,25 @@ public class MsgWindowController {
     private P2POverlay p2p;
 
     @FXML
-    GridPane gridMSG;
+    private GridPane gridMSG;
 
     @FXML
-    Button sendMessage;
+    private Button sendMessage;
 
     @FXML
-    Button startVideoChat;
+    private Button startVideoChat;
 
     @FXML
-    Button startAudioChat;
+    private Button startAudioChat;
 
     @FXML
-    Label friendNameTitle;
+    private Label friendNameTitle;
 
     @FXML
-    TextField messageText;
+    private VBox messagesVBox;
+
+    @FXML
+    private TextField messageText;
 
     public MsgWindowController(MainWindowController mainWindowController, MainWindow mainWindow, P2POverlay p2p) {
         this.mainWindowController = mainWindowController;
@@ -55,6 +63,7 @@ public class MsgWindowController {
         gridMSG.setVgap(0);
 
         sendMessage.setOnAction((event) -> {
+                    mainWindowController.msgWindowController.addChatBubble(messageText.getText(), "Me ", true);
 /*            String usr = messageText.getText();
             System.err.println("existsUser " + usr + " ????????????????????????????????????? \n");
             System.err.println(mainWindow.existsUser(usr));
@@ -96,6 +105,40 @@ public class MsgWindowController {
         );
 
     }
+
+    public void addChatBubble(final String message, final String sender, final boolean fromMe) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                FXMLLoader loader;
+                if (fromMe) {
+                    loader = new FXMLLoader(MainWindow.class.getResource("/view/ChatBubbleMe.fxml"));
+                } else {
+                    loader = new FXMLLoader(MainWindow.class.getResource("/view/ChatBubblePeer.fxml"));
+                }
+                ChatBubbleController chatBubbleController = new ChatBubbleController();
+                loader.setController(chatBubbleController);
+                AnchorPane chatBubble = new AnchorPane();
+                try {
+                    chatBubble = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                chatBubbleController.setMessage(message);
+                if (!fromMe) {
+                    chatBubbleController.setSender(sender);
+                }
+                chatBubbleController.setDateTime();
+
+                if (fromMe ) {
+                    messagesVBox.getChildren().add(chatBubble);
+                } else {
+                    //mainWindowController.friendlistPaneController.friendlistItemControllerList.get(sender).newUnreadMessage();
+                }
+            }
+        });
+    }
+
 
 //    public void setFriendList(LoginWindow loginWindow) {
 //        this.loginWindow = loginWindow;

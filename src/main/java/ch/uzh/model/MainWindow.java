@@ -426,6 +426,25 @@ public class MainWindow {
         }
     }
 
+    public void sendChatMessage(String text, FriendsListEntry friendsListEntry) {
+        ChatMessage chatMessage = new ChatMessage(p2p.getPeerAddress(), userProfile.getUserID(), text);
+        p2p.sendNonBlocking(friendsListEntry.getPeerAddress(), chatMessage, false);
+    }
+
+    public void handleIncomingChatMessage(ChatMessage msg) {
+            FriendsListEntry e = getFriendsListEntry(msg.getSenderUserID());
+
+            // If friend is in friendslist
+            if (e != null) {
+                System.err.println("Message received from: " + msg.getSenderUserID() + " Messagetext: " + msg.getMessageText());
+                //openChat.showIncomingChatMessage(msg.getSenderUserID(), msg.getMessageText());
+                msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
+            }
+            else{
+                System.err.println("That's my purse, i don't know you!");
+            }
+    }
+
 
 
 
