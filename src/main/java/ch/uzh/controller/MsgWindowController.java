@@ -63,7 +63,9 @@ public class MsgWindowController {
         gridMSG.setVgap(0);
 
         sendMessage.setOnAction((event) -> {
+                    mainWindow.sendChatMessage(messageText.getText(), mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.msgWindowController.addChatBubble(messageText.getText(), "Me ", true);
+                    messageText.clear();
 /*            String usr = messageText.getText();
             System.err.println("existsUser " + usr + " ????????????????????????????????????? \n");
             System.err.println(mainWindow.existsUser(usr));
