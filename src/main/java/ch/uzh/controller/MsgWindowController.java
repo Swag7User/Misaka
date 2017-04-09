@@ -41,7 +41,7 @@ public class MsgWindowController {
     private Button startAudioChat;
 
     @FXML
-    private Label friendNameTitle;
+    public Label friendNameTitle;
 
     @FXML
     private VBox messagesVBox;
