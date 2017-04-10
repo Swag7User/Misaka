@@ -2,6 +2,9 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -44,5 +47,18 @@
          </children>
       </HBox>
       <Button fx:id="dbg" layoutX="411.0" layoutY="448.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="89.0" text="reg" />
+      <MenuBar layoutY="2.0" styleClass="background">
+        <menus>
+          <Menu mnemonicParsing="false" text="Options">
+            <items>
+                  <MenuItem fx:id="bootstrapOpt" mnemonicParsing="false" text="Change Network">
+                     <graphic>
+                        <TextField fx:id="ipTextField" />
+                     </graphic></MenuItem>
+              <MenuItem fx:id="close" mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

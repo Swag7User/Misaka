@@ -11,6 +11,8 @@ import ch.uzh.model.LoginWindow;
 import ch.uzh.model.MainWindow;
 import ch.uzh.model.UserInfo;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import ch.uzh.helper.Password;
@@ -48,19 +50,40 @@ public class LoginWindowController {
     private PasswordField passwordField;
     @FXML
     private Label errorLabel;
+    @FXML
+    private MenuItem bootstrapOpt;
+    @FXML
+    private MenuItem close;
+    @FXML
+    private TextField ipTextField;
 
     @FXML
     private void initialize() {
+
         System.err.println("LoginWindowController is initializing");
         usernameField.setText("Test_user_42");
         passwordField.setText("1234qwertyuniqueshit");
 
+        bootstrapOpt.setOnAction((event) -> {
+                    String ip = ipTextField.getText();
+                    System.err.println("CLICK CLICK CLICK");
+                    if (ip != null || !ip.equals("")) {
+                        loginWindow.changeP2P(ip);
+                    }
+                }
+        );
+
+        close.setOnAction((event) -> {
+                    p2p.shutdown();
+                    System.exit(0);
+                }
+        );
+
         dbg.setOnAction((event) -> {
                     System.err.println("CLICK CLICK CLICK");
-                    if (loginCheck() == false){
+                    if (loginCheck() == false) {
                         return;
-                    }
-                    else{
+                    } else {
                         reg();
                     }
                 }
@@ -68,10 +91,9 @@ public class LoginWindowController {
 
         loginButton.setOnAction((event) -> {
                     System.err.println("CLICK ");
-                    if (loginCheck() == false){
+                    if (loginCheck() == false) {
                         return;
-                    }
-                    else{
+                    } else {
                         int id = getId();
                         login(id, null);
                     }
@@ -79,7 +101,7 @@ public class LoginWindowController {
         );
     }
 
-    public void getP2P(){
+    public void getP2P() {
         this.p2p = loginWindow.getP2p();
     }
 
@@ -108,9 +130,7 @@ public class LoginWindowController {
             } else {
                 System.err.println("Logged in A-Okay");
             }
-            mainWindow.draw(loginWindow.getStage(),1,null,"debug","123", false);
-
-
+            mainWindow.draw(loginWindow.getStage(), 1, null, "debug", "123", false);
 
 
         } catch (Exception e) {
@@ -150,7 +170,7 @@ public class LoginWindowController {
                 System.err.println("Account creation FUCKED UP, OH NOEZ");
             }
 
-            mainWindow.draw(loginWindow.getStage(),1,null,"debug","123", false);
+            mainWindow.draw(loginWindow.getStage(), 1, null, "debug", "123", false);
         } catch (Exception e) {
             System.err.println("Caught Exception: " + e.getMessage());
             e.printStackTrace();
@@ -161,10 +181,11 @@ public class LoginWindowController {
      * checks for valid login password
      * returns false if password is invalid
      * returns true if password is OK
+     *
      * @return bool if login is ok or not
      */
     public boolean loginCheck() {
-        if (usernameField.getText().length() < 3){
+        if (usernameField.getText().length() < 3) {
             errorLabel.setText("Username too short, at least 3 characters");
             return false;
         }
@@ -188,7 +209,6 @@ public class LoginWindowController {
         int id = ((Long) System.currentTimeMillis()).intValue();
         return id;
     }
-
 
 
 }

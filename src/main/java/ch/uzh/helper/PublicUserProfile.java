@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class PublicUserProfile implements Serializable {
     private final String userID;
     private final PublicKey publicKey;
+    private String eMail;
     private PeerAddress peerAddress;
     private ArrayList<FriendRequestMessage> pendingFriendRequests;
 
@@ -28,6 +29,15 @@ public class PublicUserProfile implements Serializable {
         publicKey = _publicKey;
         peerAddress = _peerAddress;
         pendingFriendRequests = new ArrayList<>();
+    }
+
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
     }
     
     /**
