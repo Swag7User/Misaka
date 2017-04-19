@@ -22,6 +22,7 @@ public class PublicUserProfile implements Serializable {
     private String eMail;
     private PeerAddress peerAddress;
     private ArrayList<FriendRequestMessage> pendingFriendRequests;
+    private static final long serialVersionUID = 42L;
 
 
     public PublicUserProfile(String _userID, PublicKey _publicKey, PeerAddress _peerAddress) {
@@ -39,7 +40,7 @@ public class PublicUserProfile implements Serializable {
     public void seteMail(String eMail) {
         this.eMail = eMail;
     }
-    
+
     /**
      * @return the userID
      */

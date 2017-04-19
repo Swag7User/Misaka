@@ -40,7 +40,7 @@ public class LoginWindow extends Application {
 
         // Get parameters TODO: actually use paramaters
         String bootstrapIP = getParameters().getNamed().get("bootstrap");
-        bootstrapIP = "127.0.0.1";
+        bootstrapIP = "192.168.1.15";
 
         p2p = new P2POverlay();
 

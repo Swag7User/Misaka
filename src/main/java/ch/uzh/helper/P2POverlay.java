@@ -57,9 +57,12 @@ public class P2POverlay {
             try {
                 return futureGet.data().object();
             } catch (Exception ex) {
+                System.err.println("MY ARCH NEMESIS");
+                ex.printStackTrace();
                 return null;
             }
         } else {
+            System.err.println("MY ARCH NEMESIS TOO TBH");
             return null;
         }
     }

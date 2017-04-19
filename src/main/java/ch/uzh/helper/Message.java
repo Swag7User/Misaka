@@ -18,6 +18,7 @@ public abstract class Message implements Serializable {
     private final String senderUserID;
     private final PeerAddress senderPeerAddress;
     protected final String messageText;
+    private static final long serialVersionUID = 43L;
 
 
     

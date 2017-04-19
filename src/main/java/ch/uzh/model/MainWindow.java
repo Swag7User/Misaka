@@ -20,6 +20,7 @@ import net.tomp2p.peers.PeerAddress;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
@@ -198,6 +199,8 @@ public class MainWindow {
             return;
         }
 
+
+
         // Ignore multiple requests
 /*        if (userProfile.hasFriendRequestFromUser(requestMessage.getSenderUserID())) {
             return;
@@ -262,6 +265,10 @@ public class MainWindow {
             }
         }
 
+        System.err.println("HEX HEX ~~~~~~~~~~~~~~~SENDING FRIEND REQ MYSLF~~~~~~~~~~~~~ HEX HEX");
+        System.err.println("HEX misaka:" + toHex(userProfile.getUserID()));
+
+
         // Addd as friend
         if (addFriend(userID) == false) {
             return new Pair<>(false, "Error, adding the friend");
@@ -269,6 +276,8 @@ public class MainWindow {
 
         return new Pair<>(true, "Friend request to " + userID + " was sent");
     }
+
+
 
     public FriendsListEntry getFriendsListEntry(String userID) {
         if(friendsList == null){
@@ -482,6 +491,10 @@ public class MainWindow {
         loader.setController(menuOverlayController);
         menuOverlay = loader.load();
     }
+    public String toHex(String arg) {
+        return String.format("%x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
+    }
+
 
     public Pair<Boolean, String> createAccount(String userID, String password) {
         // Check if the user is already in the friendslist
@@ -503,10 +516,15 @@ public class MainWindow {
 
         // Create public UserProfile
         PublicUserProfile publicUserProfile;
+        System.err.println("HEX HEX ~~~~~~~~~~~~~~~INPUT PUT USEID~~~~~~~~~~~~~ HEX HEX");
+        System.err.println("HEX userID:" + toHex(userID));
         publicUserProfile = new PublicUserProfile(userID, userProfile.getKeyPair().getPublic(),
                 null);
 
-        if (p2p.put(userID, publicUserProfile)) {
+        if (true) {
+            p2p.put(userID, publicUserProfile);
+            String xD = "it works!";
+            p2p.put("test42", xD);
             login(userID, password);
             return new Pair<>(true, "User account for user \"" + userID + "\" successfully created");
         } else {

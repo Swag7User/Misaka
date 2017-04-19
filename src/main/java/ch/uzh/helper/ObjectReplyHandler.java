@@ -10,6 +10,8 @@ import javafx.application.Platform;
 import net.tomp2p.peers.PeerAddress;
 import net.tomp2p.rpc.ObjectDataReply;
 
+import java.math.BigInteger;
+
 
 /**
  *
@@ -22,12 +24,18 @@ public class ObjectReplyHandler implements ObjectDataReply {
     public ObjectReplyHandler(MainWindow _mainWindow) {
         mainWindow = _mainWindow;
     }
+    public String toHex(String arg) {
+        return String.format("%x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
+    }
 
     @Override
     public Object reply(PeerAddress pa, Object o) throws Exception {
         System.err.println("ObjectReplyhandler");
         if (o instanceof FriendRequestMessage) {
             Runnable task = () -> {
+                System.err.println("HEX HEX ~~~~~~~~~~~~~~~INCOMING~~~~~~~~~~~~~ HEX HEX");
+                System.err.println("HEX username:" + toHex(((FriendRequestMessage) o).getSenderUserID()));
+                System.err.println("HEX unhashed password:" + toHex(((FriendRequestMessage) o).getSenderUserID()));
                 mainWindow.handleIncomingFriendRequest((FriendRequestMessage) o);
             };
             Platform.runLater(task);

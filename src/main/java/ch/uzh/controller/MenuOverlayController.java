@@ -1,6 +1,7 @@
 package ch.uzh.controller;
 
 import ch.uzh.helper.P2POverlay;
+import ch.uzh.helper.PublicUserProfile;
 import ch.uzh.model.MainWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,9 +26,19 @@ public class MenuOverlayController {
     @FXML
     private TextField addFriendField;
 
+    @FXML
+    private Label settingsLbl;
+
+    @FXML
+    private Label aboutLbl;
+
+    @FXML
+    private Label advLbl;
+
 	private Controller mainWindowController;
 	private P2POverlay p2p;
 	private MainWindow mainWindow;
+    int ic = 1;
 
 	public MenuOverlayController(Controller mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
 		this.mainWindowController = mainWindowController;
@@ -57,7 +68,6 @@ public class MenuOverlayController {
                         System.err.println("friend request ERROR");
                     }
 
-                    userID = null;
                     addFriendField.clear();
                 }
             }
@@ -69,6 +79,55 @@ public class MenuOverlayController {
             public void handle(MouseEvent arg0) {
 
                 mainWindowController.hideMenuOverlay();
+            }
+
+        }));
+
+        settingsLbl.setOnMouseClicked((new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent arg0) {
+                System.err.println( "exists usr misaka: " + mainWindow.existsUser("misaka"));
+                System.err.println( "exists usr mikoto: " + mainWindow.existsUser("mikoto"));
+                System.err.println( "exists usr test77: " + mainWindow.existsUser("test77"));
+                System.err.println( "exists usr test42: " + mainWindow.existsUser("test42"));
+                System.err.println( "exists usr test48: " + mainWindow.existsUser("test48"));
+
+            }
+
+        }));
+
+        advLbl.setOnMouseClicked((new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent arg0) {
+
+                p2p.put("test77", ic);
+                System.err.println(ic);
+                ic++;
+                p2p.put("test48", new PublicUserProfile("lolguy", null, null));
+            }
+
+        }));
+
+        aboutLbl.setOnMouseClicked((new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent arg0) {
+                // Check if account exists
+                if (p2p.getBlocking("test1") != null) {
+                    System.err.println("NULL??? WHAT THE SHIT WHY??? this isn't ok");
+
+                }
+
+
+                int e = 0;
+                e = (int) p2p.getBlocking("test1");
+                if (p2p.getBlocking("test1") != null) {
+                    System.err.println("NULL??? WHAT THE SHIT WHY??? this isn't ok");
+
+                }
+                System.err.println("magic happens here : " + e);
             }
 
         }));
