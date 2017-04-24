@@ -9,7 +9,6 @@ package ch.uzh.helper;
 import net.tomp2p.peers.PeerAddress;
 
 import java.io.Serializable;
-import java.security.PublicKey;
 import java.util.ArrayList;
 
 /**
@@ -17,19 +16,21 @@ import java.util.ArrayList;
  * @author sstephan
  */
 public class PublicUserProfile implements Serializable {
-    private final String userID;
-    private final PublicKey publicKey;
+    private String userID;
     private String eMail;
     private PeerAddress peerAddress;
     private ArrayList<FriendRequestMessage> pendingFriendRequests;
     private static final long serialVersionUID = 42L;
 
 
-    public PublicUserProfile(String _userID, PublicKey _publicKey, PeerAddress _peerAddress) {
+    public PublicUserProfile(String _userID, PeerAddress _peerAddress) {
         userID = _userID;
-        publicKey = _publicKey;
         peerAddress = _peerAddress;
         pendingFriendRequests = new ArrayList<>();
+    }
+
+    public PublicUserProfile(){
+
     }
 
 
@@ -46,13 +47,6 @@ public class PublicUserProfile implements Serializable {
      */
     public String getUserID() {
         return userID;
-    }
-
-    /**
-     * @return the publicKey
-     */
-    public PublicKey getPublicKey() {
-        return publicKey;
     }
 
     /**

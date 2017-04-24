@@ -2,6 +2,7 @@ package ch.uzh.model;
 
 import ch.uzh.controller.*;
 import ch.uzh.helper.*;
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -150,6 +151,8 @@ public class MainWindow {
         stage.setMinHeight(480);
        // stage.centerOnScreen();
 
+
+
         stage.show();
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -245,8 +248,9 @@ public class MainWindow {
         }
 
         // Get public profile of friend we want to add
-        PublicUserProfile friendProfile = (PublicUserProfile) p2p.getBlocking(userID);
-
+        String jsonFriendProfile = (String) p2p.getBlocking(userID);
+        Gson gson = new Gson();
+        PublicUserProfile friendProfile = gson.fromJson(jsonFriendProfile, PublicUserProfile.class);
         // Create friend request message
         FriendRequestMessage friendRequestMessage = new FriendRequestMessage(p2p.getPeerAddress(), userProfile.getUserID(), messageText);
 
@@ -501,7 +505,7 @@ public class MainWindow {
 
         // Check if account exists
         if (p2p.getBlocking(userID) != null) {
-            System.err.println("NULL??? WHAT THE SHIT WHY???");
+            System.err.println("Could not create user account. UserID already taken.");
             return new Pair<>(false, "Could not create user account. UserID already taken."); //TODO: LOGIN NOW
 
         }
@@ -518,13 +522,11 @@ public class MainWindow {
         PublicUserProfile publicUserProfile;
         System.err.println("HEX HEX ~~~~~~~~~~~~~~~INPUT PUT USEID~~~~~~~~~~~~~ HEX HEX");
         System.err.println("HEX userID:" + toHex(userID));
-        publicUserProfile = new PublicUserProfile(userID, userProfile.getKeyPair().getPublic(),
-                null);
+        publicUserProfile = new PublicUserProfile(userID,    null);
+        Gson gson = new Gson();
+        String jsonPublic = gson.toJson(publicUserProfile);
 
-        if (true) {
-            p2p.put(userID, publicUserProfile);
-            String xD = "it works!";
-            p2p.put("test42", xD);
+        if (p2p.put(userID, jsonPublic)) {
             login(userID, password);
             return new Pair<>(true, "User account for user \"" + userID + "\" successfully created");
         } else {
@@ -568,8 +570,11 @@ public class MainWindow {
             return new Pair<>(false, "Login data not valid, Wrong UserID/password?");
         }
 
-        System.err.println(getResult.toString());
-        userProfile = (PrivateUserProfile) getResult;
+        System.err.println("Whatdo we have here?");
+        System.err.println(getResult);
+        Gson gson = new Gson();
+        userProfile = gson.fromJson((String) getResult, PrivateUserProfile.class);
+        //userProfile = (PrivateUserProfile) getResult;
 
 
         // Get public user profile
@@ -578,7 +583,9 @@ public class MainWindow {
             System.err.println("Could not retrieve public userprofile");
             return new Pair<>(false, "Could not retrieve public userprofile");
         }
-        PublicUserProfile publicUserProfile = (PublicUserProfile) objectPublicUserProfile;
+
+        PublicUserProfile publicUserProfile = gson.fromJson((String) objectPublicUserProfile, PublicUserProfile.class);
+        //PublicUserProfile publicUserProfile = (PublicUserProfile) objectPublicUserProfile;
 
         // **** FRIENDS LIST ****
         // Reset all friends list entries to offline and unkown peer address
@@ -596,9 +603,10 @@ public class MainWindow {
 
         // Set current IP address in public user profile
         publicUserProfile.setPeerAddress(p2p.getPeerAddress());
+        String jsonPublic = gson.toJson(publicUserProfile);
 
         // Save public user profile
-        if (p2p.put(userID, publicUserProfile) == false) {
+        if (p2p.put(userID, jsonPublic) == false) {
             System.err.println("Could not update public user profile");
             return new Pair<>(false, "Could not update public user profile");
         }
@@ -620,9 +628,15 @@ public class MainWindow {
     }
 
     private boolean savePrivateUserProfile() {
+        Gson gson = new Gson();
+        String json = gson.toJson(userProfile);
+        System.err.println("IMMA GONNA PRINT MY JSON");
+        System.err.println(json);
+        System.err.println("PRINTED MY JSON");
+
         // TODO: encrypt before saving
 
-        return p2p.put(userProfile.getUserID() + userProfile.getPassword(), userProfile);
+        return p2p.put(userProfile.getUserID() + userProfile.getPassword(), json);
     }
 
     /**

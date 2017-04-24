@@ -105,7 +105,7 @@ public class MenuOverlayController {
                 p2p.put("test77", ic);
                 System.err.println(ic);
                 ic++;
-                p2p.put("test48", new PublicUserProfile("lolguy", null, null));
+                p2p.put("test48", new PublicUserProfile("lolguy", null));
             }
 
         }));

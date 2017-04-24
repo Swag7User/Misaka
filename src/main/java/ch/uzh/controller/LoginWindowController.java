@@ -155,7 +155,6 @@ public class LoginWindowController {
     public void reg() {
         MainWindow mainWindow = new MainWindow(p2p);
         try {
-
             username = usernameField.getText();
             insecurePassword = passwordField.getText();
             password = passwordField.getText();

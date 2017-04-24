@@ -9,7 +9,6 @@ package ch.uzh.helper;
 import ch.uzh.model.FriendsListEntry;
 
 import java.io.Serializable;
-import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -21,31 +20,27 @@ import java.util.List;
  */
 public class PrivateUserProfile implements Serializable {
 
-    private final String userID;
-    private final String password;
+    private String userID;
+    private String password;
     private ArrayList<FriendsListEntry> friendsList;
     private ArrayList<FriendRequestMessage> friendRequestsList;
 
 
-    private KeyPair keyPair;
 
     public PrivateUserProfile(String _userID, String _password) {
         userID = _userID;
         password = _password;
 
-        // Generate KeyPair
-        try {
-            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-            keyGen.initialize(512);
-            keyPair = keyGen.genKeyPair();
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println("Could not generate KeyPair");
-        }
+
         // Create new emtpy friendsList
         friendsList = new ArrayList<FriendsListEntry>();
 
         // Create new empty friendsrequest list
         friendRequestsList = new ArrayList<FriendRequestMessage>();
+
+    }
+
+    public PrivateUserProfile(){
 
     }
 
@@ -67,9 +62,6 @@ public class PrivateUserProfile implements Serializable {
     /**
      * @return the keyPair
      */
-    public KeyPair getKeyPair() {
-        return keyPair;
-    }
 
     public boolean isFriendsWith(String s) {
         for (FriendsListEntry e : friendsList) {
