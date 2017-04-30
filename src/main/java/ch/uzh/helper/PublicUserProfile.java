@@ -19,7 +19,7 @@ public class PublicUserProfile implements Serializable {
     private String userID;
     private String eMail;
     private PeerAddress peerAddress;
-    private ArrayList<FriendRequestMessage> pendingFriendRequests;
+    private ArrayList<String> pendingFriendRequests;
     private static final long serialVersionUID = 42L;
 
 
@@ -66,7 +66,7 @@ public class PublicUserProfile implements Serializable {
     /**
      * @return the pendingFriendRequests
      */
-    public ArrayList<FriendRequestMessage> getPendingFriendRequests() {
+    public ArrayList<String> getPendingFriendRequests() {
         return pendingFriendRequests;
     }
 
