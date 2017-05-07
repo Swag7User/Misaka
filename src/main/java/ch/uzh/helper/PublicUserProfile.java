@@ -11,10 +11,7 @@ import net.tomp2p.peers.PeerAddress;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- *
- * @author sstephan
- */
+
 public class PublicUserProfile implements Serializable {
     private String userID;
     private String eMail;
@@ -29,7 +26,7 @@ public class PublicUserProfile implements Serializable {
         pendingFriendRequests = new ArrayList<>();
     }
 
-    public PublicUserProfile(){
+    public PublicUserProfile() {
 
     }
 

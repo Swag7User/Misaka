@@ -9,15 +9,10 @@ package ch.uzh.helper;
 import ch.uzh.model.FriendsListEntry;
 
 import java.io.Serializable;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author sstephan
- */
+
 public class PrivateUserProfile implements Serializable {
 
     private String userID;

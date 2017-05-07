@@ -8,10 +8,7 @@ package ch.uzh.helper;
 
 import net.tomp2p.peers.PeerAddress;
 
-/**
- *
- * @author Sebastian
- */
+
 public class FriendRequestMessage extends Message {
     private String identifier;
 

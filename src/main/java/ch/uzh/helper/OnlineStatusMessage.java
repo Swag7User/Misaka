@@ -8,10 +8,7 @@ package ch.uzh.helper;
 
 import net.tomp2p.peers.PeerAddress;
 
-/**
- *
- * @author sstephan
- */
+
 public class OnlineStatusMessage extends Message {
     private String identifier;
     final private boolean onlineStatus;

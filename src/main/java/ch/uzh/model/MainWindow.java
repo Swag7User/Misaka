@@ -213,7 +213,13 @@ public class MainWindow {
         friendRequestsList.add(requestMessage);
 
         // Save the change
-        savePrivateUserProfile();
+        boolean isSaved = savePrivateUserProfile();
+        if (isSaved == true){
+            System.err.println("saved succesfully");
+        } else{
+            System.err.println("saved UNsuccesfully");
+
+        }
 
         // Show visual message
         int i = 0;
@@ -376,9 +382,17 @@ public class MainWindow {
             System.out.println("Could not retrieve public userprofile");
             return;
         }
-        PublicUserProfile publicUserProfile = (PublicUserProfile) objectPublicUserProfile;
+
+        Gson publicUserprofileGson = new Gson();
+        String publicUserProfileJson = (String) objectPublicUserProfile;
+
+
+        PublicUserProfile publicUserProfile = publicUserprofileGson.fromJson(publicUserProfileJson, PublicUserProfile.class);
         publicUserProfile.setPeerAddress(null);
-        if (p2p.put(userProfile.getUserID(), publicUserProfile) == false) {
+
+        String newPublicUserProfileJson = publicUserprofileGson.toJson(publicUserProfile);
+
+        if (p2p.put(userProfile.getUserID(), newPublicUserProfileJson) == false) {
             System.out.println("Could not update peer address in public user profile");
             return;
         }
