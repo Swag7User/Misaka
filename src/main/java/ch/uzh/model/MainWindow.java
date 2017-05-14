@@ -112,7 +112,7 @@ public class MainWindow {
         menuOverlayController = new MenuOverlayController(mainWindowController, p2p, this);   // <--- THIS
         mainWindowController.setMenuOverlayController(menuOverlayController);
 
-        callWindowController = new CallWindowController(mainWindowController, p2p);
+        callWindowController = new CallWindowController(mainWindowController, p2p, this);
         mainWindowController.setCallWindowController(callWindowController);
 
 
@@ -467,6 +467,10 @@ public class MainWindow {
                 }
             }
         }
+    }
+
+    public String getUserID() {
+        return (userProfile != null) ? userProfile.getUserID() : "error";
     }
 
     public void sendChatMessage(String text, FriendsListEntry friendsListEntry) {

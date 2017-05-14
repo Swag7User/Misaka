@@ -44,6 +44,7 @@ repositories {
         extraLibs 'com.github.sarxos:webcam-capture:0.3.10'
         extraLibs 'org.jcodec:jcodec-javase:0.1.9'
         extraLibs 'com.google.code.gson:gson:2.8.0'
+        extraLibs group: 'net.java.dev.jna', name: 'jna-platform', version: '4.1.0'
         configurations.compile.extendsFrom(configurations.extraLibs)
 
     }

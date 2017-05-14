@@ -41,6 +41,9 @@ public class MsgWindowController {
     private Button startAudioChat;
 
     @FXML
+    private Button inviteFriend;
+
+    @FXML
     public Label friendNameTitle;
 
     @FXML
@@ -77,7 +80,7 @@ public class MsgWindowController {
                 System.err.println("friend request ERROR");
             }*/
 
-            // mainWindow.sendChatMessage("chello my friend");
+                    // mainWindow.sendChatMessage("chello my friend");
                     System.err.println("CLICK CLICK CLICK");
                 }
         );
@@ -86,13 +89,13 @@ public class MsgWindowController {
                     mainWindowController.drawCallPane();
                     try {
                         wait(1000);
-                    } catch(Exception e){
-
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     try {
-                    //    mainWindowController.callWindowController.startVideoHandler();
-                      //  mainWindowController.callWindowController.startVideoCall();
-                    } catch(Exception e){
+                        //    mainWindowController.callWindowController.startVideoHandler();
+                        //  mainWindowController.callWindowController.startVideoCall();
+                    } catch (Exception e) {
                         e.printStackTrace();
                         System.err.println("Shit, video borkered");
 
@@ -102,7 +105,15 @@ public class MsgWindowController {
         );
         startAudioChat.setOnAction((event) -> {
                     System.err.println("CLICK CLICK CLICK 33");
+                    mainWindowController.callWindowController.setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.drawCallPane();
+                    mainWindowController.callWindowController.startTransmitting();
+                }
+        );
+        inviteFriend.setOnAction((event) -> {
+                    System.err.println("CLICK CLICK CLICK 44");
+                    mainWindowController.callWindowController.stopTransmitting();
+                    mainWindowController.drawMsgPane();
                 }
         );
 
@@ -132,7 +143,7 @@ public class MsgWindowController {
                 }
                 chatBubbleController.setDateTime();
 
-                if (fromMe ) {
+                if (fromMe) {
                     messagesVBox.getChildren().add(chatBubble);
                 } else {
                     messagesVBox.getChildren().add(chatBubble);
