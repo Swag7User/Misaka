@@ -1,6 +1,7 @@
 package ch.uzh.controller;
 
 
+import ch.uzh.helper.AudioFrame;
 import ch.uzh.helper.CallHandler;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.helper.VideoStuff;
@@ -115,6 +116,10 @@ public class CallWindowController {
 			java.util.logging.Logger.getLogger(CallWindowController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		callHandler = null;
+	}
+
+	public void handleIncomingAudioFrame(AudioFrame msg) {
+		callHandler.addAudioFrame(msg.getData());
 	}
 
 	public void startVideoHandler()

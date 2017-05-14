@@ -672,6 +672,12 @@ public class MainWindow {
         return p2p.put(userProfile.getUserID() + userProfile.getPassword(), json);
     }
 
+    public void handleIncomingAudioFrame(AudioFrame frame) {
+        if (true) {
+            callWindowController.handleIncomingAudioFrame(frame);
+        }
+    }
+
     /**
      *
      * @param userID

@@ -5,6 +5,7 @@
  */
 package ch.uzh.helper;
 
+import com.google.gson.Gson;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 import ch.uzh.model.MainWindow;
@@ -114,8 +115,12 @@ public class CallHandler {
                     try {
                         byte dataFromMic[] = recordFromMicrophone(format);
                         if (dataFromMic != null) {
-                            AudioFrame frame = new AudioFrame(p2p.getPeerAddress(), mainApp.getUserID(), dataFromMic);
-                            p2p.sendNonBlocking(friend.getPeerAddress(), frame, true);
+                            AudioFrame frame = new AudioFrame("AudioFrame", p2p.getPeerAddress(), mainApp.getUserID(), dataFromMic);
+                            Gson gsonAudioframe = new Gson();
+                            String jsonAudioframe = gsonAudioframe.toJson(frame);
+                            System.err.println("Sending audioframe: " + jsonAudioframe );
+                            System.err.println("to buddy: " + friend.getPeerAddress() );
+                            p2p.sendNonBlocking(friend.getPeerAddress(), jsonAudioframe, true);
                         }
 
                     } catch (LineUnavailableException e) {

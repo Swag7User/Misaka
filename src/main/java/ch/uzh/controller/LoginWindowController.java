@@ -61,7 +61,7 @@ public class LoginWindowController {
     private void initialize() {
 
         System.err.println("LoginWindowController is initializing");
-        usernameField.setText("Test_user_42");
+        usernameField.setText("misaka");
         passwordField.setText("1234qwertyuniqueshit");
 
         bootstrapOpt.setOnAction((event) -> {
