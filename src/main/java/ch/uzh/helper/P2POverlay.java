@@ -5,6 +5,7 @@
  */
 package ch.uzh.helper;
 
+import ch.uzh.model.MainWindow;
 import javafx.util.Pair;
 import net.tomp2p.dht.*;
 import net.tomp2p.futures.BaseFuture;
@@ -21,6 +22,8 @@ import net.tomp2p.storage.Data;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -32,6 +35,18 @@ public class P2POverlay {
     private Peer peer;
     private PeerDHT peerDHT;
     private static Random rnd = new Random();
+    private List<CallBack> listeners = new ArrayList<CallBack>();
+
+
+    public void addListener(CallBack listener) {
+        listeners.add(listener);
+    }
+
+    public void notifySomethingHappened(){
+        for(CallBack listener : listeners){
+            listener.futurePutIsASuccess();
+        }
+    }
 
     public PeerAddress getPeerAddress() {
         return peer.peerAddress();
@@ -46,6 +61,63 @@ public class P2POverlay {
         }
 
         FuturePut futurePut = peerDHT.put(Number160.createHash(key)).data(data).start().awaitUninterruptibly();
+
+
+        return futurePut.isSuccess();
+    }
+
+    public boolean putNonBlocking(String key, Object value) {
+        Data data;
+        try {
+            data = new Data(value);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        FuturePut futurePut = peerDHT.put(Number160.createHash(key)).data(data).start();
+
+        futurePut.addListener(new BaseFutureAdapter<FuturePut>() {
+            @Override
+            public void operationComplete(FuturePut future) throws Exception {
+                if(future.isSuccess()) { // this flag indicates if the future was successful
+                    System.out.println("success");
+                    MainWindow.futurputSuccess = true;
+                } else {
+                    System.out.println("failure");
+                }
+            }
+        });
+
+
+
+        return true;
+    }
+
+    public boolean putNonBlockingReg(String key, Object value) {
+        Data data;
+        try {
+            data = new Data(value);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        FuturePut futurePut = peerDHT.put(Number160.createHash(key)).data(data).start();
+        System.err.println("Data created2");
+
+        futurePut.addListener(new BaseFutureAdapter<FuturePut>() {
+            @Override
+            public void operationComplete(FuturePut future) throws Exception {
+                if(future.isSuccess()) { // this flag indicates if the future was successful
+                    System.out.println("success");
+                    notifySomethingHappened();
+                } else {
+                    System.out.println("failure");
+                }
+            }
+        });
+
 
         return futurePut.isSuccess();
     }

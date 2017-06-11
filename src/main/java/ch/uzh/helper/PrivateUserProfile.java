@@ -9,6 +9,7 @@ package ch.uzh.helper;
 import ch.uzh.model.FriendsListEntry;
 
 import java.io.Serializable;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,16 @@ public class PrivateUserProfile implements Serializable {
 
     private String userID;
     private String password;
+    private byte[] privateKeySerialized;
     private ArrayList<FriendsListEntry> friendsList;
     private ArrayList<FriendRequestMessage> friendRequestsList;
 
 
 
-    public PrivateUserProfile(String _userID, String _password) {
+    public PrivateUserProfile(String _userID, String _password, byte[] _privateKeySerialized) {
         userID = _userID;
         password = _password;
+        privateKeySerialized = _privateKeySerialized;
 
 
         // Create new emtpy friendsList

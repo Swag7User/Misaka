@@ -53,7 +53,7 @@ public class FriendListController {
         friendList.add(new Friend("Lenin"));
         friendList.add(new Friend("hi 2 u"));
         friendList.add(new Friend());*/
-        initFriendlist();
+        //initFriendlist();
     }
 
     public void updateFriends(){

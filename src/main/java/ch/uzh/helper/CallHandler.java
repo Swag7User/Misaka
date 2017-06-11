@@ -73,6 +73,7 @@ public class CallHandler {
         try {
             incomingAudioBuffer.put(audioFrame);
         } catch (InterruptedException ex) {
+            ex.printStackTrace();
             System.out.println("InterruptedException");
         }
     }

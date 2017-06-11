@@ -3,9 +3,13 @@ package ch.uzh.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.util.Observable;
 import java.util.Observer;
 
+import ch.uzh.helper.Encryption;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.LoginWindow;
 import ch.uzh.model.MainWindow;
@@ -117,7 +121,7 @@ public class LoginWindowController {
         MainWindow mainWindow = new MainWindow(p2p);
         try {
             username = usernameField.getText();
-            password = passwordField.getText();
+            password = Encryption.sha256(username + passwordField.getText());
             System.err.println("username:" + username);
             System.err.println("unhashed password:" + password);
             this.clientIP = ip;
@@ -130,7 +134,7 @@ public class LoginWindowController {
             } else {
                 System.err.println("Logged in A-Okay");
             }
-            mainWindow.draw(loginWindow.getStage(), 1, null, "debug", "123", false);
+            mainWindow.draw(loginWindow.getStage(), 1, null, username, password, false);
 
 
         } catch (Exception e) {
@@ -157,9 +161,11 @@ public class LoginWindowController {
         try {
             username = usernameField.getText();
             insecurePassword = passwordField.getText();
-            password = passwordField.getText();
+            password = Encryption.sha256(username + passwordField.getText());
             System.err.println("username: " + username);
             System.err.println("hashed password: " + password);
+
+
 
             Pair<Boolean, String> result = mainWindow.createAccount(username, password);
 
@@ -169,7 +175,7 @@ public class LoginWindowController {
                 System.err.println("Account creation FUCKED UP, OH NOEZ");
             }
 
-            mainWindow.draw(loginWindow.getStage(), 1, null, "debug", "123", false);
+            mainWindow.draw(loginWindow.getStage(), 1, null, username, password, false);
         } catch (Exception e) {
             System.err.println("Caught Exception: " + e.getMessage());
             e.printStackTrace();
