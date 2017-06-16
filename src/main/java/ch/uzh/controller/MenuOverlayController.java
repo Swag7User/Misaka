@@ -1,6 +1,8 @@
 package ch.uzh.controller;
 
 import ch.uzh.helper.P2POverlay;
+import ch.uzh.helper.PublicUserProfile;
+import ch.uzh.model.FriendsListEntry;
 import ch.uzh.model.MainWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,27 +27,34 @@ public class MenuOverlayController {
     @FXML
     private TextField addFriendField;
 
-	private Controller mainWindowController;
-	private P2POverlay p2p;
-	private MainWindow mainWindow;
+    @FXML
+    private Label settingsLbl;
 
-	public MenuOverlayController(Controller mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
-		this.mainWindowController = mainWindowController;
-		this.p2p = p2p;
-		this.mainWindow = mainWindow;
-	}
+    @FXML
+    private Label aboutLbl;
 
-	@FXML
-	private void initialize() {
-		System.err.println("FriendListController is initializing");
+    @FXML
+    private Label advLbl;
 
-        addFriendField.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
+    private Controller mainWindowController;
+    private P2POverlay p2p;
+    private MainWindow mainWindow;
+    int ic = 1;
+
+    public MenuOverlayController(Controller mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
+        this.mainWindowController = mainWindowController;
+        this.p2p = p2p;
+        this.mainWindow = mainWindow;
+    }
+
+    @FXML
+    private void initialize() {
+        System.err.println("FriendListController is initializing");
+
+        addFriendField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void handle(KeyEvent ke)
-            {
-                if (ke.getCode().equals(KeyCode.ENTER))
-                {
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
                     String userID = addFriendField.getText();
                     System.err.println("existsUser " + userID + " ????????????????????????????????????? \n");
                     System.err.println(mainWindow.existsUser(userID));
@@ -57,13 +66,12 @@ public class MenuOverlayController {
                         System.err.println("friend request ERROR");
                     }
 
-                    userID = null;
                     addFriendField.clear();
                 }
             }
         });
 
-		closePane1.setOnMouseClicked((new EventHandler<MouseEvent>(){
+        closePane1.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent arg0) {
@@ -73,7 +81,45 @@ public class MenuOverlayController {
 
         }));
 
-        closePane2.setOnMouseClicked((new EventHandler<MouseEvent>(){
+        settingsLbl.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent arg0) {
+
+
+            }
+
+        }));
+
+        advLbl.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent arg0) {
+
+                for (FriendsListEntry e : mainWindow.getUserProfile().getFriendsList()) {
+                    System.err.println("mainWindow.getUserProfile().getFriendsList(): " + e.getUserID());
+                }
+
+            }
+
+        }));
+
+        aboutLbl.setOnMouseClicked((new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent arg0) {
+
+
+                for (FriendsListEntry e : mainWindow.getFriendsList()) {
+                    System.err.println("mainWindow.getFriendsList(): " + e.getUserID());
+                }
+
+
+            }
+
+        }));
+
+        closePane2.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent arg0) {
@@ -85,7 +131,6 @@ public class MenuOverlayController {
 
 
     }
-
 
 
 //	public void makeDialog(String dialogText, EventHandler<ActionEvent> acceptHandler,

@@ -9,39 +9,44 @@ package ch.uzh.helper;
 import net.tomp2p.peers.PeerAddress;
 
 import java.io.Serializable;
-import java.security.PublicKey;
+import java.security.Key;
 import java.util.ArrayList;
 
-/**
- *
- * @author sstephan
- */
+
 public class PublicUserProfile implements Serializable {
-    private final String userID;
-    private final PublicKey publicKey;
+    private String userID;
+    private String eMail;
+    private byte[] publicKeySerialized;
     private PeerAddress peerAddress;
-    private ArrayList<FriendRequestMessage> pendingFriendRequests;
+    private ArrayList<String> pendingFriendRequests;
+    private static final long serialVersionUID = 42L;
 
 
-    public PublicUserProfile(String _userID, PublicKey _publicKey, PeerAddress _peerAddress) {
+    public PublicUserProfile(String _userID, PeerAddress _peerAddress, byte[] _publicKeySerialized) {
         userID = _userID;
-        publicKey = _publicKey;
         peerAddress = _peerAddress;
         pendingFriendRequests = new ArrayList<>();
+        publicKeySerialized = _publicKeySerialized;
     }
-    
+
+    public PublicUserProfile() {
+
+    }
+
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
     /**
      * @return the userID
      */
     public String getUserID() {
         return userID;
-    }
-
-    /**
-     * @return the publicKey
-     */
-    public PublicKey getPublicKey() {
-        return publicKey;
     }
 
     /**
@@ -61,7 +66,7 @@ public class PublicUserProfile implements Serializable {
     /**
      * @return the pendingFriendRequests
      */
-    public ArrayList<FriendRequestMessage> getPendingFriendRequests() {
+    public ArrayList<String> getPendingFriendRequests() {
         return pendingFriendRequests;
     }
 

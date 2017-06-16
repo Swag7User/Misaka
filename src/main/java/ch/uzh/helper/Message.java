@@ -15,18 +15,31 @@ import java.io.Serializable;
  * @author Sebastian
  */
 public abstract class Message implements Serializable {
-    private final String senderUserID;
-    private final PeerAddress senderPeerAddress;
-    protected final String messageText;
+    private String senderUserID;
+    private PeerAddress senderPeerAddress;
+    private String messageText;
+    private static final long serialVersionUID = 43L;
+    private long messageTime;
 
 
-    
+
     public Message(PeerAddress _senderPeerAddress, String _senderUserID, String _messageText) {
         senderPeerAddress = _senderPeerAddress;
         senderUserID = _senderUserID;
         messageText = _messageText;
     }
-    
+    public Message() {
+
+    }
+
+    public long getMessageTime() {
+        return messageTime;
+    }
+
+    public void setMessageTime(long messageTime) {
+        this.messageTime = messageTime;
+    }
+
     /**
      * @return the senderUserID
      */
@@ -40,6 +53,10 @@ public abstract class Message implements Serializable {
     public String getMessageText() {
         return messageText;
     }
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
+    }
+
 
     /**
      * @return the senderPeerAddress
@@ -47,5 +64,8 @@ public abstract class Message implements Serializable {
     public PeerAddress getSenderPeerAddress() {
         return senderPeerAddress;
     }
-    
+
+
+
+
 }

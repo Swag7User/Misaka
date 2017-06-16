@@ -1,8 +1,12 @@
 package ch.uzh.controller;
 
 
+import ch.uzh.helper.AudioFrame;
+import ch.uzh.helper.CallHandler;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.helper.VideoStuff;
+import ch.uzh.model.FriendsListEntry;
+import ch.uzh.model.MainWindow;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,16 +21,21 @@ import org.slf4j.LoggerFactory;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class CallWindowController {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
+	private MainWindow mainWindow;
 	private MainWindowController mainWindowController;
 	private Boolean cameraOff;
 	private Boolean microphoneMuted;
 	private VideoStuff videoUtils;
 	private P2POverlay p2p;
+	private FriendsListEntry friendsListEntry;
+	private CallHandler callHandler;
+	private boolean isIncomingCall;
 
 
 
@@ -52,10 +61,15 @@ public class CallWindowController {
 	private Button endCallBtn;
 
 
-	public CallWindowController(MainWindowController mainWindowController, P2POverlay p2p) {
+	public CallWindowController(MainWindowController mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
 		this.mainWindowController = mainWindowController;
 		this.videoUtils = new VideoStuff();
 		this.p2p = p2p;
+		this.mainWindow = mainWindow;
+	}
+
+	public void setFriendsListEntry(FriendsListEntry friendsListEntry){
+		this.friendsListEntry = friendsListEntry;
 	}
 
 	@FXML
@@ -78,6 +92,34 @@ public class CallWindowController {
 					}
 				}
 		);
+	}
+
+	public void startTransmitting() {
+		// Create new call
+		callHandler = new CallHandler(mainWindow, p2p, getFriendsListEntry());
+		try {
+			callHandler.start();
+		} catch (LineUnavailableException ex) {
+			stopTransmitting();
+			System.out.println("LineUnavailableException");
+		}
+	}
+
+	public void stopTransmitting() {
+		if (callHandler == null) {
+			return;
+		}
+		callHandler.stop();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException ex) {
+			java.util.logging.Logger.getLogger(CallWindowController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		callHandler = null;
+	}
+
+	public void handleIncomingAudioFrame(AudioFrame msg) {
+		callHandler.addAudioFrame(msg.getData());
 	}
 
 	public void startVideoHandler()
@@ -132,6 +174,10 @@ public class CallWindowController {
 		if (!videoUtils.videoIsRunning()) {
 			videoUtils.startVideo(meImageView);
 		}
+	}
+
+	public FriendsListEntry getFriendsListEntry() {
+		return friendsListEntry;
 	}
 
 

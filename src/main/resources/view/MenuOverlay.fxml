@@ -70,7 +70,7 @@
                               <Insets bottom="12.0" left="5.0" top="12.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="menuitem" text="Advanced settings">
+                        <Label fx:id="advLbl" styleClass="menuitem" text="Advanced settings">
                            <HBox.margin>
                               <Insets bottom="10.0" left="15.0" top="17.0" />
                            </HBox.margin>
@@ -87,7 +87,7 @@
                               <Insets bottom="12.0" left="5.0" top="12.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="menuitem" text="Settings">
+                        <Label fx:id="settingsLbl" styleClass="menuitem" text="Settings">
                            <HBox.margin>
                               <Insets bottom="10.0" left="15.0" top="17.0" />
                            </HBox.margin>
@@ -104,7 +104,7 @@
                               <Insets bottom="12.0" left="5.0" top="12.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="menuitem" text="About">
+                        <Label fx:id="aboutLbl" styleClass="menuitem" text="About">
                            <HBox.margin>
                               <Insets bottom="10.0" left="15.0" top="17.0" />
                            </HBox.margin>

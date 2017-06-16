@@ -8,15 +8,14 @@ package ch.uzh.helper;
 
 import net.tomp2p.peers.PeerAddress;
 
-/**
- *
- * @author Sebastian
- */
+
 public class FriendRequestMessage extends Message {
+    private String identifier;
 
     
-    public FriendRequestMessage(PeerAddress _senderPeerAddress, String _senderUserID, String _messageText) {
+    public FriendRequestMessage(String identifier, PeerAddress _senderPeerAddress, String _senderUserID, String _messageText) {
         super(_senderPeerAddress, _senderUserID, _messageText);
+        this.identifier = identifier;
     }
    
 }

@@ -16,6 +16,23 @@ public class LoginWindow extends Application {
     private Stage stage;
     private P2POverlay p2p;
 
+    //change bootstrap ip and bootstrap to it
+    public void changeP2P(String ip){
+        p2p.shutdown();
+        p2p = null;
+        p2p = new P2POverlay();
+        Pair<Boolean, String> result = p2p.bootstrap(ip);
+        if (result.getKey() == false) {
+            System.err.println("Aw shit, didn't work\n");
+        } else{
+            System.err.println("it's AWRIGHT\n");
+        }
+
+        System.out.println("Bootstrapped to: " + ip
+                + "My IP: " + p2p.getPeerAddress().inetAddress().getHostAddress());
+
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,7 +40,7 @@ public class LoginWindow extends Application {
 
         // Get parameters TODO: actually use paramaters
         String bootstrapIP = getParameters().getNamed().get("bootstrap");
-        bootstrapIP = "127.0.0.1";
+        bootstrapIP = "192.168.1.15";
 
         p2p = new P2POverlay();
 
