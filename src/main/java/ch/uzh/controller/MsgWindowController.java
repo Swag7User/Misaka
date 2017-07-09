@@ -66,7 +66,7 @@ public class MsgWindowController {
 
         sendMessage.setOnAction((event) -> {
                     mainWindow.sendChatMessage(messageText.getText(), mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
-                    mainWindowController.msgWindowController.addChatBubble(messageText.getText(), "Me ", true);
+                    mainWindowController.getMsgWindowController().addChatBubble(messageText.getText(), "Me ", true);
                     messageText.clear();
                     log.info("CLICK CLICK CLICK");
 
@@ -96,15 +96,15 @@ public class MsgWindowController {
         startAudioChat.setOnAction((event) -> {
                     log.info("CLICK CLICK CLICK 33");
 
-                    mainWindowController.callWindowController.setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
+                    mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.drawCallPane();
-                    mainWindowController.callWindowController.startTransmitting();
+                    mainWindowController.getCallWindowController().startTransmitting();
                 }
         );
         inviteFriend.setOnAction((event) -> {
                     log.info("CLICK CLICK CLICK 44");
 
-                    mainWindowController.callWindowController.stopTransmitting();
+                    mainWindowController.getCallWindowController().stopTransmitting();
                     mainWindowController.drawMsgPane();
                 }
         );

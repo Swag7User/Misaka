@@ -7,8 +7,8 @@ public class EncryptedPrivateUserProfile {
     private byte[] encryptedProfile;
 
 
-    public EncryptedPrivateUserProfile(byte[] encryptedProfile){
-        this.encryptedProfile =encryptedProfile;
+    public EncryptedPrivateUserProfile(byte[] encryptedProfile) {
+        this.encryptedProfile = encryptedProfile;
 
     }
 

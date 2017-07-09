@@ -40,27 +40,25 @@ public class FriendController {
         this.mainWindow = mainWindow;
     }
 
-    public void setFriendName(String name){
+    public void setFriendName(String name) {
         userName.setText(name);
         log.info("name is set!");
     }
 
-    public void setFriendAvatar(Image img){
-        if(img == null){
+    public void setFriendAvatar(Image img) {
+        if (img == null) {
             return;
-        }
-        else {
+        } else {
             friendAvatar.setImage(img);
         }
     }
-
 
 
     @FXML
     private void initialize() {
         log.info("FriendController is initializing");
 
-        rootFriendPane.setOnMouseClicked((new EventHandler<MouseEvent>(){
+        rootFriendPane.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent arg0) {
@@ -69,21 +67,16 @@ public class FriendController {
                 mainWindow.setCurrentChatpartner(userName.getText());
                 String currentChatPartner = mainWindow.getCurrentChatpartner();
                 log.info("Current Chatpartner: " + currentChatPartner);
-                mainWindowController.msgWindowController.friendNameTitle.setText(currentChatPartner);
+                mainWindowController.getMsgWindowController().friendNameTitle.setText(currentChatPartner);
             }
 
         }));
-
 
     }
 
     public void alive() {
         log.info("FriendController is here");
-
-
     }
-
-
 
 }
 

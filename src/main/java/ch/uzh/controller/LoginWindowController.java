@@ -27,7 +27,6 @@ public class LoginWindowController {
     private LoginWindow loginWindow;
     private String username;
     private String password;
-    private String insecurePassword;
     private P2POverlay p2p;
 
 
@@ -90,7 +89,7 @@ public class LoginWindowController {
                         return;
                     } else {
                         int id = getId();
-                        login(id, null);
+                        login(id);
                     }
                 }
         );
@@ -108,15 +107,14 @@ public class LoginWindowController {
         log.info("LoginWindowController is here");
     }
 
-    public void login(final int id, final String ip) {
+    public void login(final int id) {
         MainWindow mainWindow = new MainWindow(p2p);
         try {
             username = usernameField.getText();
             password = Encryption.sha256(username + passwordField.getText());
             log.info("username:" + username);
-            log.info("unhashed password:" + password);
+            log.info("hashed password:" + password);
 
-            this.clientIP = ip;
             this.clientId = id;
 
             Pair<Boolean, String> result = mainWindow.login(username, password);
@@ -139,14 +137,11 @@ public class LoginWindowController {
     }
 
 
-    /**
-     * Login function, loads next window
-     */
+
     public void reg() {
         MainWindow mainWindow = new MainWindow(p2p);
         try {
             username = usernameField.getText();
-            insecurePassword = passwordField.getText();
             password = Encryption.sha256(username + passwordField.getText());
             log.info("username: " + username);
             log.info("hashed password: " + password);
@@ -162,7 +157,7 @@ public class LoginWindowController {
 
             }
 
-            mainWindow.draw(loginWindow.getStage(), 1, null, username, password, false);
+            mainWindow.draw(loginWindow.getStage(), getId(), null, username, password, false);
         } catch (Exception e) {
             log.info("Caught Exception: " + e.getMessage());
 

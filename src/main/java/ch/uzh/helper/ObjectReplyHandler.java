@@ -71,12 +71,12 @@ public class ObjectReplyHandler implements ObjectDataReply {
                 mainWindow.handleIncomingOnlineStatus(gsonReply.fromJson(jsonReply, OnlineStatusMessage.class));
             };
             Platform.runLater(task);
-        } else if(identifier.equals("AudioFrame")){
+        } else if (identifier.equals("AudioFrame")) {
             Runnable task = () -> {
                 mainWindow.handleIncomingAudioFrame(gsonReply.fromJson(jsonReply, AudioFrame.class));
             };
             Platform.runLater(task);
-        }else {
+        } else {
             log.info("~~~~~~~~~~~~~~~all has failed~~~~~~~~~~~~~");
 
         }

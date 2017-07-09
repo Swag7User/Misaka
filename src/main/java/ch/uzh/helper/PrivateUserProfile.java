@@ -17,7 +17,6 @@ public class PrivateUserProfile implements Serializable {
     private ArrayList<FriendRequestMessage> friendRequestsList;
 
 
-
     public PrivateUserProfile(String _userID, String _password, byte[] _privateKeySerialized) {
         userID = _userID;
         password = _password;
@@ -32,7 +31,7 @@ public class PrivateUserProfile implements Serializable {
 
     }
 
-    public PrivateUserProfile(){
+    public PrivateUserProfile() {
 
     }
 

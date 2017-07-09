@@ -15,8 +15,6 @@ public class User implements Serializable {
     PeerAddress peerAddress;
 
 
-
-
     public User(String username, String password, PeerAddress peerAddress) {
         this();
         this.username = username;
@@ -30,7 +28,6 @@ public class User implements Serializable {
         password = new String();
         peerAddress = null;
     }
-
 
 
 }

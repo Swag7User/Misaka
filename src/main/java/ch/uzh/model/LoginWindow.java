@@ -20,14 +20,14 @@ public class LoginWindow extends Application {
     private P2POverlay p2p;
 
     //change bootstrap ip and bootstrap to it
-    public void changeP2P(String ip){
+    public void changeP2P(String ip) {
         p2p.shutdown();
         p2p = null;
         p2p = new P2POverlay();
         Pair<Boolean, String> result = p2p.bootstrap(ip);
         if (result.getKey() == false) {
             log.info("Aw shit, didn't work\n");
-        } else{
+        } else {
             log.info("it's AWRIGHT\n");
         }
 
@@ -51,7 +51,7 @@ public class LoginWindow extends Application {
         Pair<Boolean, String> result = p2p.bootstrap(bootstrapIP);
         if (result.getKey() == false) {
             log.info("Aw shit, didn't work\n");
-        } else{
+        } else {
             log.info("it's AWRIGHT\n");
         }
 
@@ -93,7 +93,7 @@ public class LoginWindow extends Application {
         return stage;
     }
 
-    public P2POverlay getP2p(){
+    public P2POverlay getP2p() {
         return p2p;
     }
 

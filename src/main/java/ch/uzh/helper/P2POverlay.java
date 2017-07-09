@@ -25,6 +25,7 @@ import java.util.Random;
 
 /**
  * Basically a wrapper for TomP2P for the needs of this application.
+ *
  * @author Sebastian
  */
 public class P2POverlay {
@@ -42,8 +43,8 @@ public class P2POverlay {
         listeners.add(listener);
     }
 
-    public void notifySomethingHappened(){
-        for(CallBack listener : listeners){
+    public void notifySomethingHappened() {
+        for (CallBack listener : listeners) {
             listener.futurePutIsASuccess();
         }
     }
@@ -80,7 +81,7 @@ public class P2POverlay {
         futurePut.addListener(new BaseFutureAdapter<FuturePut>() {
             @Override
             public void operationComplete(FuturePut future) throws Exception {
-                if(future.isSuccess()) { // this flag indicates if the future was successful
+                if (future.isSuccess()) { // this flag indicates if the future was successful
                     log.info("success");
                     MainWindow.futurputSuccess = true;
                 } else {
@@ -88,7 +89,6 @@ public class P2POverlay {
                 }
             }
         });
-
 
 
         return true;
@@ -109,7 +109,7 @@ public class P2POverlay {
         futurePut.addListener(new BaseFutureAdapter<FuturePut>() {
             @Override
             public void operationComplete(FuturePut future) throws Exception {
-                if(future.isSuccess()) { // this flag indicates if the future was successful
+                if (future.isSuccess()) { // this flag indicates if the future was successful
                     log.info("success");
                     notifySomethingHappened();
                 } else {

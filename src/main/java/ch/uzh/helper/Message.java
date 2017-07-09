@@ -12,12 +12,12 @@ public abstract class Message implements Serializable {
     private long messageTime;
 
 
-
     public Message(PeerAddress _senderPeerAddress, String _senderUserID, String _messageText) {
         senderPeerAddress = _senderPeerAddress;
         senderUserID = _senderUserID;
         messageText = _messageText;
     }
+
     public Message() {
 
     }
@@ -43,6 +43,7 @@ public abstract class Message implements Serializable {
     public String getMessageText() {
         return messageText;
     }
+
     public void setMessageText(String messageText) {
         this.messageText = messageText;
     }
@@ -54,8 +55,6 @@ public abstract class Message implements Serializable {
     public PeerAddress getSenderPeerAddress() {
         return senderPeerAddress;
     }
-
-
 
 
 }

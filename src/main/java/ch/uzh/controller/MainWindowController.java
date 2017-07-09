@@ -13,17 +13,17 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by jesus on 11.03.2017.
  */
-public class MainWindowController implements Controller{
+public class MainWindowController implements Controller {
 
     private static final Logger log = LoggerFactory.getLogger(MainWindowController.class);
 
     private MainWindow mainWindow;
     private Stage stage;
 
-    public MsgWindowController msgWindowController;
-    public CallWindowController callWindowController;
-    public FriendListController friendListController;
-    public MenuOverlayController menuOverlayController;
+    private MsgWindowController msgWindowController;
+    private CallWindowController callWindowController;
+    private FriendListController friendListController;
+    private MenuOverlayController menuOverlayController;
 
     private AnchorPane friendListPane;
     private AnchorPane msgWindowPane;
@@ -54,9 +54,25 @@ public class MainWindowController implements Controller{
         log.info("MainWindowController is initializing");
     }
 
+    public MenuOverlayController getMenuOverlayController() {
+        return menuOverlayController;
+    }
+
+    public FriendListController getFriendListController() {
+        return friendListController;
+    }
+
+    public CallWindowController getCallWindowController() {
+        return callWindowController;
+    }
+
     public MainWindowController(Stage stage, P2POverlay p2p) {
         this.stage = stage;
         this.p2p = p2p;
+    }
+
+    public MsgWindowController getMsgWindowController() {
+        return msgWindowController;
     }
 
     public void setMainWindow(MainWindow mainWindow) {
@@ -124,7 +140,6 @@ public class MainWindowController implements Controller{
         stage.centerOnScreen();
 
 
-
     }
 
     public void drawMsgPane() {
@@ -135,7 +150,7 @@ public class MainWindowController implements Controller{
         stage.centerOnScreen();
     }
 
-    public void alive(){
+    public void alive() {
         log.info("MainWindowController is here");
     }
 
@@ -148,8 +163,6 @@ public class MainWindowController implements Controller{
     public void hideMenuOverlay() {
         modalOverlayPane.setVisible(false);
     }
-
-
 
 
 }

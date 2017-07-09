@@ -18,8 +18,6 @@ public class ChatMessage extends Message {
     }
 
 
-
-
     public ChatMessage(String identifier, PeerAddress _senderPeerAddress, String _senderUserID, String _messageText) {
         super(_senderPeerAddress, _senderUserID, _messageText);
         this.identifier = identifier;
@@ -37,8 +35,6 @@ public class ChatMessage extends Message {
     public void setMessageStatus(Status messageStatus) {
         this.messageStatus = messageStatus;
     }
-
-
 
 
 }
