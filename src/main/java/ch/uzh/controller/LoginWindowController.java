@@ -1,38 +1,29 @@
 package ch.uzh.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.security.Key;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.util.Observable;
-import java.util.Observer;
+
 
 import ch.uzh.helper.Encryption;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.LoginWindow;
 import ch.uzh.model.MainWindow;
-import ch.uzh.model.UserInfo;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import ch.uzh.helper.Password;
 import javafx.util.Pair;
-import net.tomp2p.dht.FutureGet;
-import net.tomp2p.futures.BaseFutureListener;
-import org.mindrot.jbcrypt.BCrypt;
 
-import javax.sound.sampled.LineUnavailableException;
 
 /**
  * Created by jesus on 11.03.2017.
  */
 public class LoginWindowController {
 
-    private final String StartUpNode = "startupClient";
+    private static final Logger log = LoggerFactory.getLogger(LoginWindowController.class);
+
+
     private LoginWindow loginWindow;
     private String username;
     private String password;
@@ -64,13 +55,13 @@ public class LoginWindowController {
     @FXML
     private void initialize() {
 
-        System.err.println("LoginWindowController is initializing");
+        log.info("LoginWindowController is initializing");
         usernameField.setText("misaka");
         passwordField.setText("1234qwertyuniqueshit");
 
         bootstrapOpt.setOnAction((event) -> {
                     String ip = ipTextField.getText();
-                    System.err.println("CLICK CLICK CLICK");
+                    log.info("CLICK CLICK CLICK");
                     if (ip != null || !ip.equals("")) {
                         loginWindow.changeP2P(ip);
                     }
@@ -84,7 +75,7 @@ public class LoginWindowController {
         );
 
         dbg.setOnAction((event) -> {
-                    System.err.println("CLICK CLICK CLICK");
+                    log.info("CLICK CLICK CLICK");
                     if (loginCheck() == false) {
                         return;
                     } else {
@@ -94,7 +85,7 @@ public class LoginWindowController {
         );
 
         loginButton.setOnAction((event) -> {
-                    System.err.println("CLICK ");
+                    log.info("CLICK ");
                     if (loginCheck() == false) {
                         return;
                     } else {
@@ -114,7 +105,7 @@ public class LoginWindowController {
     }
 
     public void alive() {
-        System.err.println("LoginWindowController is here");
+        log.info("LoginWindowController is here");
     }
 
     public void login(final int id, final String ip) {
@@ -122,34 +113,29 @@ public class LoginWindowController {
         try {
             username = usernameField.getText();
             password = Encryption.sha256(username + passwordField.getText());
-            System.err.println("username:" + username);
-            System.err.println("unhashed password:" + password);
+            log.info("username:" + username);
+            log.info("unhashed password:" + password);
+
             this.clientIP = ip;
             this.clientId = id;
 
             Pair<Boolean, String> result = mainWindow.login(username, password);
 
             if (result.getKey() == false) {
-                System.err.println("NOT Loged in successfully, SOMETHING BROKE");
+                log.info("NOT Loged in successfully, SOMETHING BROKE");
+
             } else {
-                System.err.println("Logged in A-Okay");
+                log.info("Logged in A-Okay");
+
             }
             mainWindow.draw(loginWindow.getStage(), 1, null, username, password, false);
 
 
         } catch (Exception e) {
-            System.err.println("Caught Exception: " + e.getMessage());
+            log.info("Caught Exception: " + e.getMessage());
             e.printStackTrace();
         }
-//        try {
-//            MainWindow mainWindow = new MainWindow();
-//            mainWindow.draw(loginWindow.getStage());
-//
-//        } catch (Exception e) {
-//            System.err.println("Caught Exception: " + e.getMessage());
-//            e.printStackTrace();
-//
-//        }
+
     }
 
 
@@ -162,22 +148,24 @@ public class LoginWindowController {
             username = usernameField.getText();
             insecurePassword = passwordField.getText();
             password = Encryption.sha256(username + passwordField.getText());
-            System.err.println("username: " + username);
-            System.err.println("hashed password: " + password);
-
+            log.info("username: " + username);
+            log.info("hashed password: " + password);
 
 
             Pair<Boolean, String> result = mainWindow.createAccount(username, password);
 
             if (result.getKey() == true) {
-                System.err.println("Account creation OK");
+                log.info("Account creation OK");
+
             } else {
-                System.err.println("Account creation FUCKED UP, OH NOEZ");
+                log.info("Account creation FUCKED UP, OH NOEZ");
+
             }
 
             mainWindow.draw(loginWindow.getStage(), 1, null, username, password, false);
         } catch (Exception e) {
-            System.err.println("Caught Exception: " + e.getMessage());
+            log.info("Caught Exception: " + e.getMessage());
+
             e.printStackTrace();
         }
     }
@@ -205,7 +193,8 @@ public class LoginWindowController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Aw shit, password check borkered");
+            log.info("Aw shit, password check borkered");
+
         }
         return true;
     }

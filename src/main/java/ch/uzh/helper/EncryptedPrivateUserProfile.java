@@ -1,7 +1,5 @@
 package ch.uzh.helper;
 
-import javax.crypto.SealedObject;
-
 /**
  * Created by Jesus on 10.06.2017.
  */

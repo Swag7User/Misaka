@@ -67,7 +67,6 @@ public class Encryption {
                 if(hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
-            System.err.println(hexString.length());
             String hexString32 = hexString.toString().substring(0,16);
 
             return hexString32.toString();

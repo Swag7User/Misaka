@@ -1,6 +1,5 @@
 package ch.uzh.controller;
 
-import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.helper.PrivateUserProfile;
 import ch.uzh.model.MainWindow;
@@ -8,12 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import net.tomp2p.peers.PeerAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by jesus on 11.03.2017.
  */
 public class MainWindowController implements Controller{
+
+    private static final Logger log = LoggerFactory.getLogger(MainWindowController.class);
 
     private MainWindow mainWindow;
     private Stage stage;
@@ -49,8 +51,7 @@ public class MainWindowController implements Controller{
 
     @FXML
     private void initialize() {
-        System.err.println("MainWindowController is initializing");
-
+        log.info("MainWindowController is initializing");
     }
 
     public MainWindowController(Stage stage, P2POverlay p2p) {
@@ -95,11 +96,8 @@ public class MainWindowController implements Controller{
     }
 
     public void setLeftPane(AnchorPane anchorPane) {
-        System.err.println("11");
-        System.err.println(leftPane);
-        System.err.println("22");
+        log.info(leftPane.toString());
         leftPane.getChildren().clear();
-        System.err.println("33");
         if (anchorPane != null) {
             leftPane.getChildren().add(anchorPane);
         }
@@ -123,9 +121,6 @@ public class MainWindowController implements Controller{
     public void drawCallPane() {
         setRightTopPane(callWindowPane);
         setRightBottomPane(msgWindowPane);
-     //   showChatBtns("video");
-      //  stage.setWidth(1333);
-      //  stage.setHeight(768);
         stage.centerOnScreen();
 
 
@@ -141,9 +136,7 @@ public class MainWindowController implements Controller{
     }
 
     public void alive(){
-        System.err.println("MainWindowController is here");
-
-
+        log.info("MainWindowController is here");
     }
 
     public void drawMenuOverlay() {

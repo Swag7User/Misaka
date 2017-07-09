@@ -1,7 +1,6 @@
 package ch.uzh.helper;
 
 
-import ch.uzh.model.Friend;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamLockException;
 import javafx.embed.swing.SwingFXUtils;
@@ -10,8 +9,6 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import net.tomp2p.audiovideowrapper.H264Wrapper;
 import net.tomp2p.audiovideowrapper.VideoData;
-import net.tomp2p.dht.FutureRemove;
-import net.tomp2p.peers.Number160;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class VideoStuff {
@@ -39,18 +35,6 @@ public class VideoStuff {
 	private static ImageView partnerImageView;
 	private static boolean isPlaying = false;
 
-//	public VideoStuff( User sender, Friend receiver) {
-//		this.node = node;
-//		this.sender = sender;
-//		receiverList = new ArrayList<Friend>();
-//		receiverList.add(receiver);
-//	}
-//
-//	public VideoStuff(User sender) {
-//		this.node = node;
-//		this.sender = sender;
-//		receiverList = new ArrayList<Friend>();
-//	}
 
 	public void startVideo(ImageView imageView) throws LineUnavailableException, IOException {
 		running = true;
@@ -60,24 +44,17 @@ public class VideoStuff {
 		webcam = Webcam.getDefault();
 		Dimension[] d = webcam.getViewSizes();
 		webcam.setViewSize(d[d.length - 1]);
-		System.err.println("1");
 		frameVideo = H264Wrapper.decodeAndPlay(IMG);
-		System.err.println("2");
 
 		try {
-			System.err.println("3");
-
 			H264Wrapper.recordAndEncode(webcam, frameVideo);
-			System.err.println("4");
+
 
 			List<byte[]> byteBufferList = new ArrayList<byte[]>();
-			System.err.println("5");
 			while (running) {
-				System.err.println("6");
 				log.debug(IMG + "");
 				log.debug(IMG != null ? IMG.getImage() + "" : "");
 				if (IMG != null && IMG.getImage() != null) {
-					System.err.println("7");
 					javafx.scene.image.Image image = IMG.getImage();
 					BufferedImage bImage = new BufferedImage((int) image.getWidth(),
 							(int) image.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -97,18 +74,6 @@ public class VideoStuff {
 			log.warn("Webcam HD WebCam 0 has already been locked");
 		}
 	}
-
-//	private void sendVideoData(List<byte[]> byteBufferList) {
-//		if (!mute) {
-//			Date date = new Date();
-//			for (Friend receiver : receiverList) {
-//				VideoMessage videoMessage = new VideoMessage(sender.getUsername(),
-//						receiver.getName(), receiver.getPeerAddress(), date, byteBufferList);
-//				node.getPeer().peer().sendDirect(receiver.getPeerAddress()).object(videoMessage)
-//						.start();
-//			}
-//		}
-//	}
 
 	public static void playVideo(List<byte[]> byteArray) throws IOException {
 		log.info("Play Video");
@@ -170,22 +135,10 @@ public class VideoStuff {
 		mute = false;
 	}
 
-//	public void addReceiver(Friend receiver) {
-//		receiverList.add(receiver);
-//	}
-//
-//	public void removeReceiver(Friend receiver) {
-//		receiverList.remove(receiver);
-//	}
 
 	public void setPartnerImageView(ImageView partnerImageView) {
 		this.partnerImageView = partnerImageView;
 	}
 
-//	public static void removeStoredVideoInfoFrom(String sender, String recipient, Date date,
-//			Node node) {
-//		FutureRemove futureRemove = node.getPeer().remove(Number160.createHash(recipient))
-//				.domainKey(Number160.createHash("video"))
-//				.contentKey(Number160.createHash(sender + date.getTime())).start();
-//	}
+
 }

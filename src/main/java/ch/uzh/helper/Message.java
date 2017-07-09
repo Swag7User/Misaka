@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ch.uzh.helper;
 
 import net.tomp2p.peers.PeerAddress;
 
 import java.io.Serializable;
 
-/**
- *
- * @author Sebastian
- */
 public abstract class Message implements Serializable {
     private String senderUserID;
     private PeerAddress senderPeerAddress;

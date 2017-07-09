@@ -42,11 +42,11 @@ public class FriendListController {
         this.mainWindow = mainWindow;
     }
 
-    public void updateFriends(){
+    public void updateFriends() {
         Platform.runLater(new Runnable() {
             public void run() {
                 friendListContainer.getChildren().clear();
-                for(FriendsListEntry fr : mainWindow.getFriendsList()){
+                for (FriendsListEntry fr : mainWindow.getFriendsList()) {
                     FXMLLoader loader;
                     loader = new FXMLLoader(MainWindow.class.getResource("/view/Friend.fxml"));
 
@@ -88,16 +88,17 @@ public class FriendListController {
 
     @FXML
     private void initialize() {
-        System.err.println("FriendListController is initializing");
+        log.info("FriendListController is initializing");
 
         menuBtn.setOnAction((event) -> {
-                    System.err.println("CLICK CLICK CLICK MENU BTN LEL");
+                    log.info("CLICK CLICK CLICK MENU BTN LEL");
+
                     try {
-                        System.err.println("1");
+                        log.info("1");
                         updateFriends();
                         mainWindowController.drawMenuOverlay();
                     } catch (Exception e) {
-                        System.err.println("Caught Exception: " + e.getMessage());
+                        log.info("Caught Exception: " + e.getMessage());
                         e.printStackTrace();
                     }
 
@@ -108,17 +109,9 @@ public class FriendListController {
 
     }
 
-    public void addFriendToList() {
-
-    }
-
-//    public void setFriendList(LoginWindow loginWindow) {
-//        this.loginWindow = loginWindow;
-//    }
 
     public void alive() {
-        System.err.println("FriendListController is here");
-
+        log.info("FriendListController is here");
 
     }
 }
