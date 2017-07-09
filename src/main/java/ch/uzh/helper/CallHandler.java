@@ -1,18 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.uzh.helper;
 
-import com.google.gson.Gson;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.PointerByReference;
 import ch.uzh.model.MainWindow;
 import ch.uzh.model.FriendsListEntry;
-import ch.uzh.helper.AudioFrame;
 import net.tomp2p.audiovideowrapper.Opus;
-import net.tomp2p.audiovideowrapper.OpusWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -23,6 +17,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CallHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(CallHandler.class);
+
 
     static int BITRATE = 12000;
     static int BIT_DEPTH = 16;
@@ -74,10 +71,10 @@ public class CallHandler {
             incomingAudioBuffer.put(audioFrame);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
-            System.out.println("InterruptedException");
+            log.info("InterruptedException");
         }
     }
-    
+
 
     public void stop() {
         running = false;
@@ -92,7 +89,7 @@ public class CallHandler {
             throw new LineUnavailableException("not supported");
         }
         microphone = AudioSystem.getTargetDataLine(format);
-        microphone.open(format,FRAME_SIZE*4);
+        microphone.open(format, FRAME_SIZE * 4);
         microphone.start();
 
         // Playback line
@@ -111,27 +108,26 @@ public class CallHandler {
             @Override
             public void run() {
                 microphone.flush();
-                
+
                 while (running) {
                     try {
                         byte dataFromMic[] = recordFromMicrophone(format);
                         if (dataFromMic != null) {
                             AudioFrame frame = new AudioFrame("AudioFrame", p2p.getPeerAddress(), mainApp.getUserID(), dataFromMic);
-                            Gson gsonAudioframe = new Gson();
-                            String jsonAudioframe = gsonAudioframe.toJson(frame);
-                            System.err.println("Sending audioframe: " + jsonAudioframe );
-                            System.err.println("to buddy: " + friend.getPeerAddress() );
-                            p2p.sendNonBlocking(friend.getPeerAddress(), jsonAudioframe, true);
+                            log.info("to buddy: " + friend.getPeerAddress());
+                            p2p.sendNonBlocking(friend.getPeerAddress(), GsonHelper.createJsonString(frame), true);
                         }
 
                     } catch (LineUnavailableException e) {
-                        System.out.println("Exception in RecordThread");
+                        log.info("Exception in RecordThread");
+
                         e.printStackTrace();
                     }
 
                 }
                 microphone.close();
-                System.out.println("End of recording");
+                log.info("End of recording");
+
             }
         }
 
@@ -146,7 +142,8 @@ public class CallHandler {
                         int size = incomingAudioBuffer.size();
                         if (size >= 10) {
                             incomingAudioBuffer.clear();
-                            System.out.println("Deleted from Speakerbuffer " + size);
+                            log.info("Deleted from Speakerbuffer " + size);
+
                             continue;
                         }
 
@@ -156,8 +153,8 @@ public class CallHandler {
 
                         // Grab up to 10 packets if available
                         int packetsDecoded = 1;
-                        while (!incomingAudioBuffer.isEmpty() 
-                                && decodedAudio.remaining() >= FRAME_SIZE/2
+                        while (!incomingAudioBuffer.isEmpty()
+                                && decodedAudio.remaining() >= FRAME_SIZE / 2
                                 && packetsDecoded < 10) {
                             packet = incomingAudioBuffer.poll();
                             ShortBuffer decodedPacket = decode(packet);
@@ -172,11 +169,12 @@ public class CallHandler {
                         playBack(format, decodedAudio);
 
                     } catch (LineUnavailableException | InterruptedException e) {
-                        System.out.println("Exception in PlayThread");
+                        log.info("Exception in PlayThread");
+
                     }
                 }
                 speaker.close();
-                System.out.println("End of playing");
+                log.info("End of playing");
             }
         }
 
@@ -204,15 +202,15 @@ public class CallHandler {
         // Fill short array with buffer's data
         short[] shortAudioBuffer = new short[shortBuffer.remaining()];
         shortBuffer.get(shortAudioBuffer);
-        
+
         byte[] audio = ShortToByte_Twiddle_Method(shortAudioBuffer);
-        
+
         // If speaker is clogged, flush
         if (speaker.available() == 0) {
             speaker.flush();
-            System.out.println("Flushed data from Speaker");
+            log.info("Flushed data from Speaker");
         }
-        
+
         // Write to line
         speaker.write(audio, 0, audio.length);
     }

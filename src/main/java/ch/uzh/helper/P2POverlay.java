@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.uzh.helper;
 
 import ch.uzh.model.MainWindow;
@@ -18,6 +13,8 @@ import net.tomp2p.peers.Number160;
 import net.tomp2p.peers.PeerAddress;
 import net.tomp2p.rpc.ObjectDataReply;
 import net.tomp2p.storage.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -28,9 +25,13 @@ import java.util.Random;
 
 /**
  * Basically a wrapper for TomP2P for the needs of this application.
+ *
  * @author Sebastian
  */
 public class P2POverlay {
+
+    private static final Logger log = LoggerFactory.getLogger(P2POverlay.class);
+
 
     private Peer peer;
     private PeerDHT peerDHT;
@@ -42,8 +43,8 @@ public class P2POverlay {
         listeners.add(listener);
     }
 
-    public void notifySomethingHappened(){
-        for(CallBack listener : listeners){
+    public void notifySomethingHappened() {
+        for (CallBack listener : listeners) {
             listener.futurePutIsASuccess();
         }
     }
@@ -80,46 +81,17 @@ public class P2POverlay {
         futurePut.addListener(new BaseFutureAdapter<FuturePut>() {
             @Override
             public void operationComplete(FuturePut future) throws Exception {
-                if(future.isSuccess()) { // this flag indicates if the future was successful
-                    System.out.println("success");
+                if (future.isSuccess()) { // this flag indicates if the future was successful
+                    log.info("success");
                     MainWindow.futurputSuccess = true;
                 } else {
-                    System.out.println("failure");
+                    log.info("failure");
                 }
             }
         });
-
 
 
         return true;
-    }
-
-    public boolean putNonBlockingReg(String key, Object value) {
-        Data data;
-        try {
-            data = new Data(value);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-        FuturePut futurePut = peerDHT.put(Number160.createHash(key)).data(data).start();
-        System.err.println("Data created2");
-
-        futurePut.addListener(new BaseFutureAdapter<FuturePut>() {
-            @Override
-            public void operationComplete(FuturePut future) throws Exception {
-                if(future.isSuccess()) { // this flag indicates if the future was successful
-                    System.out.println("success");
-                    notifySomethingHappened();
-                } else {
-                    System.out.println("failure");
-                }
-            }
-        });
-
-
-        return futurePut.isSuccess();
     }
 
     public Object getBlocking(String key) {
@@ -129,12 +101,12 @@ public class P2POverlay {
             try {
                 return futureGet.data().object();
             } catch (Exception ex) {
-                System.err.println("MY ARCH NEMESIS");
+                log.info("MY ARCH NEMESIS");
                 ex.printStackTrace();
                 return null;
             }
         } else {
-            System.err.println("MY ARCH NEMESIS TOO TBH");
+            log.info("MY ARCH NEMESIS TOO TBH");
             return null;
         }
     }
@@ -168,7 +140,7 @@ public class P2POverlay {
                 peerDHT = new PeerBuilderDHT(peer).start();
                 peerCreated = true;
             } catch (IOException ex) {
-                System.out.println("Port already in use. " + ex.getMessage());
+                log.info("Port already in use. " + ex.getMessage());
             }
         } while (!peerCreated && port < 4010);
 

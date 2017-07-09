@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ch.uzh.model;
 
 import net.tomp2p.peers.PeerAddress;
@@ -12,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * An entry in the friends list.
+ *
  * @author sstephan
  */
 public class FriendsListEntry implements Serializable {
@@ -23,7 +18,7 @@ public class FriendsListEntry implements Serializable {
     public FriendsListEntry(String _userID) {
         userID = _userID;
     }
-    
+
     /**
      * @return the userID
      */
@@ -52,9 +47,7 @@ public class FriendsListEntry implements Serializable {
         return online;
     }
 
-    /**
-     * @param set online status (true=online, false=offline)
-     */
+
     public void setOnline(boolean online) {
         this.online = online;
     }
@@ -66,9 +59,7 @@ public class FriendsListEntry implements Serializable {
         return waitingForHeartbeat;
     }
 
-    /**
-     * @param flag the entry to be wating for a heartbeat.
-     */
+
     public void setWaitingForHeartbeat(boolean waitingForHeartbeat) {
         this.waitingForHeartbeat = waitingForHeartbeat;
     }

@@ -4,31 +4,34 @@ import ch.uzh.controller.LoginWindowController;
 import ch.uzh.helper.P2POverlay;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginWindow extends Application {
+
+    private static final Logger log = LoggerFactory.getLogger(LoginWindow.class);
+
     private Stage stage;
     private P2POverlay p2p;
 
     //change bootstrap ip and bootstrap to it
-    public void changeP2P(String ip){
+    public void changeP2P(String ip) {
         p2p.shutdown();
-        p2p = null;
+        p2p = null; //just to be sure
         p2p = new P2POverlay();
         Pair<Boolean, String> result = p2p.bootstrap(ip);
         if (result.getKey() == false) {
-            System.err.println("Aw shit, didn't work\n");
-        } else{
-            System.err.println("it's AWRIGHT\n");
+            log.info("Aw shit, didn't work\n");
+        } else {
+            log.info("it's AWRIGHT\n");
         }
 
-        System.out.println("Bootstrapped to: " + ip
+        log.info("Bootstrapped to: " + ip
                 + "My IP: " + p2p.getPeerAddress().inetAddress().getHostAddress());
 
     }
@@ -38,8 +41,8 @@ public class LoginWindow extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 
-        // Get parameters TODO: actually use paramaters
-        String bootstrapIP = getParameters().getNamed().get("bootstrap");
+        // Get parameters
+        String bootstrapIP;
         bootstrapIP = "192.168.1.15";
 
         p2p = new P2POverlay();
@@ -47,12 +50,12 @@ public class LoginWindow extends Application {
         // Try to bootstrap yay
         Pair<Boolean, String> result = p2p.bootstrap(bootstrapIP);
         if (result.getKey() == false) {
-            System.err.println("Aw shit, didn't work\n");
-        } else{
-            System.err.println("it's AWRIGHT\n");
+            log.info("Aw shit, didn't work\n");
+        } else {
+            log.info("it's AWRIGHT\n");
         }
 
-        System.out.println("Bootstrapped to: " + bootstrapIP
+        log.info("Bootstrapped to: " + bootstrapIP
                 + "My IP: " + p2p.getPeerAddress().inetAddress().getHostAddress());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
@@ -65,9 +68,9 @@ public class LoginWindow extends Application {
         stage.setTitle("Misaka - Login");
         stage.setScene(scene);
         stage.show();
-        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.err.println(p2p.getPeerAddress());
-        System.err.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        log.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        log.info(p2p.getPeerAddress().toString());
+        log.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
     }
 
@@ -83,14 +86,14 @@ public class LoginWindow extends Application {
 
         // Shutdown Tom P2P stuff
         p2p.shutdown();
-        System.out.print("byebee~~");
+        log.info("byebee~~");
     }
 
     public Stage getStage() {
         return stage;
     }
 
-    public P2POverlay getP2p(){
+    public P2POverlay getP2p() {
         return p2p;
     }
 

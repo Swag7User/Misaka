@@ -1,8 +1,6 @@
 package ch.uzh.controller;
 
-import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
-import ch.uzh.model.Main;
 import ch.uzh.model.MainWindow;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,17 +11,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
 
 /**
  * Created by jesus on 11.03.2017.
  */
 public class MsgWindowController {
+    private static final Logger log = LoggerFactory.getLogger(MsgWindowController.class);
+
     private MainWindowController mainWindowController;
     private MainWindow mainWindow;
     private P2POverlay p2p;
@@ -61,31 +60,21 @@ public class MsgWindowController {
 
     @FXML
     private void initialize() throws Exception {
-        System.err.println("MsgWindowController is initializing");
+        log.info("MsgWindowController is initializing");
 
         gridMSG.setVgap(0);
 
         sendMessage.setOnAction((event) -> {
                     mainWindow.sendChatMessage(messageText.getText(), mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
-                    mainWindowController.msgWindowController.addChatBubble(messageText.getText(), "Me ", true);
+                    mainWindowController.getMsgWindowController().addChatBubble(messageText.getText(), "Me ", true);
                     messageText.clear();
-/*            String usr = messageText.getText();
-            System.err.println("existsUser " + usr + " ????????????????????????????????????? \n");
-            System.err.println(mainWindow.existsUser(usr));
-            Pair<Boolean, String> result = mainWindow.sendFriendRequest(usr, "hi, pls accept");
+                    log.info("CLICK CLICK CLICK");
 
-            if (result.getKey() == true) {
-                System.err.println("friend request sent");
-            } else {
-                System.err.println("friend request ERROR");
-            }*/
-
-                    // mainWindow.sendChatMessage("chello my friend");
-                    System.err.println("CLICK CLICK CLICK");
                 }
         );
         startVideoChat.setOnAction((event) -> {
-                    System.err.println("CLICK CLICK CLICK 22");
+                    log.info("CLICK CLICK CLICK 22");
+
                     mainWindowController.drawCallPane();
                     try {
                         wait(1000);
@@ -97,22 +86,25 @@ public class MsgWindowController {
                         //  mainWindowController.callWindowController.startVideoCall();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.err.println("Shit, video borkered");
+                        log.info("Shit, video borkered");
+
 
                     }
 
                 }
         );
         startAudioChat.setOnAction((event) -> {
-                    System.err.println("CLICK CLICK CLICK 33");
-                    mainWindowController.callWindowController.setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
+                    log.info("CLICK CLICK CLICK 33");
+
+                    mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.drawCallPane();
-                    mainWindowController.callWindowController.startTransmitting();
+                    mainWindowController.getCallWindowController().startTransmitting();
                 }
         );
         inviteFriend.setOnAction((event) -> {
-                    System.err.println("CLICK CLICK CLICK 44");
-                    mainWindowController.callWindowController.stopTransmitting();
+                    log.info("CLICK CLICK CLICK 44");
+
+                    mainWindowController.getCallWindowController().stopTransmitting();
                     mainWindowController.drawMsgPane();
                 }
         );
@@ -147,21 +139,13 @@ public class MsgWindowController {
                     messagesVBox.getChildren().add(chatBubble);
                 } else {
                     messagesVBox.getChildren().add(chatBubble);
-                    //mainWindowController.friendlistPaneController.friendlistItemControllerList.get(sender).newUnreadMessage();
                 }
             }
         });
     }
 
-
-//    public void setFriendList(LoginWindow loginWindow) {
-//        this.loginWindow = loginWindow;
-//    }
-
     public void alive() {
-        System.err.println("MsgWindowController is here");
-
-
+        log.info("MsgWindowController is here");
     }
 }
 

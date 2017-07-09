@@ -11,11 +11,11 @@ public class Friend extends Observable {
     private String name;
     private Image img;
 
-    public Friend(String name){
+    public Friend(String name) {
         this.name = name;
     }
 
-    public Friend(){
+    public Friend() {
         this.name = "Mr. NoName";
     }
 

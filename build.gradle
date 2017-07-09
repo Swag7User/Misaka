@@ -4,7 +4,7 @@ buildscript {
             url "http://tomp2p.net/dev/mvn/"
         }
         maven {
-            url "// https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt"
+            url "https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt"
         }
         jcenter {
             url "https://jcenter.bintray.com/"
@@ -35,9 +35,10 @@ repositories {
         url "https://jcenter.bintray.com/"
     }
     maven {
-        url "// https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt"
+        url "https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt"
     }
     dependencies {
+        extraLibs group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
         extraLibs 'de.svenkubiak:jBCrypt:0.4.1'
         extraLibs 'net.tomp2p:tomp2p-all:5.0-Beta8'
         extraLibs 'net.tomp2p:opus-h264-webcam-wrapper:1.0.2'

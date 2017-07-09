@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ch.uzh.helper;
 
 import net.tomp2p.peers.PeerAddress;
 
 import java.io.Serializable;
 
-/**
- *
- * @author Sebastian
- */
 public abstract class Message implements Serializable {
     private String senderUserID;
     private PeerAddress senderPeerAddress;
@@ -22,12 +12,12 @@ public abstract class Message implements Serializable {
     private long messageTime;
 
 
-
     public Message(PeerAddress _senderPeerAddress, String _senderUserID, String _messageText) {
         senderPeerAddress = _senderPeerAddress;
         senderUserID = _senderUserID;
         messageText = _messageText;
     }
+
     public Message() {
 
     }
@@ -53,6 +43,7 @@ public abstract class Message implements Serializable {
     public String getMessageText() {
         return messageText;
     }
+
     public void setMessageText(String messageText) {
         this.messageText = messageText;
     }
@@ -64,8 +55,6 @@ public abstract class Message implements Serializable {
     public PeerAddress getSenderPeerAddress() {
         return senderPeerAddress;
     }
-
-
 
 
 }

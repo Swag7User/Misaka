@@ -4,20 +4,22 @@ import ch.uzh.model.Friend;
 import ch.uzh.model.MainWindow;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by jesus on 11.03.2017.
  */
-public class FriendController implements Observer {
+public class FriendController {
+
+    private static final Logger log = LoggerFactory.getLogger(FriendController.class);
 
     MainWindow mainWindow;
 
@@ -38,55 +40,42 @@ public class FriendController implements Observer {
         this.mainWindow = mainWindow;
     }
 
-    public void setFriendName(String name){
+    public void setFriendName(String name) {
         userName.setText(name);
-        System.err.println("name is set!");
+        log.info("name is set!");
     }
 
-    public void setFriendAvatar(Image img){
-        if(img == null){
+    public void setFriendAvatar(Image img) {
+        if (img == null) {
             return;
-        }
-        else {
+        } else {
             friendAvatar.setImage(img);
         }
     }
 
 
-
     @FXML
     private void initialize() {
-        System.err.println("FriendController is initializing");
+        log.info("FriendController is initializing");
 
-        rootFriendPane.setOnMouseClicked((new EventHandler<MouseEvent>(){
+        rootFriendPane.setOnMouseClicked((new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent arg0) {
+                log.info("You clicked: " + userName);
 
-                System.err.println("You clicked: " + userName);
                 mainWindow.setCurrentChatpartner(userName.getText());
                 String currentChatPartner = mainWindow.getCurrentChatpartner();
-                System.err.println("Current Chatpartner: " + currentChatPartner);
-                mainWindowController.msgWindowController.friendNameTitle.setText(currentChatPartner);
+                log.info("Current Chatpartner: " + currentChatPartner);
+                mainWindowController.getMsgWindowController().friendNameTitle.setText(currentChatPartner);
             }
 
         }));
 
-
     }
 
     public void alive() {
-        System.err.println("FriendController is here");
-
-
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Friend) {
-            Friend f = (Friend) o;
-            //do stuff
-        }
+        log.info("FriendController is here");
     }
 
 }

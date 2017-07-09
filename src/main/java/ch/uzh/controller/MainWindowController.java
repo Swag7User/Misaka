@@ -1,6 +1,5 @@
 package ch.uzh.controller;
 
-import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.helper.PrivateUserProfile;
 import ch.uzh.model.MainWindow;
@@ -8,20 +7,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import net.tomp2p.peers.PeerAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by jesus on 11.03.2017.
  */
-public class MainWindowController implements Controller{
+public class MainWindowController implements Controller {
+
+    private static final Logger log = LoggerFactory.getLogger(MainWindowController.class);
 
     private MainWindow mainWindow;
     private Stage stage;
 
-    public MsgWindowController msgWindowController;
-    public CallWindowController callWindowController;
-    public FriendListController friendListController;
-    public MenuOverlayController menuOverlayController;
+    private MsgWindowController msgWindowController;
+    private CallWindowController callWindowController;
+    private FriendListController friendListController;
+    private MenuOverlayController menuOverlayController;
 
     private AnchorPane friendListPane;
     private AnchorPane msgWindowPane;
@@ -49,13 +51,28 @@ public class MainWindowController implements Controller{
 
     @FXML
     private void initialize() {
-        System.err.println("MainWindowController is initializing");
+        log.info("MainWindowController is initializing");
+    }
 
+    public MenuOverlayController getMenuOverlayController() {
+        return menuOverlayController;
+    }
+
+    public FriendListController getFriendListController() {
+        return friendListController;
+    }
+
+    public CallWindowController getCallWindowController() {
+        return callWindowController;
     }
 
     public MainWindowController(Stage stage, P2POverlay p2p) {
         this.stage = stage;
         this.p2p = p2p;
+    }
+
+    public MsgWindowController getMsgWindowController() {
+        return msgWindowController;
     }
 
     public void setMainWindow(MainWindow mainWindow) {
@@ -95,11 +112,8 @@ public class MainWindowController implements Controller{
     }
 
     public void setLeftPane(AnchorPane anchorPane) {
-        System.err.println("11");
-        System.err.println(leftPane);
-        System.err.println("22");
+        log.info(leftPane.toString());
         leftPane.getChildren().clear();
-        System.err.println("33");
         if (anchorPane != null) {
             leftPane.getChildren().add(anchorPane);
         }
@@ -123,11 +137,7 @@ public class MainWindowController implements Controller{
     public void drawCallPane() {
         setRightTopPane(callWindowPane);
         setRightBottomPane(msgWindowPane);
-     //   showChatBtns("video");
-      //  stage.setWidth(1333);
-      //  stage.setHeight(768);
         stage.centerOnScreen();
-
 
 
     }
@@ -140,10 +150,8 @@ public class MainWindowController implements Controller{
         stage.centerOnScreen();
     }
 
-    public void alive(){
-        System.err.println("MainWindowController is here");
-
-
+    public void alive() {
+        log.info("MainWindowController is here");
     }
 
     public void drawMenuOverlay() {
@@ -155,8 +163,6 @@ public class MainWindowController implements Controller{
     public void hideMenuOverlay() {
         modalOverlayPane.setVisible(false);
     }
-
-
 
 
 }
