@@ -31,11 +31,6 @@ public class PrivateUserProfile implements Serializable {
 
     }
 
-    public PrivateUserProfile() {
-
-    }
-
-
     /**
      * @return the userID
      */

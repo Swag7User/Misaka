@@ -115,11 +115,6 @@ public class VideoStuff {
     public void endVideo() throws ClassNotFoundException, IOException, LineUnavailableException {
         if (running) {
             running = false;
-//			for (Friend receiver : receiverList) {
-//				VideoRequest request = new VideoRequest(RequestType.SEND, RequestStatus.ABORTED,
-//						receiver.getPeerAddress(), receiver.getName(), sender.getUsername());
-//				RequestHandler.handleRequest(request, node);
-//			}
         }
     }
 

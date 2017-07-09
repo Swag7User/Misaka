@@ -8,9 +8,6 @@ import net.tomp2p.rpc.ObjectDataReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Sebastian
- */
 public class ObjectReplyHandler implements ObjectDataReply {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectReplyHandler.class);
@@ -47,11 +44,9 @@ public class ObjectReplyHandler implements ObjectDataReply {
         }
 
         if (identifier.equals("FriendRequestMessage")) {
-            log.info("~~~~~~~~~~~~~~~FriendRequest message incomming~~~~~~~~~~~~~");
             Runnable task = () -> {
                 log.info("~~~~~~~~~~~~~~~FriendRequest message handling~~~~~~~~~~~~~");
                 mainWindow.handleIncomingFriendRequest(gsonReply.fromJson(jsonReply, FriendRequestMessage.class));
-
             };
             Platform.runLater(task);
         } else if (identifier.equals("shit happens")) {
@@ -62,17 +57,19 @@ public class ObjectReplyHandler implements ObjectDataReply {
             Platform.runLater(task);
         } else if (identifier.equals("ChatMessage")) {
             Runnable task = () -> {
-                ChatMessage msg = gsonReply.fromJson(jsonReply, ChatMessage.class);
-                mainWindow.handleIncomingChatMessage(msg);
+                log.info("~~~~~~~~~~~~~~~Chat message handling~~~~~~~~~~~~~");
+                mainWindow.handleIncomingChatMessage(gsonReply.fromJson(jsonReply, ChatMessage.class));
             };
             Platform.runLater(task);
         } else if (identifier.equals("OnlineStatusMessage")) {
             Runnable task = () -> {
+                log.info("~~~~~~~~~~~~~~~online status handling~~~~~~~~~~~~~");
                 mainWindow.handleIncomingOnlineStatus(gsonReply.fromJson(jsonReply, OnlineStatusMessage.class));
             };
             Platform.runLater(task);
         } else if (identifier.equals("AudioFrame")) {
             Runnable task = () -> {
+                log.info("~~~~~~~~~~~~~~~audioframe handling~~~~~~~~~~~~~");
                 mainWindow.handleIncomingAudioFrame(gsonReply.fromJson(jsonReply, AudioFrame.class));
             };
             Platform.runLater(task);

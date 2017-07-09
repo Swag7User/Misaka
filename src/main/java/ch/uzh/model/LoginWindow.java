@@ -22,7 +22,7 @@ public class LoginWindow extends Application {
     //change bootstrap ip and bootstrap to it
     public void changeP2P(String ip) {
         p2p.shutdown();
-        p2p = null;
+        p2p = null; //just to be sure
         p2p = new P2POverlay();
         Pair<Boolean, String> result = p2p.bootstrap(ip);
         if (result.getKey() == false) {
@@ -41,8 +41,8 @@ public class LoginWindow extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 
-        // Get parameters TODO: actually use paramaters
-        String bootstrapIP = getParameters().getNamed().get("bootstrap");
+        // Get parameters
+        String bootstrapIP;
         bootstrapIP = "192.168.1.15";
 
         p2p = new P2POverlay();

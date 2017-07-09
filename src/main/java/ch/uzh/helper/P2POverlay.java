@@ -94,34 +94,6 @@ public class P2POverlay {
         return true;
     }
 
-    public boolean putNonBlockingReg(String key, Object value) {
-        Data data;
-        try {
-            data = new Data(value);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-        FuturePut futurePut = peerDHT.put(Number160.createHash(key)).data(data).start();
-        log.info("Data created2");
-
-        futurePut.addListener(new BaseFutureAdapter<FuturePut>() {
-            @Override
-            public void operationComplete(FuturePut future) throws Exception {
-                if (future.isSuccess()) { // this flag indicates if the future was successful
-                    log.info("success");
-                    notifySomethingHappened();
-                } else {
-                    log.info("failure");
-                }
-            }
-        });
-
-
-        return futurePut.isSuccess();
-    }
-
     public Object getBlocking(String key) {
         FutureGet futureGet = peerDHT.get(Number160.createHash(key)).start().awaitUninterruptibly();
 

@@ -60,9 +60,9 @@ public class MenuOverlayController {
                     String userID = addFriendField.getText();
                     log.info("existsUser " + userID + " ????????????????????????????????????? \n");
                     log.info(Boolean.toString(mainWindow.existsUser(userID)));
-                    Pair<Boolean, String> result = mainWindow.sendFriendRequest(userID, "hi, pls accept");
+                    boolean result = mainWindow.sendFriendRequest(userID, "hi, pls accept");
 
-                    if (result.getKey() == true) {
+                    if (result == true) {
                         log.info("friend request sent");
                     } else {
                         log.info("friend request ERROR");
