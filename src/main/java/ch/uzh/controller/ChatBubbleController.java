@@ -3,15 +3,19 @@ package ch.uzh.controller;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChatBubbleController {
+
+	private static final Logger log = LoggerFactory.getLogger(ChatBubbleController.class);
+
 
 	@FXML
 	private Label senderLbl;

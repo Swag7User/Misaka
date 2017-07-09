@@ -297,7 +297,14 @@ public class MainWindow /*implements CallBack*/{
         if (sendDirect == false) {
             // Friend is not online, append to public profile
             friendProfile.getPendingFriendRequests().add(jsonFriendRequest);
-            if (p2p.put(userID, friendProfile) == false) {
+            boolean now = p2p.putNonBlocking(userID, friendProfile);
+
+            while(!futurputSuccess){
+                donothing();
+            }
+            futurputSuccess = false;
+
+            if (now == false) {
                 return new Pair<>(false, "Error sending friend request");
             }
         }
@@ -416,10 +423,20 @@ public class MainWindow /*implements CallBack*/{
 
         String newPublicUserProfileJson = publicUserprofileGson.toJson(publicUserProfile);
 
-        if (p2p.put(userProfile.getUserID(), newPublicUserProfileJson) == false) {
+
+        boolean now = p2p.putNonBlocking(userProfile.getUserID(), newPublicUserProfileJson);
+
+        while(!futurputSuccess){
+            donothing();
+        }
+        futurputSuccess = false;
+
+        if (now == false) {
             System.out.println("Could not update peer address in public user profile");
             return;
         }
+
+        savePrivateUserProfileNonBlocking();
 
         p2p.setObjectDataReply(null);
 
@@ -746,7 +763,14 @@ public class MainWindow /*implements CallBack*/{
         String jsonPublic = gson.toJson(publicUserProfile);
 
         // Save public user profile
-        if (p2p.put(userID, jsonPublic) == false) {
+        boolean now = p2p.putNonBlocking(userID, jsonPublic);
+
+        while(!futurputSuccess){
+            donothing();
+        }
+        futurputSuccess = false;
+
+        if (now == false) {
             System.err.println("Could not update public user profile");
             return new Pair<>(false, "Could not update public user profile");
         }
@@ -776,10 +800,17 @@ public class MainWindow /*implements CallBack*/{
 
         // TODO: encrypt before saving
 
-        return p2p.put(userProfile.getUserID() + userProfile.getPassword(), json);
+        boolean now = p2p.putNonBlocking(userProfile.getUserID() + userProfile.getPassword(), json);
+
+        while(!futurputSuccess){
+            donothing();
+        }
+        futurputSuccess = false;
+
+        return now;
     }
 
-    private boolean savePrivateUserProfileNonBlocking() {
+    public boolean savePrivateUserProfileNonBlocking() {
         Gson gson = new Gson();
         String json = gson.toJson(encrypteduserProfile);
         System.err.println("IMMA GONNA PRINT MY JSON NON BLOCKING");

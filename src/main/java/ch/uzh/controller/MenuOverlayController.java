@@ -85,6 +85,7 @@ public class MenuOverlayController {
 
             @Override
             public void handle(MouseEvent arg0) {
+                mainWindow.savePrivateUserProfileNonBlocking();
 
 
             }
