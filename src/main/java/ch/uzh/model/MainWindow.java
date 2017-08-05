@@ -28,6 +28,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -76,6 +77,8 @@ public class MainWindow /*implements CallBack*/ {
     byte[] publicKeySerialized;
     byte[] privateKeySerialized;
 
+    private HashMap<String, List<ChatMessage>> messages;
+
     private PrivateUserProfile userProfile;
     private EncryptedPrivateUserProfile encrypteduserProfile;
 
@@ -101,10 +104,22 @@ public class MainWindow /*implements CallBack*/ {
         this.password = password;
         this.bootstrapNode = bootstrapNode;
         drawMainWindow();
+        messages = new HashMap<String, List<ChatMessage>>();
     }
 
     public MainWindow(P2POverlay p2p) {
         this.p2p = p2p;
+    }
+
+    public HashMap<String, List<ChatMessage>> getMessages() {
+        return messages;
+    }
+    public List<ChatMessage> getMessagesFrom(String userID) {
+        return messages.get(userID);
+    }
+
+    public void setMessages(HashMap<String, List<ChatMessage>> messages) {
+        this.messages = messages;
     }
 
 
@@ -179,6 +194,8 @@ public class MainWindow /*implements CallBack*/ {
                 System.exit(0);
             }
         });
+
+        setCurrentChatpartner("nullPerson42203SKDC");
 
 
     }
@@ -351,6 +368,7 @@ public class MainWindow /*implements CallBack*/ {
     public void logout() {
         // Tell "friends" that i'm going offline
         pingAllFriends(false);
+        log.info("Told everyone I'm offline");
 
         // Set PeerAddress in public Profile to null
         Object objectPublicUserProfile = p2p.getBlocking(userProfile.getUserID());
@@ -418,9 +436,12 @@ public class MainWindow /*implements CallBack*/ {
     }
 
     public void shutdown() {
+        log.info("logout ");
         if (userProfile != null) {
             logout();
         }
+        log.info("exit ");
+
         // Shutdown Tom P2P stuff
         p2p.shutdown();
         Platform.exit();
@@ -430,6 +451,7 @@ public class MainWindow /*implements CallBack*/ {
     public void handleIncomingOnlineStatus(OnlineStatusMessage msg) {
         synchronized (this) {
             FriendsListEntry e = getFriendsListEntry(msg.getSenderUserID());
+            log.info("Heartbeat received: " + msg.getSenderUserID() + " " + msg.getMessageText() + " " + msg.isOnline() + "   " + msg.getSenderPeerAddress());
 
             // If friend is in friendslist
             if (e != null) {
@@ -438,6 +460,7 @@ public class MainWindow /*implements CallBack*/ {
                 e.setOnline(msg.isOnline());
                 e.setPeerAddress(msg.getSenderPeerAddress());
                 e.setWaitingForHeartbeat(false);
+                friendListController.setGreen(msg.getSenderUserID());
 
                 // Send pong back if wanted
                 if (msg.isReplyPongExpected()) {
@@ -466,12 +489,42 @@ public class MainWindow /*implements CallBack*/ {
         // If friend is in friendslist
         if (e != null) {
             log.info("Message received from: " + msg.getSenderUserID() + " Messagetext: " + msg.getMessageText());
-            msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
+            log.info("current chat partner: " + currentChatPartner + "message userID: " + msg.getSenderUserID());
+
+            if(currentChatPartner.equals(msg.getSenderUserID())){
+                addMsgToHashMap(msg);
+                msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
+                log.info("works????????? ");
+            }
+            else{
+                addMsgToHashMap(msg);
+                friendListController.alertNewMsg(msg.getSenderUserID());
+            }
+            //msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
         } else {
             log.info("That's my purse, i don't know you!");
         }
     }
 
+    public void addMsgToHashMap(ChatMessage msg){
+        if(messages.containsKey(msg.getSenderUserID())){
+            messages.get(msg.getSenderUserID()).add(msg);
+        }
+        else {
+            List<ChatMessage> newChat = new ArrayList<ChatMessage>();
+            newChat.add(msg);
+            messages.put(msg.getSenderUserID(), newChat);
+        }
+    }
+
+    public void addSelfMessageToChat(String userID, ChatMessage msg){
+        if(messages.containsKey(userID)){
+            messages.get(userID).add(msg);
+        }
+        List<ChatMessage> newChat = new ArrayList<ChatMessage>();
+        newChat.add(msg);
+        messages.put(userID, newChat);
+    }
 
     private void drawFriendList() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FriendList.fxml"));
@@ -653,7 +706,7 @@ public class MainWindow /*implements CallBack*/ {
         // Schedule new thread to check periodically if friends are still online
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> {
-            pingAllOnlineFriends();
+            pingAllFriends(true);
         }, 10, 10, SECONDS);
 
         log.info("Login successful");

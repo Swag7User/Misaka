@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.MainWindow;
 import javafx.application.Platform;
@@ -7,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -49,6 +51,9 @@ public class MsgWindowController {
     private VBox messagesVBox;
 
     @FXML
+    private ScrollPane messagesScrollPane;
+
+    @FXML
     private TextField messageText;
 
     public MsgWindowController(MainWindowController mainWindowController, MainWindow mainWindow, P2POverlay p2p) {
@@ -66,6 +71,8 @@ public class MsgWindowController {
 
         sendMessage.setOnAction((event) -> {
                     mainWindow.sendChatMessage(messageText.getText(), mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
+                    ChatMessage chatMessage = new ChatMessage("ChatMessage", p2p.getPeerAddress(), mainWindow.getUserProfile().getUserID(), messageText.getText());
+                    mainWindow.addSelfMessageToChat(mainWindow.getCurrentChatpartner(), chatMessage);
                     mainWindowController.getMsgWindowController().addChatBubble(messageText.getText(), "Me ", true);
                     messageText.clear();
                     log.info("CLICK CLICK CLICK");
@@ -109,6 +116,8 @@ public class MsgWindowController {
                 }
         );
 
+        messagesScrollPane.vvalueProperty().bind(messagesVBox.heightProperty());
+
     }
 
     public void addChatBubble(final String message, final String sender, final boolean fromMe) {
@@ -142,6 +151,11 @@ public class MsgWindowController {
                 }
             }
         });
+    }
+
+    public void removeChatBubbles() {
+        messagesVBox.getChildren().removeAll();
+        messagesVBox.getChildren().clear();
     }
 
     public void alive() {

@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -17,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jesus on 11.03.2017.
@@ -34,18 +37,21 @@ public class FriendListController {
     private MainWindowController mainWindowController;
     private P2POverlay p2p;
     private MainWindow mainWindow;
+    private List<FriendController> FriendControllerList;
 
 
     public FriendListController(MainWindowController mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
         this.mainWindowController = mainWindowController;
         this.p2p = p2p;
         this.mainWindow = mainWindow;
+        FriendControllerList = new ArrayList<>();
     }
 
     public void updateFriends() {
         Platform.runLater(new Runnable() {
             public void run() {
                 friendListContainer.getChildren().clear();
+                FriendControllerList.clear();
                 for (FriendsListEntry fr : mainWindow.getFriendsList()) {
                     FXMLLoader loader;
                     loader = new FXMLLoader(MainWindow.class.getResource("/view/Friend.fxml"));
@@ -55,6 +61,7 @@ public class FriendListController {
                     AnchorPane friendobj = new AnchorPane();
                     try {
                         friendobj = loader.load();
+                        friendobj.setUserData(fr.getUserID());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -64,10 +71,20 @@ public class FriendListController {
                     friendListContainer.getChildren().add(friendobj);
                     log.info(fr.getUserID());
 
+                    FriendControllerList.add(friendController);
+
+
                 }
 
             }
         });
+    }
+
+    public void setGreen(String userId) {
+        for (FriendController friendController : FriendControllerList) {
+            log.info("setting online user: " + friendController.getUsername());
+            friendController.setCircleColorGreen();
+        }
     }
 
 
@@ -107,6 +124,13 @@ public class FriendListController {
         );
 
 
+    }
+
+    public void alertNewMsg(String userID){
+        for (FriendController friendController : FriendControllerList) {
+            log.info("setting Alert for user: " + friendController.getUsername());
+            friendController.setNewMsgAlert();
+        }
     }
 
 

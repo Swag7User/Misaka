@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.ChatMessage;
 import ch.uzh.model.Friend;
 import ch.uzh.model.MainWindow;
 import javafx.event.EventHandler;
@@ -9,9 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -32,6 +37,12 @@ public class FriendController {
     @FXML
     private AnchorPane rootFriendPane;
 
+    @FXML
+    private Circle statusCircle;
+
+    @FXML
+    private Text newMsgAlert;
+
     private MainWindowController mainWindowController;
 
 
@@ -43,6 +54,10 @@ public class FriendController {
     public void setFriendName(String name) {
         userName.setText(name);
         log.info("name is set!");
+    }
+
+    public String getUsername(){
+        return userName.getText();
     }
 
     public void setFriendAvatar(Image img) {
@@ -63,15 +78,50 @@ public class FriendController {
             @Override
             public void handle(MouseEvent arg0) {
                 log.info("You clicked: " + userName);
+                removeNewMsgAlert();
+
+                if(mainWindow.getCurrentChatpartner() == userName.getText()){
+                    log.info("chat already open");
+                    return;
+                }
 
                 mainWindow.setCurrentChatpartner(userName.getText());
-                String currentChatPartner = mainWindow.getCurrentChatpartner();
-                log.info("Current Chatpartner: " + currentChatPartner);
-                mainWindowController.getMsgWindowController().friendNameTitle.setText(currentChatPartner);
+                log.info("Current Chatpartner: " + mainWindow.getCurrentChatpartner());
+                mainWindowController.getMsgWindowController().friendNameTitle.setText(mainWindow.getCurrentChatpartner());
+
+                log.info("removing old chat ");
+                mainWindowController.getMsgWindowController().removeChatBubbles();
+                List<ChatMessage> newChat = mainWindow.getMessagesFrom(mainWindow.getCurrentChatpartner());
+                if(newChat == null){
+                    log.info("no chat messages there yet ");
+                }
+                else {
+                    for (ChatMessage msg : newChat) {
+                        mainWindowController.getMsgWindowController().addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
+                    }
+                }
+
             }
 
         }));
 
+    }
+
+    public void setNewMsgAlert(){
+        newMsgAlert.setOpacity(1);
+    }
+    public void removeNewMsgAlert(){
+        newMsgAlert.setOpacity(0);
+    }
+
+    public void setCircleColorGreen(){
+        statusCircle.setFill(Color.GREEN);
+    }
+    public void setCircleColorGrey(){
+        statusCircle.setFill(Color.GREY);
+    }
+    public void setCircleColorRed(){
+        statusCircle.setFill(Color.RED);
     }
 
     public void alive() {

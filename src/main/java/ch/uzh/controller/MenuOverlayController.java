@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.FriendsListEntry;
 import ch.uzh.model.MainWindow;
@@ -38,12 +39,12 @@ public class MenuOverlayController {
     @FXML
     private Label advLbl;
 
-    private Controller mainWindowController;
+    private MainWindowController mainWindowController;
     private P2POverlay p2p;
     private MainWindow mainWindow;
     int ic = 1;
 
-    public MenuOverlayController(Controller mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
+    public MenuOverlayController(MainWindowController mainWindowController, P2POverlay p2p, MainWindow mainWindow) {
         this.mainWindowController = mainWindowController;
         this.p2p = p2p;
         this.mainWindow = mainWindow;
@@ -102,7 +103,6 @@ public class MenuOverlayController {
                 for (FriendsListEntry e : mainWindow.getUserProfile().getFriendsList()) {
                     log.info("mainWindow.getUserProfile().getFriendsList(): " + e.getUserID());
                 }
-
             }
 
         }));
@@ -116,6 +116,11 @@ public class MenuOverlayController {
                 for (FriendsListEntry e : mainWindow.getFriendsList()) {
                     log.info("mainWindow.getFriendsList(): " + e.getUserID());
                 }
+                for(ChatMessage msg : mainWindow.getMessagesFrom(mainWindow.getCurrentChatpartner())){
+                    log.info("msg: " + msg.getMessageText() + "from: " + msg.getSenderUserID());
+                }
+                mainWindow.shutdown();
+
             }
 
         }));
