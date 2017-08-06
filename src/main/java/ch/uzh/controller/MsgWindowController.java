@@ -68,6 +68,7 @@ public class MsgWindowController {
         log.info("MsgWindowController is initializing");
 
         gridMSG.setVgap(0);
+        inviteFriend.setVisible(false);
 
         sendMessage.setOnAction((event) -> {
                     mainWindow.sendChatMessage(messageText.getText(), mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
@@ -89,8 +90,8 @@ public class MsgWindowController {
                         e.printStackTrace();
                     }
                     try {
-                        //    mainWindowController.callWindowController.startVideoHandler();
-                        //  mainWindowController.callWindowController.startVideoCall();
+                        //mainWindowController.getCallWindowController().startVideoHandler();
+                        //mainWindowController.getCallWindowController().startVideoCall();
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.info("Shit, video borkered");
@@ -105,16 +106,18 @@ public class MsgWindowController {
 
                     mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.drawCallPane();
+            log.info("show pic");
+            //mainWindowController.getCallWindowController().showMicrophone();
                     mainWindowController.getCallWindowController().startTransmitting();
                 }
         );
-        inviteFriend.setOnAction((event) -> {
+/*        inviteFriend.setOnAction((event) -> {
                     log.info("CLICK CLICK CLICK 44");
 
                     mainWindowController.getCallWindowController().stopTransmitting();
                     mainWindowController.drawMsgPane();
                 }
-        );
+        );*/
 
         messagesScrollPane.vvalueProperty().bind(messagesVBox.heightProperty());
 

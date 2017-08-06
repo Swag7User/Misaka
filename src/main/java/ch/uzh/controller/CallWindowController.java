@@ -10,12 +10,14 @@ import ch.uzh.model.MainWindow;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sound.sampled.LineUnavailableException;
+import java.io.File;
 import java.util.logging.Level;
 
 public class CallWindowController {
@@ -66,15 +68,16 @@ public class CallWindowController {
     @FXML
     private void initialize() {
         log.info("CallWindowController is initializing");
+        muteMicrophoneBtn.setVisible(false);
 
         endCallBtn.setOnAction((event) -> {
                     log.info("CLICK END call btn");
-
+                    stopTransmitting();
                     mainWindowController.drawMsgPane();
                 }
         );
 
-        muteMicrophoneBtn.setOnAction((event) -> {
+/*        muteMicrophoneBtn.setOnAction((event) -> {
                     log.info("CLICK PANIC! btn");
                     try {
                         //mainWindowController.callWindowController.startVideoCall();
@@ -83,7 +86,22 @@ public class CallWindowController {
                         e.printStackTrace();
                     }
                 }
-        );
+        );*/
+    }
+
+    public void showMicrophone(){
+        try{
+            log.info("show pic 2");
+            log.info(getClass().getResource("/img/telw.png").toString());
+            File file = new File("/img/andr.png");
+            Image image = new Image(file.toURI().toString());
+            videoUser1.setImage(image);
+            videoUser1.setVisible(true);
+            videoUser1.setDisable(false);
+            log.info("pic set");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void startTransmitting() {

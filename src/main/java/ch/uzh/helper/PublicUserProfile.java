@@ -13,6 +13,7 @@ public class PublicUserProfile implements Serializable {
     private PeerAddress peerAddress;
     private ArrayList<String> pendingFriendRequests;
     private static final long serialVersionUID = 42L;
+    private String version;
 
 
     public PublicUserProfile(String _userID, PeerAddress _peerAddress, byte[] _publicKeySerialized) {
@@ -20,6 +21,13 @@ public class PublicUserProfile implements Serializable {
         peerAddress = _peerAddress;
         pendingFriendRequests = new ArrayList<>();
         publicKeySerialized = _publicKeySerialized;
+    }
+    public PublicUserProfile(String _userID, PeerAddress _peerAddress, byte[] _publicKeySerialized, String version) {
+        userID = _userID;
+        peerAddress = _peerAddress;
+        pendingFriendRequests = new ArrayList<>();
+        publicKeySerialized = _publicKeySerialized;
+        this.version = version;
     }
 
     public String geteMail() {

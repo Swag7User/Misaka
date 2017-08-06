@@ -590,7 +590,7 @@ public class MainWindow /*implements CallBack*/ {
 
         // Create public UserProfile
         PublicUserProfile publicUserProfile;
-        publicUserProfile = new PublicUserProfile(userID, null, publicKeySerialized);
+        publicUserProfile = new PublicUserProfile(userID, null, publicKeySerialized, "wl1.0");
         String jsonPublic = GsonHelper.createJsonString(publicUserProfile);
 
         boolean now = p2p.putNonBlocking(userID, jsonPublic);
