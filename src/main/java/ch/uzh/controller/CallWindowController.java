@@ -7,6 +7,7 @@ import ch.uzh.helper.P2POverlay;
 import ch.uzh.helper.VideoStuff;
 import ch.uzh.model.FriendsListEntry;
 import ch.uzh.model.MainWindow;
+import com.github.sarxos.webcam.Webcam;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,7 +17,9 @@ import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.logging.Level;
 
@@ -87,6 +90,21 @@ public class CallWindowController {
                     }
                 }
         );*/
+    }
+
+    public void takePicture(){
+        Webcam webcam = Webcam.getDefault().getDefault();
+        webcam.open();
+
+        // get image
+        BufferedImage image = webcam.getImage();
+
+        try {
+            // save image to PNG file
+            ImageIO.write(image, "JPG", new File("test.jpg"));
+        } catch(Exception e){
+
+        }
     }
 
     public void showMicrophone(){

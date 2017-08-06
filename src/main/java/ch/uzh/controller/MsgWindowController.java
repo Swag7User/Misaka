@@ -90,6 +90,7 @@ public class MsgWindowController {
                         e.printStackTrace();
                     }
                     try {
+                        mainWindowController.getCallWindowController().takePicture();
                         //mainWindowController.getCallWindowController().startVideoHandler();
                         //mainWindowController.getCallWindowController().startVideoCall();
                     } catch (Exception e) {
