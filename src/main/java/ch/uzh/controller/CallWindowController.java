@@ -8,6 +8,7 @@ import ch.uzh.helper.VideoStuff;
 import ch.uzh.model.FriendsListEntry;
 import ch.uzh.model.MainWindow;
 import com.github.sarxos.webcam.Webcam;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +25,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class CallWindowController {
 
@@ -36,6 +41,8 @@ public class CallWindowController {
     private P2POverlay p2p;
     private FriendsListEntry friendsListEntry;
     private CallHandler callHandler;
+    private ScheduledExecutorService scheduler;
+
 
 
     @FXML
@@ -106,16 +113,25 @@ public class CallWindowController {
         // get image
         try {
             image = resize(webcam.getImage(), 200, 200);
+            Image fxImage = SwingFXUtils.toFXImage(image, null);
+            videoUser1.setImage(fxImage);
         }catch(Exception e){
             e.printStackTrace();
         }
 
         try {
             // save image to PNG file
-            ImageIO.write(image, "JPG", new File("test.jpg"));
+            //ImageIO.write(image, "JPG", new File("test.jpg"));
         } catch(Exception e){
 
         }
+    }
+
+    public void startVideo(){
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> {
+            takePicture();
+        }, 1, 1, SECONDS);
     }
 
     public void showMicrophone(){
