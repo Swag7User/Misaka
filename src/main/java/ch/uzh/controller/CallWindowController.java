@@ -83,7 +83,8 @@ public class CallWindowController {
 
         endCallBtn.setOnAction((event) -> {
                     log.info("CLICK END call btn");
-                    stopTransmitting();
+                    //stop video
+                    scheduler.shutdown();
                     mainWindowController.drawMsgPane();
                 }
         );

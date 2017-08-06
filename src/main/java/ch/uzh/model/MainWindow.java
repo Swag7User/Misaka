@@ -3,7 +3,6 @@ package ch.uzh.model;
 import ch.uzh.controller.*;
 import ch.uzh.helper.*;
 import com.google.gson.Gson;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
