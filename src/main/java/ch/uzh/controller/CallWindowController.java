@@ -14,13 +14,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 
 public class CallWindowController {
@@ -91,13 +94,21 @@ public class CallWindowController {
                 }
         );*/
     }
+    public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException{
+        return Thumbnails.of(img).size(newW, newH).asBufferedImage();
+    }
 
     public void takePicture(){
         Webcam webcam = Webcam.getDefault().getDefault();
         webcam.open();
 
+        BufferedImage image = null;
         // get image
-        BufferedImage image = webcam.getImage();
+        try {
+            image = resize(webcam.getImage(), 200, 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         try {
             // save image to PNG file
