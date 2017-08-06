@@ -3,6 +3,7 @@ package ch.uzh.model;
 import ch.uzh.controller.*;
 import ch.uzh.helper.*;
 import com.google.gson.Gson;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.NoSuchPaddingException;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
@@ -94,6 +101,43 @@ public class MainWindow /*implements CallBack*/ {
         currentChatPartner = userID;
     }
 
+    public void sendVideoFrame(BufferedImage image, FriendsListEntry friendsListEntry) throws IOException {
+        ByteArrayOutputStream compressed = new ByteArrayOutputStream();
+        ImageOutputStream outputStream = ImageIO.createImageOutputStream(compressed);
+        ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+
+// Configure JPEG compression: 70% quality
+        ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
+        jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        jpgWriteParam.setCompressionQuality(0.7f);
+
+// Set your in-memory stream as the output
+        jpgWriter.setOutput(outputStream);
+
+// Write image as JPEG w/configured settings to the in-memory stream
+// (the IIOImage is just an aggregator object, allowing you to associate
+// thumbnails and metadata to the image, it "does" nothing)
+        jpgWriter.write(null, new IIOImage(image, null, null), jpgWriteParam);
+
+// Dispose the writer to free resources
+        jpgWriter.dispose();
+
+// Get data for further processing...
+        byte[] jpegData = compressed.toByteArray();
+        VideoFrame vidFrame = new VideoFrame("VideoFrame", jpegData);
+
+        String VideoFrameJson = GsonHelper.createJsonString(vidFrame);
+        log.info("VideoFrame json: " + VideoFrameJson);
+        p2p.sendNonBlocking(friendsListEntry.getPeerAddress(), VideoFrameJson, false);
+
+    }
+
+    public void handleIncomingVideoFrame(VideoFrame vidFrame){
+        log.info("VideoFrame handling beegins now: ");
+        callWindowController.showVideo(vidFrame);
+
+    }
+
 
     public void draw(Stage stage, int id, String ip, String username, String password,
                      boolean bootstrapNode) throws Exception {
@@ -114,6 +158,7 @@ public class MainWindow /*implements CallBack*/ {
     public HashMap<String, List<ChatMessage>> getMessages() {
         return messages;
     }
+
     public List<ChatMessage> getMessagesFrom(String userID) {
         return messages.get(userID);
     }
@@ -491,12 +536,11 @@ public class MainWindow /*implements CallBack*/ {
             log.info("Message received from: " + msg.getSenderUserID() + " Messagetext: " + msg.getMessageText());
             log.info("current chat partner: " + currentChatPartner + "message userID: " + msg.getSenderUserID());
 
-            if(currentChatPartner.equals(msg.getSenderUserID())){
+            if (currentChatPartner.equals(msg.getSenderUserID())) {
                 addMsgToHashMap(msg);
                 msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
                 log.info("works????????? ");
-            }
-            else{
+            } else {
                 addMsgToHashMap(msg);
                 friendListController.alertNewMsg(msg.getSenderUserID());
             }
@@ -506,19 +550,18 @@ public class MainWindow /*implements CallBack*/ {
         }
     }
 
-    public void addMsgToHashMap(ChatMessage msg){
-        if(messages.containsKey(msg.getSenderUserID())){
+    public void addMsgToHashMap(ChatMessage msg) {
+        if (messages.containsKey(msg.getSenderUserID())) {
             messages.get(msg.getSenderUserID()).add(msg);
-        }
-        else {
+        } else {
             List<ChatMessage> newChat = new ArrayList<ChatMessage>();
             newChat.add(msg);
             messages.put(msg.getSenderUserID(), newChat);
         }
     }
 
-    public void addSelfMessageToChat(String userID, ChatMessage msg){
-        if(messages.containsKey(userID)){
+    public void addSelfMessageToChat(String userID, ChatMessage msg) {
+        if (messages.containsKey(userID)) {
             messages.get(userID).add(msg);
         }
         List<ChatMessage> newChat = new ArrayList<ChatMessage>();
@@ -550,7 +593,7 @@ public class MainWindow /*implements CallBack*/ {
         menuOverlay = loader.load();
     }
 
-    public void generateRSAKeys(){
+    public void generateRSAKeys() {
         try {
             KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
             kpg.initialize(2048);

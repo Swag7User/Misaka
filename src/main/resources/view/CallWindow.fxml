@@ -22,11 +22,11 @@
             </HBox>
             <HBox fx:id="videoUserWrapper" alignment="CENTER">
                <children>
-                  <ImageView fx:id="videoUser1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="videoUserClass">
+                  <ImageView fx:id="videoUser1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="videoUserClass" />
+                  <ImageView id="meImageView" fx:id="meImageView" fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="meImageView">
                      <image>
                         <Image url="@../img/telw.png" />
                      </image></ImageView>
-                  <ImageView id="meImageView" fx:id="meImageView" fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="meImageView" />
                </children>
                <VBox.margin>
                   <Insets bottom="20.0" top="20.0" />

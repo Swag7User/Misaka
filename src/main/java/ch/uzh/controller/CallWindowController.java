@@ -1,10 +1,7 @@
 package ch.uzh.controller;
 
 
-import ch.uzh.helper.AudioFrame;
-import ch.uzh.helper.CallHandler;
-import ch.uzh.helper.P2POverlay;
-import ch.uzh.helper.VideoStuff;
+import ch.uzh.helper.*;
 import ch.uzh.model.FriendsListEntry;
 import ch.uzh.model.MainWindow;
 import com.github.sarxos.webcam.Webcam;
@@ -23,6 +20,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -105,6 +103,20 @@ public class CallWindowController {
         return Thumbnails.of(img).size(newW, newH).asBufferedImage();
     }
 
+    public void showVideo(VideoFrame vidFrame){
+        BufferedImage image;
+        try {
+            image = ImageIO.read(new ByteArrayInputStream(vidFrame.getData()));
+            Image fxImage = SwingFXUtils.toFXImage(image, null);
+            videoUser1.setImage(fxImage);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void takePicture(){
         Webcam webcam = Webcam.getDefault().getDefault();
         webcam.open();
@@ -114,7 +126,8 @@ public class CallWindowController {
         try {
             image = resize(webcam.getImage(), 200, 200);
             Image fxImage = SwingFXUtils.toFXImage(image, null);
-            videoUser1.setImage(fxImage);
+            meImageView.setImage(fxImage);
+            mainWindow.sendVideoFrame(image, mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -140,9 +153,9 @@ public class CallWindowController {
             log.info(getClass().getResource("/img/telw.png").toString());
             File file = new File("/img/andr.png");
             Image image = new Image(file.toURI().toString());
-            videoUser1.setImage(image);
-            videoUser1.setVisible(true);
-            videoUser1.setDisable(false);
+            meImageView.setImage(image);
+            meImageView.setVisible(true);
+            meImageView.setDisable(false);
             log.info("pic set");
         } catch(Exception e){
             e.printStackTrace();
