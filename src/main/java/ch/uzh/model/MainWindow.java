@@ -3,7 +3,6 @@ package ch.uzh.model;
 import ch.uzh.controller.*;
 import ch.uzh.helper.*;
 import com.google.gson.Gson;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -138,6 +137,22 @@ public class MainWindow /*implements CallBack*/ {
 
     }
 
+    public void demoFriendslist(){
+        FriendsListEntry f1 = new FriendsListEntry("Dijkstra");
+        f1.setOnline(false);
+        FriendsListEntry f2 = new FriendsListEntry("Erdös");
+        FriendsListEntry f3 = new FriendsListEntry("Zuse");
+        f1.setOnline(false);
+        FriendsListEntry f4 = new FriendsListEntry("Satoshi");
+        f1.setOnline(true);
+        friendsList.add(f1);
+        friendsList.add(f2);
+        friendsList.add(f3);
+        friendsList.add(f4);
+        friendListController.updateFriends();
+
+    }
+
 
     public void draw(Stage stage, int id, String ip, String username, String password,
                      boolean bootstrapNode) throws Exception {
@@ -149,6 +164,7 @@ public class MainWindow /*implements CallBack*/ {
         this.bootstrapNode = bootstrapNode;
         drawMainWindow();
         messages = new HashMap<String, List<ChatMessage>>();
+        demoFriendslist();
     }
 
     public MainWindow(P2POverlay p2p) {

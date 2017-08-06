@@ -33,7 +33,7 @@
                <children>
                   <Button fx:id="leaveChatBtn" mnemonicParsing="false" styleClass="invisible" text="Leave Chat">
                      <graphic>
-                        <Label fx:id="friendNameTitle" text="friendName">
+                        <Label fx:id="friendNameTitle" text="">
                            <padding>
                               <Insets top="7.0" />
                            </padding>

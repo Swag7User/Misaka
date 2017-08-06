@@ -83,7 +83,12 @@ public class FriendListController {
     public void setGreen(String userId) {
         for (FriendController friendController : FriendControllerList) {
             log.info("setting online user: " + friendController.getUsername());
-            friendController.setCircleColorGreen();
+            if(friendController.getUsername().equals(userId) && mainWindow.getFriendsListEntry(userId).isOnline()){
+                friendController.setCircleColorGreen();
+            }else{
+                friendController.setCircleColorRed();
+
+            }
         }
     }
 

@@ -123,6 +123,13 @@ public class MsgWindowController {
 
         messagesScrollPane.vvalueProperty().bind(messagesVBox.heightProperty());
 
+        messageText.setEditable(false);
+
+    }
+
+    public void setTextField(boolean isactive){
+        messageText.setEditable(true);
+
     }
 
     public void addChatBubble(final String message, final String sender, final boolean fromMe) {

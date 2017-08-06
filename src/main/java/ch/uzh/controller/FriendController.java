@@ -85,6 +85,8 @@ public class FriendController {
                     return;
                 }
 
+                mainWindowController.getMsgWindowController().setTextField(true);
+
                 mainWindow.setCurrentChatpartner(userName.getText());
                 log.info("Current Chatpartner: " + mainWindow.getCurrentChatpartner());
                 mainWindowController.getMsgWindowController().friendNameTitle.setText(mainWindow.getCurrentChatpartner());

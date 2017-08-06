@@ -43,7 +43,7 @@ public class LoginWindow extends Application {
 
         // Get parameters
         String bootstrapIP;
-        bootstrapIP = "192.168.1.15";
+        bootstrapIP = "192.168.1.47";
 
         p2p = new P2POverlay();
 

@@ -137,7 +137,6 @@ public class MainWindowController implements Controller {
     public void drawCallPane() {
         setRightTopPane(callWindowPane);
         setRightBottomPane(msgWindowPane);
-        stage.centerOnScreen();
 
 
     }
@@ -147,7 +146,6 @@ public class MainWindowController implements Controller {
         setRightBottomPane(msgWindowPane);
         stage.setMinWidth(1024);
         stage.setMinHeight(640);
-        stage.centerOnScreen();
     }
 
     public void alive() {
