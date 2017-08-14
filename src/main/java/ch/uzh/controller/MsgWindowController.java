@@ -1,5 +1,6 @@
 package ch.uzh.controller;
 
+import ch.uzh.helper.ChatMessage;
 import ch.uzh.helper.P2POverlay;
 import ch.uzh.model.MainWindow;
 import javafx.application.Platform;
@@ -7,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -49,6 +51,9 @@ public class MsgWindowController {
     private VBox messagesVBox;
 
     @FXML
+    private ScrollPane messagesScrollPane;
+
+    @FXML
     private TextField messageText;
 
     public MsgWindowController(MainWindowController mainWindowController, MainWindow mainWindow, P2POverlay p2p) {
@@ -63,9 +68,12 @@ public class MsgWindowController {
         log.info("MsgWindowController is initializing");
 
         gridMSG.setVgap(0);
+        inviteFriend.setVisible(false);
 
         sendMessage.setOnAction((event) -> {
                     mainWindow.sendChatMessage(messageText.getText(), mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
+                    ChatMessage chatMessage = new ChatMessage("ChatMessage", p2p.getPeerAddress(), mainWindow.getUserProfile().getUserID(), messageText.getText());
+                    mainWindow.addSelfMessageToChat(mainWindow.getCurrentChatpartner(), chatMessage);
                     mainWindowController.getMsgWindowController().addChatBubble(messageText.getText(), "Me ", true);
                     messageText.clear();
                     log.info("CLICK CLICK CLICK");
@@ -73,41 +81,41 @@ public class MsgWindowController {
                 }
         );
         startVideoChat.setOnAction((event) -> {
+                    mainWindow.setStopsound(true);
                     log.info("CLICK CLICK CLICK 22");
-
+                    mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
+                    mainWindowController.getCallWindowController().disableMicPic();
                     mainWindowController.drawCallPane();
+
                     try {
                         wait(1000);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     try {
-                        //    mainWindowController.callWindowController.startVideoHandler();
-                        //  mainWindowController.callWindowController.startVideoCall();
+                        mainWindowController.getCallWindowController().startVideo();
+                        mainWindowController.getCallWindowController().startTransmitting();
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.info("Shit, video borkered");
-
-
                     }
 
                 }
         );
         startAudioChat.setOnAction((event) -> {
+                    mainWindow.setStopsound(true);
+
                     log.info("CLICK CLICK CLICK 33");
 
                     mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.drawCallPane();
+                    log.info("show pic");
                     mainWindowController.getCallWindowController().startTransmitting();
                 }
         );
-        inviteFriend.setOnAction((event) -> {
-                    log.info("CLICK CLICK CLICK 44");
 
-                    mainWindowController.getCallWindowController().stopTransmitting();
-                    mainWindowController.drawMsgPane();
-                }
-        );
+
+        messagesScrollPane.vvalueProperty().bind(messagesVBox.heightProperty());
 
     }
 
@@ -142,6 +150,11 @@ public class MsgWindowController {
                 }
             }
         });
+    }
+
+    public void removeChatBubbles() {
+        messagesVBox.getChildren().removeAll();
+        messagesVBox.getChildren().clear();
     }
 
     public void alive() {

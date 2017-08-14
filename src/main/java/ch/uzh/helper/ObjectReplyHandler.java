@@ -73,6 +73,12 @@ public class ObjectReplyHandler implements ObjectDataReply {
                 mainWindow.handleIncomingAudioFrame(gsonReply.fromJson(jsonReply, AudioFrame.class));
             };
             Platform.runLater(task);
+        } else if (identifier.equals("VideoFrame")) {
+            Runnable task = () -> {
+                log.info("~~~~~~~~~~~~~~~videoframe handling~~~~~~~~~~~~~");
+                mainWindow.handleIncomingVideoFrame(gsonReply.fromJson(jsonReply, VideoFrame.class));
+            };
+            Platform.runLater(task);
         } else {
             log.info("~~~~~~~~~~~~~~~all has failed~~~~~~~~~~~~~");
 

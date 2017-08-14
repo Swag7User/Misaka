@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
@@ -21,6 +23,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.NoSuchPaddingException;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
@@ -28,6 +36,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,6 +57,16 @@ public class MainWindow /*implements CallBack*/ {
     private String password;
     private boolean bootstrapNode;
 
+    public boolean isStopsound() {
+        return stopsound;
+    }
+
+    public void setStopsound(boolean stopsound) {
+        this.stopsound = stopsound;
+    }
+
+    private boolean stopsound = false;
+
     private MainWindowController mainWindowController;
     private MsgWindowController msgWindowController;
     private FriendListController friendListController;
@@ -63,6 +82,9 @@ public class MainWindow /*implements CallBack*/ {
     private AnchorPane menuOverlay;
     private AnchorPane callWindow;
 
+    MediaPlayer mediaPlayer;
+    boolean playing;
+
     private P2POverlay p2p;
     private List<FriendsListEntry> friendsList;
     private ObservableList<FriendRequestMessage> friendRequestsList;
@@ -75,6 +97,8 @@ public class MainWindow /*implements CallBack*/ {
 
     byte[] publicKeySerialized;
     byte[] privateKeySerialized;
+
+    private HashMap<String, List<ChatMessage>> messages;
 
     private PrivateUserProfile userProfile;
     private EncryptedPrivateUserProfile encrypteduserProfile;
@@ -91,6 +115,43 @@ public class MainWindow /*implements CallBack*/ {
         currentChatPartner = userID;
     }
 
+    public void sendVideoFrame(BufferedImage image, FriendsListEntry friendsListEntry) throws IOException {
+        ByteArrayOutputStream compressed = new ByteArrayOutputStream();
+        ImageOutputStream outputStream = ImageIO.createImageOutputStream(compressed);
+        ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+
+// Configure JPEG compression: 70% quality
+        ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
+        jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        jpgWriteParam.setCompressionQuality(0.7f);
+
+// Set your in-memory stream as the output
+        jpgWriter.setOutput(outputStream);
+
+// Write image as JPEG w/configured settings to the in-memory stream
+// (the IIOImage is just an aggregator object, allowing you to associate
+// thumbnails and metadata to the image, it "does" nothing)
+        jpgWriter.write(null, new IIOImage(image, null, null), jpgWriteParam);
+
+// Dispose the writer to free resources
+        jpgWriter.dispose();
+
+// Get data for further processing...
+        byte[] jpegData = compressed.toByteArray();
+        VideoFrame vidFrame = new VideoFrame("VideoFrame", jpegData);
+
+        String VideoFrameJson = GsonHelper.createJsonString(vidFrame);
+        log.info("VideoFrame json: " + VideoFrameJson);
+        p2p.sendNonBlocking(friendsListEntry.getPeerAddress(), VideoFrameJson, false);
+
+    }
+
+    public void handleIncomingVideoFrame(VideoFrame vidFrame){
+        log.info("VideoFrame handling beegins now: ");
+        callWindowController.showVideo(vidFrame);
+
+    }
+
 
     public void draw(Stage stage, int id, String ip, String username, String password,
                      boolean bootstrapNode) throws Exception {
@@ -101,10 +162,31 @@ public class MainWindow /*implements CallBack*/ {
         this.password = password;
         this.bootstrapNode = bootstrapNode;
         drawMainWindow();
+        messages = new HashMap<String, List<ChatMessage>>();
+
+        String musicFile = "/misc/ring.mp3";
+
+        Media sound = new Media(this.getClass().getResource(musicFile).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+
+        playing = false;
+
     }
 
     public MainWindow(P2POverlay p2p) {
         this.p2p = p2p;
+    }
+
+    public HashMap<String, List<ChatMessage>> getMessages() {
+        return messages;
+    }
+
+    public List<ChatMessage> getMessagesFrom(String userID) {
+        return messages.get(userID);
+    }
+
+    public void setMessages(HashMap<String, List<ChatMessage>> messages) {
+        this.messages = messages;
     }
 
 
@@ -180,6 +262,8 @@ public class MainWindow /*implements CallBack*/ {
             }
         });
 
+        setCurrentChatpartner("nullPerson42203SKDC");
+
 
     }
 
@@ -209,7 +293,6 @@ public class MainWindow /*implements CallBack*/ {
 
         friendRequestsList.add(requestMessage);
 
-        // Save the change
         boolean isSaved = savePrivateUserProfileNonBlocking();
         if (isSaved == true) {
             log.info("saved succesfully");
@@ -310,6 +393,23 @@ public class MainWindow /*implements CallBack*/ {
         return savePrivateUserProfileNonBlocking();
     }
 
+    public void removeFriend(String userID){
+        FriendsListEntry fr = getFriendByID(userID);
+        if (fr == null) {return;}
+        else {
+            friendsList.remove(fr);
+        }
+    }
+
+    public FriendsListEntry getFriendByID(String userID){
+        for(FriendsListEntry friend : friendsList){
+            if(friend.getUserID().equals(userID)){
+                return friend;
+            }
+        }
+        return null;
+    }
+
     private void pingUser(String userID, boolean onlineStatus, boolean replyPongExpected) {
         p2p.getNonBLocking(userID, new BaseFutureAdapter<FutureGet>() {
             @Override
@@ -351,6 +451,7 @@ public class MainWindow /*implements CallBack*/ {
     public void logout() {
         // Tell "friends" that i'm going offline
         pingAllFriends(false);
+        log.info("Told everyone I'm offline");
 
         // Set PeerAddress in public Profile to null
         Object objectPublicUserProfile = p2p.getBlocking(userProfile.getUserID());
@@ -418,9 +519,12 @@ public class MainWindow /*implements CallBack*/ {
     }
 
     public void shutdown() {
+        log.info("logout ");
         if (userProfile != null) {
             logout();
         }
+        log.info("exit ");
+
         // Shutdown Tom P2P stuff
         p2p.shutdown();
         Platform.exit();
@@ -430,6 +534,7 @@ public class MainWindow /*implements CallBack*/ {
     public void handleIncomingOnlineStatus(OnlineStatusMessage msg) {
         synchronized (this) {
             FriendsListEntry e = getFriendsListEntry(msg.getSenderUserID());
+            log.info("Heartbeat received: " + msg.getSenderUserID() + " " + msg.getMessageText() + " " + msg.isOnline() + "   " + msg.getSenderPeerAddress());
 
             // If friend is in friendslist
             if (e != null) {
@@ -438,6 +543,7 @@ public class MainWindow /*implements CallBack*/ {
                 e.setOnline(msg.isOnline());
                 e.setPeerAddress(msg.getSenderPeerAddress());
                 e.setWaitingForHeartbeat(false);
+                friendListController.setGreen(msg.getSenderUserID());
 
                 // Send pong back if wanted
                 if (msg.isReplyPongExpected()) {
@@ -466,12 +572,40 @@ public class MainWindow /*implements CallBack*/ {
         // If friend is in friendslist
         if (e != null) {
             log.info("Message received from: " + msg.getSenderUserID() + " Messagetext: " + msg.getMessageText());
-            msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
+            log.info("current chat partner: " + currentChatPartner + "message userID: " + msg.getSenderUserID());
+
+            if (currentChatPartner.equals(msg.getSenderUserID())) {
+                addMsgToHashMap(msg);
+                msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
+                log.info("works????????? ");
+            } else {
+                addMsgToHashMap(msg);
+                friendListController.alertNewMsg(msg.getSenderUserID());
+            }
+            //msgWindowController.addChatBubble(msg.getMessageText(), msg.getSenderUserID(), false);
         } else {
             log.info("That's my purse, i don't know you!");
         }
     }
 
+    public void addMsgToHashMap(ChatMessage msg) {
+        if (messages.containsKey(msg.getSenderUserID())) {
+            messages.get(msg.getSenderUserID()).add(msg);
+        } else {
+            List<ChatMessage> newChat = new ArrayList<ChatMessage>();
+            newChat.add(msg);
+            messages.put(msg.getSenderUserID(), newChat);
+        }
+    }
+
+    public void addSelfMessageToChat(String userID, ChatMessage msg) {
+        if (messages.containsKey(userID)) {
+            messages.get(userID).add(msg);
+        }
+        List<ChatMessage> newChat = new ArrayList<ChatMessage>();
+        newChat.add(msg);
+        messages.put(userID, newChat);
+    }
 
     private void drawFriendList() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FriendList.fxml"));
@@ -497,7 +631,7 @@ public class MainWindow /*implements CallBack*/ {
         menuOverlay = loader.load();
     }
 
-    public void generateRSAKeys(){
+    public void generateRSAKeys() {
         try {
             KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
             kpg.initialize(2048);
@@ -537,7 +671,7 @@ public class MainWindow /*implements CallBack*/ {
 
         // Create public UserProfile
         PublicUserProfile publicUserProfile;
-        publicUserProfile = new PublicUserProfile(userID, null, publicKeySerialized);
+        publicUserProfile = new PublicUserProfile(userID, null, publicKeySerialized, "wl1.0");
         String jsonPublic = GsonHelper.createJsonString(publicUserProfile);
 
         boolean now = p2p.putNonBlocking(userID, jsonPublic);
@@ -653,7 +787,7 @@ public class MainWindow /*implements CallBack*/ {
         // Schedule new thread to check periodically if friends are still online
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> {
-            pingAllOnlineFriends();
+            pingAllFriends(true);
         }, 10, 10, SECONDS);
 
         log.info("Login successful");
@@ -677,7 +811,21 @@ public class MainWindow /*implements CallBack*/ {
         return now;
     }
 
+    public void ring(){
+        mediaPlayer.play();
+        playing = true;
+    }
+    public void stopRing(){
+        mediaPlayer.stop();
+        playing = false;
+    }
+
     public void handleIncomingAudioFrame(AudioFrame frame) {
+        if(!stopsound){
+            if(!playing){
+                ring();
+            }
+        }
         if (true) {
             callWindowController.handleIncomingAudioFrame(frame);
         }
