@@ -85,20 +85,12 @@ public class CallWindowController {
                     log.info("CLICK END call btn");
                     //stop video
                     scheduler.shutdown();
+                    stopTransmitting();
                     mainWindowController.drawMsgPane();
                 }
         );
 
-/*        muteMicrophoneBtn.setOnAction((event) -> {
-                    log.info("CLICK PANIC! btn");
-                    try {
-                        //mainWindowController.callWindowController.startVideoCall();
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        );*/
     }
     public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException{
         return Thumbnails.of(img).size(newW, newH).asBufferedImage();

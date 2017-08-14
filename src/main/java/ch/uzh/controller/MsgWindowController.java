@@ -109,17 +109,10 @@ public class MsgWindowController {
                     mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.drawCallPane();
             log.info("show pic");
-            //mainWindowController.getCallWindowController().showMicrophone();
                     mainWindowController.getCallWindowController().startTransmitting();
                 }
         );
-/*        inviteFriend.setOnAction((event) -> {
-                    log.info("CLICK CLICK CLICK 44");
 
-                    mainWindowController.getCallWindowController().stopTransmitting();
-                    mainWindowController.drawMsgPane();
-                }
-        );*/
 
         messagesScrollPane.vvalueProperty().bind(messagesVBox.heightProperty());
 
