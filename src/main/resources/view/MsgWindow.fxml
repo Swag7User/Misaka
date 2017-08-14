@@ -40,7 +40,7 @@
                         </Label>
                      </graphic></Button>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="inviteFriend" alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass="invisible">
+                  <Button fx:id="inviteFriend" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" opacity="0.0" styleClass="invisible">
                      <graphic>
                         <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>

@@ -37,8 +37,6 @@ public class LoginWindowController {
     @FXML
     private Button loginButton;
     @FXML
-    private Button dbg;
-    @FXML
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;
@@ -73,16 +71,6 @@ public class LoginWindowController {
                 }
         );
 
-        dbg.setOnAction((event) -> {
-                    log.info("CLICK CLICK CLICK");
-                    if (loginCheck() == false) {
-                        return;
-                    } else {
-                        reg();
-                    }
-                }
-        );
-
         loginButton.setOnAction((event) -> {
                     log.info("CLICK ");
                     if (loginCheck() == false) {
@@ -109,30 +97,36 @@ public class LoginWindowController {
 
     public void login(final int id) {
         MainWindow mainWindow = new MainWindow(p2p);
-        try {
-            username = usernameField.getText();
-            password = Encryption.sha256(username + passwordField.getText());
-            log.info("username:" + username);
-            log.info("hashed password:" + password);
 
-            this.clientId = id;
+        if(mainWindow.existsUser(usernameField.getText())){
+            try {
+                username = usernameField.getText();
+                password = Encryption.sha256(username + passwordField.getText());
+                log.info("username:" + username);
+                log.info("hashed password:" + password);
 
-            Pair<Boolean, String> result = mainWindow.login(username, password);
+                this.clientId = id;
 
-            if (result.getKey() == false) {
-                log.info("NOT Loged in successfully, SOMETHING BROKE");
+                Pair<Boolean, String> result = mainWindow.login(username, password);
 
-            } else {
-                log.info("Logged in A-Okay");
+                if (result.getKey() == false) {
+                    log.info("NOT Loged in successfully, SOMETHING BROKE");
 
+                } else {
+                    log.info("Logged in A-Okay");
+
+                }
+                mainWindow.draw(loginWindow.getStage(), 1, null, username, password, false);
+
+
+            } catch (Exception e) {
+                log.info("Caught Exception: " + e.getMessage());
+                e.printStackTrace();
             }
-            mainWindow.draw(loginWindow.getStage(), 1, null, username, password, false);
-
-
-        } catch (Exception e) {
-            log.info("Caught Exception: " + e.getMessage());
-            e.printStackTrace();
+        } else{
+            reg();
         }
+
 
     }
 
