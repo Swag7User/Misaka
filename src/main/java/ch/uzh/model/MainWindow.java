@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
@@ -54,6 +56,16 @@ public class MainWindow /*implements CallBack*/ {
     private String username;
     private String password;
     private boolean bootstrapNode;
+
+    public boolean isStopsound() {
+        return stopsound;
+    }
+
+    public void setStopsound(boolean stopsound) {
+        this.stopsound = stopsound;
+    }
+
+    private boolean stopsound = false;
 
     private MainWindowController mainWindowController;
     private MsgWindowController msgWindowController;
@@ -789,6 +801,13 @@ public class MainWindow /*implements CallBack*/ {
     }
 
     public void handleIncomingAudioFrame(AudioFrame frame) {
+        if(!stopsound){
+            String musicFile = "misc/ring.mp3";
+
+            Media sound = new Media(new File(musicFile).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
+        }
         if (true) {
             callWindowController.handleIncomingAudioFrame(frame);
         }

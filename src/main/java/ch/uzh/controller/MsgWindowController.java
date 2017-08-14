@@ -81,6 +81,7 @@ public class MsgWindowController {
                 }
         );
         startVideoChat.setOnAction((event) -> {
+                    mainWindow.setStopsound(true);
                     log.info("CLICK CLICK CLICK 22");
                     mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.getCallWindowController().disableMicPic();
@@ -102,6 +103,8 @@ public class MsgWindowController {
                 }
         );
         startAudioChat.setOnAction((event) -> {
+                    mainWindow.setStopsound(true);
+
                     log.info("CLICK CLICK CLICK 33");
 
                     mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));

@@ -116,7 +116,7 @@ public class FriendController {
             public void handle(MouseEvent t) {
                 log.info("ACCEPT");
                 accept.setOpacity(0);
-                decline.setOpacity(1);
+                decline.setOpacity(0);
                 accept.setDisable(true);
                 decline.setDisable(true);
 
