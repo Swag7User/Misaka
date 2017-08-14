@@ -164,7 +164,7 @@ public class MainWindow /*implements CallBack*/ {
         drawMainWindow();
         messages = new HashMap<String, List<ChatMessage>>();
 
-        String musicFile = "misc/ring.mp3";
+        String musicFile = "/misc/ring.mp3";
 
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
