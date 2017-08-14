@@ -42,7 +42,6 @@ public class CallWindowController {
     private ScheduledExecutorService scheduler;
 
 
-
     @FXML
     public HBox btnWrapperVideo;
     @FXML
@@ -84,7 +83,9 @@ public class CallWindowController {
         endCallBtn.setOnAction((event) -> {
                     log.info("CLICK END call btn");
                     //stop video
-                    scheduler.shutdown();
+                    if (scheduler != null) {
+                        scheduler.shutdown();
+                    }
                     stopTransmitting();
                     mainWindowController.drawMsgPane();
                 }
@@ -92,25 +93,26 @@ public class CallWindowController {
 
 
     }
-    public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException{
+
+    public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException {
         return Thumbnails.of(img).size(newW, newH).asBufferedImage();
     }
 
-    public void showVideo(VideoFrame vidFrame){
+    public void showVideo(VideoFrame vidFrame) {
         BufferedImage image;
         try {
             image = ImageIO.read(new ByteArrayInputStream(vidFrame.getData()));
             Image fxImage = SwingFXUtils.toFXImage(image, null);
             videoUser1.setImage(fxImage);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
 
-    public void takePicture(){
+    public void takePicture() {
         Webcam webcam = Webcam.getDefault().getDefault();
         webcam.open();
 
@@ -121,27 +123,27 @@ public class CallWindowController {
             Image fxImage = SwingFXUtils.toFXImage(image, null);
             meImageView.setImage(fxImage);
             mainWindow.sendVideoFrame(image, mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             // save image to PNG file
             //ImageIO.write(image, "JPG", new File("test.jpg"));
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
 
-    public void startVideo(){
+    public void startVideo() {
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> {
             takePicture();
         }, 1, 1, SECONDS);
     }
 
-    public void showMicrophone(){
-        try{
+    public void showMicrophone() {
+        try {
             log.info("show pic 2");
             log.info(getClass().getResource("/img/telw.png").toString());
             File file = new File("/img/andr.png");
@@ -150,12 +152,12 @@ public class CallWindowController {
             meImageView.setVisible(true);
             meImageView.setDisable(false);
             log.info("pic set");
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void disableMicPic(){
+    public void disableMicPic() {
         meImageView.setImage(null);
     }
 
