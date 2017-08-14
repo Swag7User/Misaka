@@ -270,7 +270,6 @@ public class MainWindow /*implements CallBack*/ {
 
         friendRequestsList.add(requestMessage);
 
-        // Save the change
         boolean isSaved = savePrivateUserProfileNonBlocking();
         if (isSaved == true) {
             log.info("saved succesfully");
@@ -369,6 +368,23 @@ public class MainWindow /*implements CallBack*/ {
         friendListController.updateFriends();
 
         return savePrivateUserProfileNonBlocking();
+    }
+
+    public void removeFriend(String userID){
+        FriendsListEntry fr = getFriendByID(userID);
+        if (fr == null) {return;}
+        else {
+            friendsList.remove(fr);
+        }
+    }
+
+    public FriendsListEntry getFriendByID(String userID){
+        for(FriendsListEntry friend : friendsList){
+            if(friend.getUserID().equals(userID)){
+                return friend;
+            }
+        }
+        return null;
     }
 
     private void pingUser(String userID, boolean onlineStatus, boolean replyPongExpected) {

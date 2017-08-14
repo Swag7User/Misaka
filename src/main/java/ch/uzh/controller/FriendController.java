@@ -29,6 +29,11 @@ public class FriendController {
     MainWindow mainWindow;
 
     @FXML
+    private Circle accept;
+    @FXML
+    private Circle decline;
+
+    @FXML
     private Label userName;
 
     @FXML
@@ -104,6 +109,31 @@ public class FriendController {
             }
 
         }));
+
+        accept.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent t) {
+                log.info("ACCEPT");
+                accept.setOpacity(0);
+                decline.setOpacity(1);
+                accept.setDisable(true);
+                decline.setDisable(true);
+
+            }
+        });
+        decline.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent t) {
+                log.info("DECLINE");
+
+                mainWindow.removeFriend(userName.getText());
+                mainWindowController.getFriendListController().updateFriends();
+                mainWindow.savePrivateUserProfileNonBlocking();
+
+            }
+        });
 
     }
 
