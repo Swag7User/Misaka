@@ -166,7 +166,7 @@ public class MainWindow /*implements CallBack*/ {
 
         String musicFile = "/misc/ring.mp3";
 
-        Media sound = new Media(new File(musicFile).toURI().toString());
+        Media sound = new Media(this.getClass().getResource(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
 
         playing = false;
