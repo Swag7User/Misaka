@@ -87,7 +87,9 @@ public class CallWindowController {
                         scheduler.shutdown();
                     }
                     stopTransmitting();
-                    mainWindowController.drawMsgPane();
+            mainWindow.setStopsound(false);
+
+            mainWindowController.drawMsgPane();
                 }
         );
 
