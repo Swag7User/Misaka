@@ -814,7 +814,10 @@ public class MainWindow /*implements CallBack*/ {
     public void ring(){
         mediaPlayer.play();
         playing = true;
-
+    }
+    public void stopRing(){
+        mediaPlayer.stop();
+        playing = false;
     }
 
     public void handleIncomingAudioFrame(AudioFrame frame) {
