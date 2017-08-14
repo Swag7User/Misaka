@@ -82,6 +82,9 @@ public class MainWindow /*implements CallBack*/ {
     private AnchorPane menuOverlay;
     private AnchorPane callWindow;
 
+    MediaPlayer mediaPlayer;
+    boolean playing;
+
     private P2POverlay p2p;
     private List<FriendsListEntry> friendsList;
     private ObservableList<FriendRequestMessage> friendRequestsList;
@@ -160,6 +163,14 @@ public class MainWindow /*implements CallBack*/ {
         this.bootstrapNode = bootstrapNode;
         drawMainWindow();
         messages = new HashMap<String, List<ChatMessage>>();
+
+        String musicFile = "misc/ring.mp3";
+
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+
+        playing = false;
+
     }
 
     public MainWindow(P2POverlay p2p) {
@@ -800,13 +811,17 @@ public class MainWindow /*implements CallBack*/ {
         return now;
     }
 
+    public void ring(){
+        mediaPlayer.play();
+        playing = true;
+
+    }
+
     public void handleIncomingAudioFrame(AudioFrame frame) {
         if(!stopsound){
-            String musicFile = "misc/ring.mp3";
-
-            Media sound = new Media(new File(musicFile).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.play();
+            if(!playing){
+                ring();
+            }
         }
         if (true) {
             callWindowController.handleIncomingAudioFrame(frame);
