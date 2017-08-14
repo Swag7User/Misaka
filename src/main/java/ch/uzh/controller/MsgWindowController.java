@@ -82,6 +82,7 @@ public class MsgWindowController {
         );
         startVideoChat.setOnAction((event) -> {
                     log.info("CLICK CLICK CLICK 22");
+                    mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.getCallWindowController().disableMicPic();
                     mainWindowController.drawCallPane();
 
@@ -91,15 +92,11 @@ public class MsgWindowController {
                         e.printStackTrace();
                     }
                     try {
-                        //mainWindowController.getCallWindowController().takePicture();
                         mainWindowController.getCallWindowController().startVideo();
-                        //mainWindowController.getCallWindowController().startVideoHandler();
-                        //mainWindowController.getCallWindowController().startVideoCall();
+                        mainWindowController.getCallWindowController().startTransmitting();
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.info("Shit, video borkered");
-
-
                     }
 
                 }
@@ -109,7 +106,7 @@ public class MsgWindowController {
 
                     mainWindowController.getCallWindowController().setFriendsListEntry(mainWindow.getFriendsListEntry(mainWindow.getCurrentChatpartner()));
                     mainWindowController.drawCallPane();
-            log.info("show pic");
+                    log.info("show pic");
                     mainWindowController.getCallWindowController().startTransmitting();
                 }
         );
