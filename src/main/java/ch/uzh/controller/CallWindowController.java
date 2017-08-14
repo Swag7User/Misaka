@@ -155,6 +155,10 @@ public class CallWindowController {
         }
     }
 
+    public void disableMicPic(){
+        meImageView.setImage(null);
+    }
+
     public void startTransmitting() {
         // Create new call
         callHandler = new CallHandler(mainWindow, p2p, getFriendsListEntry());

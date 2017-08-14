@@ -82,8 +82,9 @@ public class MsgWindowController {
         );
         startVideoChat.setOnAction((event) -> {
                     log.info("CLICK CLICK CLICK 22");
-
+                    mainWindowController.getCallWindowController().disableMicPic();
                     mainWindowController.drawCallPane();
+
                     try {
                         wait(1000);
                     } catch (Exception e) {
